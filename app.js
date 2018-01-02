@@ -12,14 +12,23 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+// var phpExpress = require('php-express')({
+//   binPath: 'php'
+// });
+ 
+// set view engine to php-express
+app.set('views', './views');
+// app.engine('php', phpExpress.engine);
 app.set('view engine', 'jade');
+ 
+// routing all .php file to php-express
+//app.all(/.+\.php$/, phpExpress.router);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));

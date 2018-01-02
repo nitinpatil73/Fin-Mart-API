@@ -5,5 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-
+router.post('/authenticate', function(req, res, next) {
+  console.log(req);
+  res.end('Creating');
+});
 module.exports = router;
