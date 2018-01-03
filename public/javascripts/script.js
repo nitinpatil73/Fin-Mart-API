@@ -8,16 +8,17 @@ $('#auth_button').click(function (){
    if(! $('#login_form').valid()){
        return false;
    }else{
-       $.ajax({
-          url:"authenticate",
-          data:$('#login_form').serialize(),
-          method:"POST",
-          success: function(msg){
-              console.log(msg);
-          },
-          error:function(err){
-              console.log(err);
-          }
-       });
+           $.post('http://localhost:3000/api/authenticate', $('#login_form').serialize())
+             .done(function(msg){ 
+                 if(msg.status===1){
+                     $('#welcome').empty().append("Welcome Mr. "+msg.name);
+                 }else{
+                     $('#welcome').empty().append(msg.error);
+                 }
+                     })
+             .fail(function(xhr, status, error) {
+                 console.log(error);
+            });
    }
 });
+
