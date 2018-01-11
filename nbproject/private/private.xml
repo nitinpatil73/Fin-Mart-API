@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/manish/NetBeansProjects/BackOfficeNode/views/index.jade</file>
-            <file>file:/home/manish/NetBeansProjects/BackOfficeNode/routes/api.js</file>
-            <file>file:/home/manish/NetBeansProjects/BackOfficeNode/app.js</file>
-            <file>file:/home/manish/NetBeansProjects/BackOfficeNode/public/javascripts/script.js</file>
-            <file>file:/home/manish/NetBeansProjects/BackOfficeNode/model/user.js</file>
-            <file>file:/home/manish/NetBeansProjects/BackOfficeNode/routes/web.js</file>
-            <file>file:/home/manish/NetBeansProjects/BackOfficeNode/views/layout.jade</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
