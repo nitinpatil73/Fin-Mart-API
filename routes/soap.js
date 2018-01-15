@@ -11,7 +11,11 @@ router.post('/getVehicleDetail', function(req, res, next) {
            data = result.GET_Vehicle_Details_MobileResult['diffgram']['NewDataSet']['Table'];
             if(result.GET_Vehicle_Details_MobileResult['diffgram'].hasOwnProperty('NewDataSet')){
                     
-                  Message= "Success";
+                    data.forEach(function(arr){
+                       delete arr["attributes"] ;
+                       
+                    });
+                    Message= "Success";
                     Status="success";
                     StatusNo= 0;
                     DataCount= data.length;
