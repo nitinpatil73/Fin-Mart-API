@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var con=require('../bin/dbconnection.js');
 var User = require('../model/user.js');
+
+var getvehicalcity = require('./getvehicalcity');
+var getVehicleInfo = require('./vehicleinfo');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('Calling Api........');
@@ -25,28 +28,13 @@ User.find({ username: email,password:pwd }, function(err, user) {
   callback(user[0]?user[0].name:"");
 });
 }
-//register the user
-function register_user(name,email,pwd){
-    // create a new user called chris
-//var user_detail = new User({
-//  name: 'Chris',
-//  username: email,
-//  password: pwd 
-//});
 
-// call the custom method. this will just add -dude to his name
-// user will now be manish-dude
-//user_detail.dudify(function(err, name) {
-//  if (err) throw err;
-//
-//  console.log('Your new name is ' + name);
-//});
+router.get('/get-city-vehicle', function(req, res, next) {
+    getvehicalcity(req,res,next);
+});
 
-// call the built-in save method to save to the database
-//user_detail.save(function(err) {
-//  if (err) throw err;
-//
-//  console.log('User saved successfully!');
-//});
-}
+router.post('/vehicle-info', function(req, res, next) {
+    getVehicleInfo(req,res,next);
+});
+
 module.exports = router;
