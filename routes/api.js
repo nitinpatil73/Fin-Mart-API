@@ -5,6 +5,7 @@ var User = require('../model/user.js');
 
 var getvehicalcity = require('./getvehicalcity');
 var getVehicleInfo = require('./vehicleinfo');
+var smarthealth = require('./smarthealth');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('Calling Api........');
@@ -35,6 +36,10 @@ router.get('/get-city-vehicle', function(req, res, next) {
 
 router.post('/vehicle-info', function(req, res, next) {
     getVehicleInfo(req,res,next);
+});
+
+router.post('/smart-health', function(req, res, next) {
+    smarthealth(req,res,next);
 });
 
 module.exports = router;
