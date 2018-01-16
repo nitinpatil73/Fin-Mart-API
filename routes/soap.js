@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var Cache = require('../model/cache.js');
 /* GET users listing. */
 router.post('/getVehicleDetail', function(req, res, next) {
     var soap = require('soap');
@@ -10,6 +10,15 @@ router.post('/getVehicleDetail', function(req, res, next) {
           client.GET_Vehicle_Details_Mobile(args, function(err, result) {
            data = result.GET_Vehicle_Details_MobileResult['diffgram']['NewDataSet']['Table'];
             if(result.GET_Vehicle_Details_MobileResult['diffgram'].hasOwnProperty('NewDataSet')){
+                    //saving data in db
+                    var cache_data=new Cache({
+                       data:data 
+                    });
+                    cache_data.save(function(err) {
+                    if (err) throw err;
+
+                        console.log('Data saved successfully!');
+                      });
                     
                     data.forEach(function(arr){
                        delete arr["attributes"] ;
@@ -35,5 +44,9 @@ router.post('/getVehicleDetail', function(req, res, next) {
           });
 });
 });
-
+//router.get('/',function(){
+//    cache.say_hi(function(){
+//        console.log("baaba");
+//    });
+//});
 module.exports = router;
