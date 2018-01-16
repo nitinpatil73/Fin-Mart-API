@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Cache = require('../model/cache.js');
 /* GET users listing. */
-router.post('/getVehicleDetail', function(req, res, next) {
+var getVehicleDetail = function(req, res, next) {
     var soap = require('soap');
     var url = 'http://qa.policyboss.com/SmartQuote.svc?wsdl';
     var args = {Product_Id:req.body.ProductId,Product_IdSpecified:true};
@@ -43,10 +43,10 @@ router.post('/getVehicleDetail', function(req, res, next) {
               //console.log(result);
           });
 });
-});
+};
 //router.get('/',function(){
 //    cache.say_hi(function(){
 //        console.log("baaba");
 //    });
 //});
-module.exports = router;
+module.exports = getVehicleDetail;;

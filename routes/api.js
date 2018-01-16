@@ -3,9 +3,10 @@ var router = express.Router();
 var con=require('../bin/dbconnection.js');
 var User = require('../model/user.js');
 
-var getvehicalcity = require('./getvehicalcity');
-var getVehicleInfo = require('./vehicleinfo');
-var smarthealth = require('./smarthealth');
+var getvehicalcity = require('../controller/getvehicalcity');
+var getVehicleInfo = require('../controller/vehicleinfo');
+var smarthealth = require('../controller/smarthealth');
+var getVehicleDetail=require('../controller/getvehicledetail');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('Calling Api........');
@@ -40,6 +41,9 @@ router.post('/vehicle-info', function(req, res, next) {
 
 router.post('/smart-health', function(req, res, next) {
     smarthealth(req,res,next);
+});
+router.post('/vehicle-details', function(req, res, next) {
+    getVehicleDetail(req,res,next);
 });
 
 module.exports = router;

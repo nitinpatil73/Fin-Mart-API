@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var mongo_conn=require('../bin/mongo_conn.js');
 mongoose.connect(mongo_conn, { autoIndex: false });
-
 var timestamps = require('mongoose-timestamp');
 var CacheSchema = new Schema({
     data: Object
