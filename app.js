@@ -10,7 +10,9 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 var soap = require('./routes/soap');
 var app = express();
-
+var vehicleinfo =  require('./routes/vehicleinfo');
+//var getvehicalcity = require('./routes/getvehicalcity');
+// var responsestatus = require('./routes/responsestatus');
 // view engine setup
 // var phpExpress = require('php-express')({
 //   binPath: 'php'
@@ -37,6 +39,12 @@ app.use('/', web);
 app.use('/users', users);
 app.use('/api', api);
 app.use('/soap', soap);
+app.use('/vehicleinfo', vehicleinfo);
+//app.use('/getvehicalcity', getvehicalcity);
+
+
+// app.use('/responsestatus', responsestatus);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
