@@ -3,7 +3,7 @@ var router = express.Router();
 var con=require('../bin/dbconnection.js');
 var User = require('../model/user.js');
 
-var getvehicalcity = require('../controller/getvehicalcity');
+var getvehicalcity = require('../controller/getvehiclecity');
 var getVehicleInfo = require('../controller/vehicleinfo');
 var smarthealth = require('../controller/smarthealth');
 var getVehicleDetail=require('../controller/getvehicledetail');

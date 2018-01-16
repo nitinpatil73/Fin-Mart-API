@@ -3,7 +3,7 @@
 var response_status = require('./responsestatus');
 
 
-var Get_Vechical_city = function(req, res, next) {
+var Get_Vechicle_city = function(req, res, next) {
   var soap = require('soap');
     var url = 'http://qa.policyboss.com/SmartQuote.svc?wsdl';
     var args = {};
@@ -26,7 +26,7 @@ var Get_Vechical_city = function(req, res, next) {
 };
 
 
-module.exports = Get_Vechical_city
+module.exports = Get_Vechicle_city;
 
 /*router.get('/Get_Vechical_city', function(req, res, next) {
     var soap = require('soap');
