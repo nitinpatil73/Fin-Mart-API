@@ -19,7 +19,7 @@ app('/api/VehicleInfo', 'POST', {
                           res.send(return_data);
                 });
   	}
-  });
+  },1);
 }
 
 // router.post('/vehicle-info', function(req, res, next) {

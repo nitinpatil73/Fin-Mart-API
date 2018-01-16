@@ -1,7 +1,15 @@
 
 "use strict";
 var https = require('http');
-var wrapper = function(endpoint, method, data, success) {
+//1->vehicleinfo.policyboss.com
+//2->qa.policyboss.com
+var wrapper = function(endpoint, method, data, success,hosttype) {
+  var hostname = "";
+  if (hosttype == 1) {
+    hostname = "vehicleinfo.policyboss.com";
+  } else if(hosttype == 2) {
+    hostname = "qa.policyboss.com";
+  }
   var dataString = JSON.stringify(data);
   var headers = {};
   
@@ -17,7 +25,7 @@ var wrapper = function(endpoint, method, data, success) {
     };
   }
   var options = {
-    host: 'vehicleinfo.policyboss.com',
+    host: hostname,
     path: endpoint,
     method: method,
     headers: headers
