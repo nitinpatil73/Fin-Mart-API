@@ -9,7 +9,7 @@ var smarthealth = require('../controller/smarthealth');
 var getVehicleDetail=require('../controller/getvehicledetail');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('Calling Api........');
+  res.send('Calling Api........ is that what you expected.');
 });
 //route to authenticate user
 router.post('/authenticate', function(req, res, next) {

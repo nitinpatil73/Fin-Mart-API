@@ -9,6 +9,7 @@ var web = require('./routes/web');
 var users = require('./routes/users');
 var api = require('./routes/api');
 var app = express();
+var response_status = require('./controller/responsestatus');
 // view engine setup
 // var phpExpress = require('php-express')({
 //   binPath: 'php'
@@ -31,13 +32,15 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 var requestAccess = function (req, res, next) {
-  user=req.get("user") ;
-  pwd=req.get("pwd") ;
+  user=req.header("user") ;
+  pwd=req.header("pwd") ;
   //console.log(user + " "+pwd);
   if(user==="baba" && pwd==="chacha"){
       next();
   }else{
-      res.send("Not authorised");
+      response_status.failure_response(null,'Failure',function (return_data) {
+                          res.send(return_data);
+                });
   }
   
 };
