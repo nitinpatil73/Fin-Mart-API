@@ -30,10 +30,22 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+var requestAccess = function (req, res, next) {
+  user=req.get("user") ;
+  pwd=req.get("pwd") ;
+  //console.log(user + " "+pwd);
+  if(user==="baba" && pwd==="chacha"){
+      next();
+  }else{
+      res.send("Not authorised");
+  }
+  
+};
+
 
 app.use('/', web);
 app.use('/users', users);
-app.use('/api', api);
+app.use('/api',requestAccess, api);
 
 
 // catch 404 and forward to error handler

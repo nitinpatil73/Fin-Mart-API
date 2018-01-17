@@ -2,8 +2,8 @@ var mysql  = require('mysql');
 var connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
-        password : 'root',
-        database : 'Back_Office'
+        password : '',
+        database : 'BackOffice'
       });
 //pass the query to execute
 connection.execute_query=function (query,callback){
@@ -14,8 +14,14 @@ connection.execute_query=function (query,callback){
     });
     //connection.end();
 };
-module.exports = connection;
+connection.execute_proc=function (proc_call,params,callback){
+    connection.query(proc_call, params, function(err, result) { 
+      if (err) throw err; 
+      console.log(result); 
+});
+};
 
+module.exports=connection;
 //uses ---------------------------------------------------
 
 //  query="select name from user where email='"+email+"' and pwd='"+pwd+"'";
