@@ -5,8 +5,8 @@
         <group>
             <file>file:/C:/Users/IIT1/Documents/NetBeansProjects/BackOfficeAPI/model/cache.js</file>
             <file>file:/C:/Users/IIT1/Documents/NetBeansProjects/BackOfficeAPI/routes/api.js</file>
-            <file>file:/C:/Users/IIT1/Documents/NetBeansProjects/BackOfficeAPI/routes/soap.js</file>
-            <file>file:/C:/Users/IIT1/Documents/NetBeansProjects/BackOfficeAPI/model/user.js</file>
+            <file>file:/C:/Users/IIT1/Documents/NetBeansProjects/BackOfficeAPI/controller/getvehicledetail.js</file>
+            <file>file:/C:/Users/IIT1/Documents/NetBeansProjects/BackOfficeAPI/bin/www</file>
         </group>
     </open-files>
 </project-private>

@@ -44,6 +44,13 @@ var getVehicleDetail = function(req, res, next) {
           });
 });
 };
+var check_in_cache=function(req,res,next){
+        Cache.findOne({}, {}, { sort: { 'createdAt' : -1 } }, function(err, post) {
+                        if(err) throw err;
+                        console.log( post['data'] );
+                        res.send( post['data']);
+                      });
+};
 //router.get('/',function(){
 //    cache.say_hi(function(){
 //        console.log("baaba");
