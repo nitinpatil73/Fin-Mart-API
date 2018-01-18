@@ -5,8 +5,8 @@ var mongo_conn=require('../bin/mongo_conn.js');
 mongoose.connect(mongo_conn, { autoIndex: false });
 var timestamps = require('mongoose-timestamp');
 var CacheSchema = new Schema({
-    data: Object
-    
+    data: Object,
+    product_id: String
 });
 CacheSchema.plugin(timestamps);
 //mongoose.model('CacheSchema', CacheSchema);
