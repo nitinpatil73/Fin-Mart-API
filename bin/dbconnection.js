@@ -17,7 +17,8 @@ connection.execute_query=function (query,callback){
 connection.execute_proc=function (proc_call,params,callback){
     connection.query(proc_call, params, function(err, result) { 
       if (err) throw err; 
-      console.log(result); 
+      //console.log(result); 
+      callback(result);
 });
 };
 

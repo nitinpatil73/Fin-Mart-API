@@ -1,7 +1,7 @@
 
 var wrapper = require('./wrapper.js');
 var response_status = require('./responsestatus');
-
+var base=require('./baseController');
 
 
 
@@ -27,14 +27,10 @@ wrapper('/quotes/api/SmartHealth', 'POST', {
   }, function(data) {
     console.log(data);
   	if(data!=null){
-	  	response_status.success_response(data,'Success',function (return_data) {
-	                          res.send(return_data);
-	                });
+	  	base.send_response(data, res);
   	}
   	else{
-  		response_status.failure_response(null,'Failure',function (return_data) {
-                          res.send(return_data);
-                });
+  		base.send_response(data, res);
   	}
   },2);
 }

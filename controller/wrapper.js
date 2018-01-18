@@ -30,7 +30,7 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
     method: method,
     headers: headers
   };
-  console.log(options);
+  //console.log(options);
 
   var req = https.request(options, function(res) {
     res.setEncoding('utf-8');

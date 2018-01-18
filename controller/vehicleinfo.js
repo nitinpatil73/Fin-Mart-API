@@ -1,7 +1,7 @@
 
 var app = require('./wrapper.js');
 var response_status = require('./responsestatus');
-
+var base=require('./baseController');
 
 
 
@@ -10,14 +10,10 @@ app('/api/VehicleInfo', 'POST', {
     RegistrationNumber: req.body.RegistrationNumber
   }, function(data) {
   	if(data!=null){
-	  	response_status.success_response(data,'Success',function (return_data) {
-	                          res.send(return_data);
-	                });
+	  	base.send_response(data, res);
   	}
   	else{
-  		response_status.failure_response(null,'Failure',function (return_data) {
-                          res.send(return_data);
-                });
+  		base.send_response(data, res);
   	}
   },1);
 }
