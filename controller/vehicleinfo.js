@@ -10,10 +10,10 @@ app('/api/VehicleInfo', 'POST', {
     RegistrationNumber: req.body.RegistrationNumber
   }, function(data) {
   	if(data!=null){
-	  	base.send_response(data, res);
+	  	base.send_response("success",data, res);
   	}
   	else{
-  		base.send_response(data, res);
+  		base.send_response("failure",data, res);
   	}
   },1);
 }

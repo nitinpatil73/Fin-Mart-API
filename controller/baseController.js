@@ -13,7 +13,7 @@ BaseController.send_response = function (message,data, res, next) {
         MasterData = data;
     }
     response = {Message: Message, Status: Status, StatusNo: StatusNo, MasterData: MasterData};
-    console.log(response)
+    //console.log(response)
     res.send(response);
 };
 BaseController.check_in_cache = function (req, res, callback) {

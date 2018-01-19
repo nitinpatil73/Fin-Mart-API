@@ -9,8 +9,7 @@
     "bladejs": "^1.0.3",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
-    "express": "~4.15.5",
-    "express-soap": "^1.0.3",
+    "express": "^4.16.2",
     "inspect": "~0.0.2",
     "jade": "~1.11.0",
     "laravel-blade-compiler": "^1.0.10",
@@ -22,6 +21,7 @@
     "mysql": "github:mysqljs/mysql",
     "serve-favicon": "~2.4.5",
     "soap": "^0.23.0",
+    "winston": "^2.4.0",
     "xml2js": "^0.4.19"
   }
 }
