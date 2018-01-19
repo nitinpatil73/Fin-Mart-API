@@ -9,7 +9,7 @@ var web = require('./routes/web');
 var users = require('./routes/users');
 var api = require('./routes/api');
 var app = express();
-var response_status = require('./controller/responsestatus');
+// var response_status = require('./controller/responsestatus');
 // view engine setup
 // var phpExpress = require('php-express')({
 //   binPath: 'php'

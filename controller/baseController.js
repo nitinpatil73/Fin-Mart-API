@@ -1,18 +1,19 @@
 var Cache = require('../model/cache.js');
 class BaseController{};
-BaseController.send_response = function (data, res, next) {
+BaseController.send_response = function (message,data, res, next) {
     if (data) {
-        Message = "Success";
+        Message = message;
         Status = "success";
         StatusNo = 0;
         MasterData = data;
     } else {
-        Message = "Failure";
+        Message = message;
         Status = "failure";
         StatusNo = 1;
         MasterData = data;
     }
     response = {Message: Message, Status: Status, StatusNo: StatusNo, MasterData: MasterData};
+    console.log(response)
     res.send(response);
 };
 BaseController.check_in_cache = function (req, res, callback) {

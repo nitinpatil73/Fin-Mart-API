@@ -6,6 +6,8 @@ var getvehicalcity = require('../controller/getvehiclecity');
 var getVehicleInfo = require('../controller/vehicleinfo');
 var smarthealth = require('../controller/smarthealth');
 var getVehicleDetail=require('../controller/getvehicledetail');
+var insertFBARegistration =require('../controller/fbaregistration');
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -44,6 +46,11 @@ router.post('/smart-health', function(req, res, next) {
 });
 router.post('/vehicle-details', function(req, res, next) {
     getVehicleDetail(req,res,next);
+});
+
+router.post('/insert-fba-registration', function(req, res, next) {
+  insertFBARegistration(req,res,next);
+  // console.log(req.body.name);
 });
 
 module.exports = router;

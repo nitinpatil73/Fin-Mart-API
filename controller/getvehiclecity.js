@@ -1,6 +1,6 @@
 // var express = require('express');
 // var router = express.Router();
-var response_status = require('./responsestatus');
+// var response_status = require('./responsestatus');
 var base=require('./baseController');
 
 var Get_Vechicle_city = function(req, res, next) {
