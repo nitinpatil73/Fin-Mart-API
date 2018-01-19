@@ -9,7 +9,7 @@ var web = require('./routes/web');
 var users = require('./routes/users');
 var api = require('./routes/api');
 var app = express();
-// var response_status = require('./controller/responsestatus');
+var base=require('./controller/baseController');
 // view engine setup
 // var phpExpress = require('php-express')({
 //   binPath: 'php'
@@ -38,9 +38,7 @@ var requestAccess = function (req, res, next) {
   if(user==="baba" && pwd==="chacha"){
       next();
   }else{
-      response_status.failure_response(null,'Not Authorised',function (return_data) {
-                          res.send(return_data);
-                });
+        base.send_response("Not Authorized",null, res);
   }
   
 };
