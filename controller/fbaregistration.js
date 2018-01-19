@@ -24,12 +24,13 @@ fbadata.push(req.body.FBAStat);//`FBAStat`,
 fbadata.push(req.body.SMID);//`SMID`,
 fbadata.push(req.body.Designation);//`Designation`,
 fbadata.push(req.body.CustID);//`CustID`,
-fbadata.push(req.body.CityId);//`CityId`,
 fbadata.push(req.body.PayStat);//`PayStat`,
 fbadata.push(req.body.created_by);//`created_by`,
 //res.send(fbadata);
 
-con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
+console.log(fbadata);
+
+con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	if(data[0][0].SavedStatus == 0){
 		base.send_response(data[0][0].Message,data,res);
 
