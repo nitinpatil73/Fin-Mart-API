@@ -12,10 +12,13 @@ var Get_Vechicle_city = function(req, res, next) {
            // res.send(result.Get_Vechical_cityResult['diffgram']['DocumentElement']['tblvehical']);
            data = result.Get_Vechical_cityResult['diffgram']['DocumentElement']['tblvehical'];
            if(data.length>0){
-              base.send_response(data, res);
+               data.forEach(function (arr) {
+                            delete arr["attributes"];
+                        });
+              base.send_response("success",data, res);
             }
             else{
-               base.send_response(data, res);
+               base.send_response("failure",data, res);
             }
           });
 });

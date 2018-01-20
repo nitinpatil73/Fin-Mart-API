@@ -1,17 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var Cache = require('../model/cache.js');
-var base=require('./baseController');
+var base = require('./baseController');
 /* GET users listing. */
 var getVehicleDetail = function (req, res, next) {
     var soap = require('soap');
     var url = 'http://qa.policyboss.com/SmartQuote.svc?wsdl';
     var args = {Product_Id: req.body.ProductId, Product_IdSpecified: true};
+    var message = "success";
     base.check_in_cache(req, res, function (data) {
 
         if (data)
         {
-            base.send_response(data, res);
+            base.send_response(message, data, res);
         } else {
             soap.createClient(url, function (err, client) {
                 client.GET_Vehicle_Details_Mobile(args, function (err, result) {
@@ -25,15 +26,18 @@ var getVehicleDetail = function (req, res, next) {
                         cache_data.save(function (err) {
                             if (err)
                                 throw err;
-                            console.log('from API');
+                            message = "cant fetch from source";
+
                         });
+                    }
+                    if (data.length > 0) {
                         data.forEach(function (arr) {
                             delete arr["attributes"];
                         });
-
+                        base.send_response("success", data, res);
+                    } else {
+                        base.send_response("failure", data, res);
                     }
-
-                    base.send_response(data, res);
 
                     //console.log(result);
                 });
