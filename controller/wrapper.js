@@ -10,6 +10,9 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
   } else if(hosttype == 2) {
     hostname = "qa.policyboss.com";
   }
+  else if(hosttype == 3) {
+    hostname = "beta.services.rupeeboss.com";
+  }
   var dataString = JSON.stringify(data);
   var headers = {};
   

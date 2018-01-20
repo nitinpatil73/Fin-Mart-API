@@ -7,6 +7,7 @@ var getVehicleInfo = require('../controller/vehicleinfo');
 var smarthealth = require('../controller/smarthealth');
 var getVehicleDetail=require('../controller/getvehicledetail');
 var insertFBARegistration =require('../controller/fbaregistration');
+var loan=require('../controller/loancontroller');
 
 
 /* GET users listing. */
@@ -46,6 +47,18 @@ router.post('/smart-health', function(req, res, next) {
 });
 router.post('/vehicle-details', function(req, res, next) {
     getVehicleDetail(req,res,next);
+});
+
+router.post('/save-loan-request', function(req, res, next) {
+    loan.saveLoanData(req,res,next);
+});
+
+router.post('/get-loan-request', function(req, res, next) {
+    loan.getLoanDataByFbaId(req,res,next);
+});
+
+router.post('/delete-loan-request', function(req, res, next) {
+    loan.deleteLoanRequestById(req,res,next);
 });
 
 router.post('/insert-fba-registration', function(req, res, next) {

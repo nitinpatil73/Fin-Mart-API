@@ -3,11 +3,11 @@
 // var response_status = require('./responsestatus');
 var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
+var wrapper = require('./wrapper.js');
 
 var insertFBARegistration = function(req, res, next) {
 
 // console.log(res.body);
-
 var fbadata = [];
 //console.log(req.body.FirstName);
 fbadata.push(req.body.FirstName);//FirsName`,
@@ -29,27 +29,55 @@ console.log(fbadata);
 //InsertUpdateFBARepresentation(10,req,res,next);
 
 con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
-	console.log('FBAID'+data[0][0].FBAID);
 	if(data[0][0].SavedStatus == 0){
-		var fbasers = InsertFBAUsers(data[0][0].FBAID,req,res,next);
-		con.execute_proc('call spInsertFBAUsers(?,?,?,?,?,?,?,?)',fbasers,function(fbauserdata) {
-			var representation =  InsertUpdateFBARepresentation(data[0][0].FBAID,req,res,next);
-			con.execute_proc('call InsertUpdateFBARepresentation(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',representation,function(respdata) {
-				 var personalinfo = InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
-				 con.execute_proc('call InsertUpdateFBAProfessionalAuto(?,?,?,?,?,?,?,?,?,?,?)',personalinfo,function(autodata) {
-						if(autodata[0][0].SavedStatus == 0){
-							base.send_response(autodata[0][0].Message, autodata,res);
-						}
-				 });
-			});
-		});
+		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
+		InsertFBAUsers(data[0][0].FBAID,req, res, next);
+		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
+		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
+		base.send_response(data[0][0].Message, data,res);
 	}
 	else{
-				base.send_response(data[0][0].Message, null,res);				
+			base.send_response(data[0][0].Message, null,res);				
 	}
 });
 
 };
+
+
+function RupeeBossFBARegistartion(FBAID,req, res, next) {
+	req.body.FBAID = FBAID;
+	console.log(req.body);
+	wrapper('/LoginDtls.svc/xmlservice/insFbaRegistration', 'POST', 
+    req.body
+  , function(data) {
+  	console.log("LoanId"+data.result);
+  	if(data.statusId == 0){
+  		UpdateLoanId(FBAID,data.result);
+  	}
+  	else{
+  		
+  	}
+
+  
+  	// if(data!=null){
+	  // 	base.send_response(data, res);
+  	// }
+  	// else{
+  	// 	base.send_response(data, res);
+  	// }
+  },3);
+}
+
+
+function UpdateLoanId(FBAID,LoanId,req, res, next) {
+	var fbausers = [];
+	fbausers.push(FBAID); //p_FBAID        INT,
+	fbausers.push(LoanId); 
+	con.execute_proc('call UpdateLoanId(?,?)',fbausers,function(loandata) {
+		console.log(loandata);
+	});
+	// console.log(personal);
+}
 
 function InsertFBAUsers(FBAID,req, res, next) {
 	var fbausers = [];
@@ -61,8 +89,10 @@ function InsertFBAUsers(FBAID,req, res, next) {
 	fbausers.push(""); //p_IsHealthInsu TINYINT,
 	fbausers.push(0); //p_HealthComp   VARCHAR(50),
 	fbausers.push("");
-
-	return fbausers;
+	//var fbasers = InsertFBAUsers(FBAID,req,res,next);
+	con.execute_proc('call spInsertFBAUsers(?,?,?,?,?,?,?,?)',fbausers,function(fbauserdata) {
+		console.log(fbauserdata);
+	});
 	// console.log(personal);
 }
 
@@ -79,8 +109,9 @@ function InsertUpdateFBAProfessionalAuto(FBAID,req, res, next) {
 	personal.push(req.body.Stock ); //p_IsStocks     TINYINT,
 	personal.push(req.body.Postal ); //p_IsPostSavi   TINYINT,
 	personal.push(req.body.Bonds ); //p_IsBonds      TINYINT
-	return personal;
-	// console.log(personal);
+	con.execute_proc('call InsertUpdateFBAProfessionalAuto(?,?,?,?,?,?,?,?,?,?,?)',personal,function(autodata) {
+		console.log(autodata);
+	});
 }
 
 function InsertUpdateFBARepresentation(FBAID,req, res, next){
@@ -128,7 +159,10 @@ var representation = [];
 	representation.push(req.body.Posp_StatID);//p_POSPStatID SMALLINT,
 	representation.push(req.body.Posp_ChanPartCode);//p_POSPChanPartCode VARCHAR(20)
 
-	return representation;
+	// var representation =  InsertUpdateFBARepresentation(data[0][0].FBAID,req,res,next);
+	con.execute_proc('call InsertUpdateFBARepresentation(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',representation,function(respdata) {
+		console.log(respdata);
+	});
 }
 
 module.exports = insertFBARegistration;
