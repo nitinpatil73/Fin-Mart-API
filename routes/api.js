@@ -11,6 +11,8 @@ var loan=require('../controller/loancontroller');
 var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 
+var login = require('../controller/LoginController');
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('Calling Api........ is that what you expected.');
@@ -78,6 +80,11 @@ router.post('/generate-otp', function(req, res, next) {
 
 router.post('/retrive-otp', function(req, res, next) {
   otp.GetOTP(req,res,next);
+  // console.log(req.body.name);
+});
+
+router.post('/login', function(req, res, next) {
+  login(req,res,next);
   // console.log(req.body.name);
 });
 
