@@ -4,6 +4,7 @@
 var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
 var wrapper = require('./wrapper.js');
+var RBLog  = require('../model/RBUpdateLoanLog.js');
 
 var insertFBARegistration = function(req, res, next) {
 
@@ -20,7 +21,7 @@ fbadata.push(req.body.EmailID);//`EmailID`,
 fbadata.push(req.body.PinCode);//`PinCode`,
 fbadata.push(req.body.City);//`City`,
 fbadata.push(req.body.StateID);//`StatID`,
-fbadata.push(req.body.State);//`FBAStat`,
+fbadata.push("R");//`FBAStat`,
 fbadata.push(req.body.SMID);//`SMID`,
 fbadata.push(req.body.CustID);//`CustID`,
 console.log(fbadata);
@@ -30,7 +31,7 @@ console.log(fbadata);
 
 con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	if(data[0][0].SavedStatus == 0){
-		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
+		//RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
@@ -44,8 +45,12 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 };
 
 
+
+
 function RupeeBossFBARegistartion(FBAID,req, res, next) {
 	req.body.FBAID = FBAID;
+	req.body.fromrb = 1;
+	
 	console.log(req.body);
 	wrapper('/LoginDtls.svc/xmlservice/insFbaRegistration', 'POST', 
     req.body
@@ -55,7 +60,12 @@ function RupeeBossFBARegistartion(FBAID,req, res, next) {
   		UpdateLoanId(FBAID,data.result);
   	}
   	else{
-  		
+		var loan = new RBLog({ FBAId: FBAID,RequestString:req.body,IsActive:true });
+		loan.save(function(err) {
+			if(err){
+				console.lof(err);
+			};
+		});
   	}
 
   
