@@ -35,7 +35,7 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
-		base.send_response(data[0][0].Message, data,res);
+		base.send_response(data[0][0].Message, data[0][0] ,res);
 	}
 	else{
 			base.send_response(data[0][0].Message, null,res);				
