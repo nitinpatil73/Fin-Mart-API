@@ -16,11 +16,13 @@ var getVehicleDetail = function (req, res, next) {
         } else {
             soap.createClient(url, function (err, client) {
                 client.GET_Vehicle_Details_Mobile(args, function (err, result) {
-                    data = result.GET_Vehicle_Details_MobileResult['diffgram']['NewDataSet']['Table'];
-                    if (result.GET_Vehicle_Details_MobileResult['diffgram'].hasOwnProperty('NewDataSet')) {
+                    
+                    data = result.GET_Vehicle_Details_MobileResult?result.GET_Vehicle_Details_MobileResult['diffgram']:null;
+                    if (data  && result.GET_Vehicle_Details_MobileResult['diffgram'].hasOwnProperty('NewDataSet')) {
+                        refine_data = result.GET_Vehicle_Details_MobileResult['diffgram']['NewDataSet']['Table'];
                         //saving data in db
                         var cache_data = new Cache({
-                            data: data,
+                            data: refine_data,
                             product_id: req.body.ProductId
                         });
                         cache_data.save(function (err) {
@@ -30,13 +32,14 @@ var getVehicleDetail = function (req, res, next) {
 
                         });
                     }
-                    if (data.length > 0) {
-                        data.forEach(function (arr) {
+                    if (data) {
+                        refine_data=data['NewDataSet']['Table'];
+                        refine_data.forEach(function (arr) {
                             delete arr["attributes"];
                         });
-                        base.send_response("success", data, res);
+                        base.send_response("success", refine_data, res);
                     } else {
-                        base.send_response("failure", data, res);
+                        base.send_response("cant fetch from source for that product id", data, res);
                     }
 
                     //console.log(result);

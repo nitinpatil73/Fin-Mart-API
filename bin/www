@@ -7,6 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('backofficenode:server');
 var http = require('http');
+var winston = require('winston');
+var mongoose=require('mongoose');
+var ErrorLog=require('../model/ErrorLog');
 process.env.NODE_ENV='development';
 /**
  * Get port from environment and store in Express.
@@ -54,6 +57,12 @@ function normalizePort(val) {
  */
 
 function onError(error) {
+    logger.log('error', 'test error message %s', 'my string');
+    // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+    if(mongoose.connection.readyState>0){
+        var error=new ErrorLog({error:error});
+        error.save();
+    }
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -76,7 +85,7 @@ function onError(error) {
       throw error;
   }
 }
-console.log(process.env.NODE_ENV+" "+ "mode on");
+
 /**
  * Event listener for HTTP server "listening" event.
  */
@@ -88,3 +97,19 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+  var logger = new winston.Logger({
+    level: 'error',
+    transports: [
+      new (winston.transports.File)({ filename: 'error.log' })
+    ],
+    timestamp: function () {
+        
+        return +new Date(Date().getTime()-(Date().getTimezoneOffset() * 60000)+ (3600000*5.5)).toLocaleString();;
+      }
+  });
+  
+
+
+console.log(process.env.NODE_ENV+" "+ "mode on");

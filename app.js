@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var winston = require('winston');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
@@ -67,8 +66,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-//winston.level = process.env.LOG_LEVEL
-//winston.log('info', 'Hello log files!', {
-//  someKey: 'some-value'
-//})
+
 module.exports = app;
