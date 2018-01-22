@@ -9,6 +9,7 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 var app = express();
 var base=require('./controller/baseController');
+var logger=require('./bin/Logger');
 // view engine setup
 // var phpExpress = require('php-express')({
 //   binPath: 'php'
@@ -32,10 +33,10 @@ app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 var requestAccess = function (req, res, next) {
-  user=req.header("user") ;
-  pwd=req.header("pwd") ;
+  token=req.header("token") ;
+  
   //console.log(user + " "+pwd);
-  if(user==="baba" && pwd==="chacha"){
+  if(token==="1234567890"){
       next();
   }else{
         base.send_response("Not Authorized",null, res);
@@ -59,12 +60,16 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+ 
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+
+  logger.log('error', err.status, err.message);
+  res.send({Message: "Fatal error !!! " + err.status + ": "+err.message, Status: "Failure", StatusNo: 1, MasterData: null});
 });
+
 
 module.exports = app;

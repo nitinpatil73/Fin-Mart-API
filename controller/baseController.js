@@ -19,7 +19,7 @@ BaseController.send_response = function (message,data, res, next) {
             MasterData = data;
         }
     }
-    response = {Message: Message, Status: Status, StatusNo: StatusNo, MasterData: MasterData};
+response = {Message: Message, Status: Status, StatusNo: StatusNo, MasterData: MasterData};
     //console.log(response)
     res.send(response);
 };
