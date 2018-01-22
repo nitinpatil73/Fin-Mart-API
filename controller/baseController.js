@@ -1,12 +1,12 @@
 var Cache = require('../model/cache.js');
 class BaseController{};
 BaseController.send_response = function (message,data, res, next) {
-    if(data.hasOwnProperty('ExceptionMessage')){
+    if(data && data.hasOwnProperty('ExceptionMessage')){
         Message = "Source Error : " +data.ExceptionMessage;
         Status = "failure";
         StatusNo = 1;
         MasterData = null;
-    }else{    
+    }else{  
         if (data) {
             Message = message;
             Status = "success";
@@ -19,7 +19,7 @@ BaseController.send_response = function (message,data, res, next) {
             MasterData = data;
         }
     }
-    response = {Message: Message, Status: Status, StatusNo: StatusNo, MasterData: MasterData};
+response = {Message: Message, Status: Status, StatusNo: StatusNo, MasterData: MasterData};
     //console.log(response)
     res.send(response);
 };

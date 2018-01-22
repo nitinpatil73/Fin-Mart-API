@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('backofficenode:server');
 var http = require('http');
+var mongoose=require('mongoose');
 process.env.NODE_ENV='development';
 /**
  * Get port from environment and store in Express.
@@ -54,6 +55,12 @@ function normalizePort(val) {
  */
 
 function onError(error) {
+    //logger.log('error', 'test error message %s', 'my string');
+    // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+    if(mongoose.connection.readyState>0){
+        var error=new ErrorLog({error:error});
+        error.save();
+    }
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -66,7 +73,9 @@ function onError(error) {
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
-      process.exit(1);
+      if(process.env.NODE_ENV==="development"){
+          process.exit(1);
+      }
       break;
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
@@ -76,7 +85,7 @@ function onError(error) {
       throw error;
   }
 }
-console.log(process.env.NODE_ENV+" "+ "mode on");
+
 /**
  * Event listener for HTTP server "listening" event.
  */
@@ -88,3 +97,10 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+
+  
+
+
+console.log(process.env.NODE_ENV+" "+ "mode on");
