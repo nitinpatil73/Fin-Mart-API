@@ -9,7 +9,7 @@ var getVehicleDetail=require('../controller/getvehicledetail');
 var insertFBARegistration =require('../controller/fbaregistration');
 var loan=require('../controller/loancontroller');
 var otp=require('../controller/OTPController');
-
+var CityAndState = require('../controller/CityAndState');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -66,6 +66,10 @@ router.post('/insert-fba-registration', function(req, res, next) {
   insertFBARegistration(req,res,next);
   // console.log(req.body.name);
 });
+router.post('/get-city-and-state', function(req, res, next) {
+    CityAndState.getCityAndState(req,res,next);
+});
+
 
 router.post('/generate-otp', function(req, res, next) {
   otp.SaveOTP(req,res,next);
