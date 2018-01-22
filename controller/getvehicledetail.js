@@ -9,7 +9,7 @@ var getVehicleDetail = function (req, res, next) {
     var args = {Product_Id: req.body.ProductId, Product_IdSpecified: true};
     var message = "success";
     base.check_in_cache(req, res, function (data) {
-        throw new Error('something bad happened');
+       // throw new Error('something bad happened');
         if (data)
         {
             base.send_response(message, data, res);
