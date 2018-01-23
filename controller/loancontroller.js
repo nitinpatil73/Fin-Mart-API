@@ -1,28 +1,58 @@
 var Loan = require('../model/loanmodel.js');
-var base=require('./baseController');
+var base = require('./baseController');
 
 var saveLoanData = function(req, res, next) {
 
-	var loan = new Loan(req.body);
-	loan.save(function(err) {
-
-	if (err) {
-		response_status.failure_response(err,'Failure',function (return_data) {
-                          res.send(return_data);
-                });
-	};
-		getAllUser(req.body.FBAId,function(data) {
-			 if(data.length>0){
+console.log('sdfdsfsd');
+  if(req.body._id){
+    console.log('has id');
+      Loan.update({"_id": req.body._id}, {
+        $set: {"RequestString" : req.body.RequestString,
+              "FBAId":req.body.FBAId, 
+              "LoanId":req.body.LoanId, 
+              "Type":req.body.Type, 
+              "Status":req.body.Status, 
+              "Name":req.body.Name, 
+              "LoanAmount":req.body.LoanAmount, 
+              "IsActive":req.body.IsActive}
+            }, function(err, result){
+              if(err)
+                 base.send_response('Failure', null,res);  
+              else{
+                 getAllUser(req.body.FBAId,function(data) {
+                 if(data.length>0){
+                        base.send_response('Success', data,res);               
+                      }
+                      else{
+                           base.send_response('Failure', null,res);  
+                      }
+                  });
+              }
+              console.log("result:"+result);
+      });
+      //console.log('Has ID');
+  }
+  else{
+    console.log('safsdfdsfdsdsgdfg');
+    var loan = new Loan(req.body);
+    loan.save(function(err) {
+    if (err) {
+      console.log(err);
+       base.send_response('Failure', null,res);  
+    };
+    getAllUser(req.body.FBAId,function(data) {
+       if(data.length>0){
               base.send_response('Success', data,res);               
             }
             else{
                  base.send_response('Failure', null,res);  
             }
-
-			//res.send(data);
-		});
-	    console.log('Data saved successfully!');
-	});
+    });
+      console.log('Data saved successfully!');
+    });
+}
+  
+	
 }
 
 var getLoanDataByFbaId = function(req, res, next) {
@@ -44,19 +74,6 @@ Loan.deleteOne({
 }).then(function(result) {
   console.log(result);
 });
-
-		// getAllUser(req.body.FBAId,function(data) {
-		// 	 if(data.length>0){
-  //               response_status.success_response(data,'Success',function (return_data) {
-  //                         res.send(return_data);
-  //               });
-  //           }
-  //           else{
-  //                response_status.failure_response(null,'Failure',function (return_data) {
-  //                         res.send(return_data);
-  //               });
-  //           }
-		// });
 }
 
 function getAllUser(fbaid,callback){
