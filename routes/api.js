@@ -10,6 +10,8 @@ var insertFBARegistration =require('../controller/fbaregistration');
 var loan=require('../controller/loancontroller');
 var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
+var insurancecompany = require('../controller/ProfessionalInfoController');
+
 
 var login = require('../controller/LoginController');
 
@@ -86,6 +88,10 @@ router.post('/retrive-otp', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   login(req,res,next);
   // console.log(req.body.name);
+});
+
+router.get('/get-insurance-company', function(req, res, next) {
+  insurancecompany(req,res,next);
 });
 
 module.exports = router;
