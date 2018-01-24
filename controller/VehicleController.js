@@ -112,7 +112,7 @@ console.log(vehicleparameter);
 			base.send_response("Success", data[0],res);
 		}
 		else{
-			base.send_response("Failure",data[0],res);
+			base.send_response("Failure",null,res);
 		}
 	});
 };
