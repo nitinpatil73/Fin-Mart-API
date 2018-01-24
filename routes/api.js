@@ -11,6 +11,7 @@ var loan=require('../controller/loancontroller');
 var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 var insurancecompany = require('../controller/ProfessionalInfoController');
+var vehicle = require('../controller/VehicleController');
 
 
 var login = require('../controller/LoginController');
@@ -66,6 +67,10 @@ router.post('/delete-loan-request', function(req, res, next) {
     loan.deleteLoanRequestById(req,res,next);
 });
 
+router.post('/set-quote-to-application', function(req, res, next) {
+    loan.setQuoteToApplication(req,res,next);
+});
+
 router.post('/insert-fba-registration', function(req, res, next) {
   insertFBARegistration(req,res,next);
   // console.log(req.body.name);
@@ -92,6 +97,14 @@ router.post('/login', function(req, res, next) {
 
 router.get('/get-insurance-company', function(req, res, next) {
   insurancecompany(req,res,next);
+});
+
+router.post('/manage-vehicle', function(req, res, next) {
+  vehicle.managevehicle(req,res,next);
+});
+
+router.post('/get-vehicle-request', function(req, res, next) {
+  vehicle.getvehiclerequest(req,res,next);
 });
 
 module.exports = router;
