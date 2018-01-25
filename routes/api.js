@@ -116,6 +116,7 @@ router.post('/send-mail', function(req, res, next) {
           base.send_response("cant send message", null, res);
       }
 
-  });
+router.post('/set-quote-to-application-vehicle', function(req, res, next) {
+  vehicle.quotetoapplicationvehicle(req,res,next);
 });
 module.exports = router;

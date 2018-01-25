@@ -108,7 +108,33 @@ else{
 console.log(vehicleparameter);
 
 	con.execute_proc('call GetVehicleRequest(?,?,?,?)',vehicleparameter,function(data) {
-		if(data[0].length>0){
+		var responsedata = {"quote":data[0],"application":data[1]};
+		base.send_response("Success", responsedata,res);
+		// if(data[0].length>0){
+		// 	base.send_response("Success", data[0],res);
+		// }
+		// else{
+		// 	base.send_response("Failure",null,res);
+		// }
+	});
+};
+
+var quotetoapplicationvehicle = function(req, res, next) {
+
+var vehicleparameter = [];
+
+if(req.body.VehicleRequestID){
+	vehicleparameter.push(req.body.VehicleRequestID);	
+}
+else{
+	vehicleparameter.push(0);
+}
+
+console.log(vehicleparameter);
+
+	con.execute_proc('call QuoteToApplicationVehicle(?)',vehicleparameter,function(data) {
+		console.log(data[0][0]);
+		if(data[0][0].SavedStatus=="0"){
 			base.send_response("Success", data[0],res);
 		}
 		else{
@@ -118,4 +144,4 @@ console.log(vehicleparameter);
 };
 
 
-module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest};
+module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle};
