@@ -19,6 +19,7 @@
     "mongoose-timestamp": "^0.6.0",
     "morgan": "~1.9.0",
     "mysql": "github:mysqljs/mysql",
+    "nodemailer": "^4.4.2",
     "serve-favicon": "~2.4.5",
     "soap": "^0.23.0",
     "winston": "^3.0.0-rc1",

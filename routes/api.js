@@ -12,7 +12,8 @@ var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 var insurancecompany = require('../controller/ProfessionalInfoController');
 var vehicle = require('../controller/VehicleController');
-
+var Mailer = require('../controller/MailController');
+var base = require('../controller/baseController');
 
 var login = require('../controller/LoginController');
 
@@ -106,5 +107,15 @@ router.post('/manage-vehicle', function(req, res, next) {
 router.post('/get-vehicle-request', function(req, res, next) {
   vehicle.getvehiclerequest(req,res,next);
 });
+router.post('/send-mail', function(req, res, next) {
+  
+  Mailer.send(req.body,function(status){
+      if(status===1){
+          base.send_response("Message send Success Fully", "sent", res);
+      }else{
+          base.send_response("cant send message", null, res);
+      }
 
+  });
+});
 module.exports = router;
