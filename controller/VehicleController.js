@@ -108,12 +108,14 @@ else{
 console.log(vehicleparameter);
 
 	con.execute_proc('call GetVehicleRequest(?,?,?,?)',vehicleparameter,function(data) {
-		if(data[0].length>0){
-			base.send_response("Success", data[0],res);
-		}
-		else{
-			base.send_response("Failure",null,res);
-		}
+		var responsedata = {"quote":data[0],"application":data[1]};
+		base.send_response("Success", responsedata,res);
+		// if(data[0].length>0){
+		// 	base.send_response("Success", data[0],res);
+		// }
+		// else{
+		// 	base.send_response("Failure",null,res);
+		// }
 	});
 };
 
