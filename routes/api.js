@@ -107,4 +107,7 @@ router.post('/get-vehicle-request', function(req, res, next) {
   vehicle.getvehiclerequest(req,res,next);
 });
 
+router.post('/set-quote-to-application-vehicle', function(req, res, next) {
+  vehicle.quotetoapplicationvehicle(req,res,next);
+});
 module.exports = router;

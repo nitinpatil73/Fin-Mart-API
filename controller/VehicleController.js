@@ -119,5 +119,29 @@ console.log(vehicleparameter);
 	});
 };
 
+var quotetoapplicationvehicle = function(req, res, next) {
 
-module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest};
+var vehicleparameter = [];
+
+if(req.body.VehicleRequestID){
+	vehicleparameter.push(req.body.VehicleRequestID);	
+}
+else{
+	vehicleparameter.push(0);
+}
+
+console.log(vehicleparameter);
+
+	con.execute_proc('call QuoteToApplicationVehicle(?)',vehicleparameter,function(data) {
+		console.log(data[0][0]);
+		if(data[0][0].SavedStatus=="0"){
+			base.send_response("Success", data[0],res);
+		}
+		else{
+			base.send_response("Failure",null,res);
+		}
+	});
+};
+
+
+module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle};
