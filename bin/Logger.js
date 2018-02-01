@@ -8,13 +8,14 @@ const logger = winston.createLogger({
     prettyPrint()
   ),
   transports: [
-    new transports.File({ filename: './log/combined.log' ,timestamp:'true'}) 
+    new transports.File({ filename: './log/error.log',json: true ,timestamp:true,maxFiles: 10, maxsize: 1000000,tailable: true}) 
   ],
   exceptionHandlers: [
-    new transports.File({ filename: './log/exceptions.log',timestamp:'true' })
+    new transports.File({ filename: './log/exceptions.log',json: true ,timestamp:true,maxFiles: 10, maxsize: 1000000,tailable: true })
   ],
   uncaughtException :[
-       new transports.File({ filename: './log/error.log',timestamp:'true' })
+       new transports.File({ filename: './log/combined.log',json: true ,timestamp:true,maxFiles: 10, maxsize: 1000000,tailable: true})
   ]
 });
+
 module.exports=logger;
