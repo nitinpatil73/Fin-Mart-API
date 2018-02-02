@@ -78,12 +78,12 @@ if (cluster.isMaster) {
      */
 
     function onError(error) {
-        //logger.log('error', 'test error message %s', 'my string');
+        //logger.error('error', error.message, error.stack);
         // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
-        if (mongoose.connection.readyState > 0) {
-            var error = new ErrorLog({error: error});
-            error.save();
-        }
+//        if (mongoose.connection.readyState > 0) {
+//            var error = new ErrorLog({error: error});
+//            error.save();
+//        }
         if (error.syscall !== 'listen') {
             throw error;
         }

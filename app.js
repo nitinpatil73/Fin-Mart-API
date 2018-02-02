@@ -67,7 +67,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
 
-  logger.log('error', err.status, err.message);
+  logger.error(err.stack);
   res.send({Message: "Fatal error !!! " + err.status + ": "+err.message, Status: "Failure", StatusNo: 1, MasterData: null});
 });
 
