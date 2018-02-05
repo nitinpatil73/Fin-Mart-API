@@ -2,13 +2,13 @@
 const nodemailer = require('nodemailer');
 var config=require('../bin/MailConfig');
 var logger=require('../bin/Logger');
-
+var Mailer = require('../controller/MailController');
 // Generate test SMTP service account from ethereal.email
 // Only needed if you don't have a real mail account for testing
 
 class MailController{};
 MailController.send=function(mailDetails,next){
-    mailDetails.from=()=>"Magic Finmart <info@magicfinamrt.com>";
+    mailDetails.from="Magic FinMart <fba.support@magicfinmart.com>";
     nodemailer.createTestAccount((err, account) => {
 
     // create reusable transporter object using the default SMTP transport

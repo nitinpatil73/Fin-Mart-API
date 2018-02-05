@@ -5,10 +5,8 @@ var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 var RBLog  = require('../model/RBUpdateLoanLog.js');
-
+var Mailer = require('../controller/MailController');
 var insertFBARegistration = function(req, res, next) {
-
-
 
 //res.send("success");
 
@@ -167,9 +165,49 @@ function InsertFBAUsers(FBAID,req, res, next) {
 	fbausers.push("");
 	//var fbasers = InsertFBAUsers(FBAID,req,res,next);
 	con.execute_proc('call spInsertFBAUsers(?,?,?,?,?,?,?,?)',fbausers,function(fbauserdata) {
+		sendRegistrationEmail(req);
+		sendBecomePOSP(req);
 		console.log(fbauserdata);
 	});
 	// console.log(personal);
+}
+
+function sendEmail(to,subject,text,htmlbody){
+	var email = {
+        "to": to, 
+        "subject": subject, 
+        "text": text, 
+        "html": htmlbody     
+	}
+
+	Mailer.send(email,function(status){
+      if(status===1){
+          console.log("Mail send success");
+      }else{
+         console.log(subject +" :Mail send fail: "+status);
+      }
+    });
+
+}
+function sendRegistrationEmail(req) {
+
+	var emailTemplate = "<span style='color: #222222; font-family: Arial; font-size: 13.3333px'>Dear Mr.&nbsp;</span><b style='color: #222222; font-family: Arial; font-size: 13.3333px'>{{name}}</b><span style='color: #222222; font-family: Arial; font-size: 13.3333px'>,</span><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><span style='color: #222222; font-family: Arial; font-size: 13.3333px'>Welcome to Magic-Finmart and congratulations on successfully registering as a Magic-Finmart Business Associate.</span><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><span style='color: #222222; font-family: Arial; font-size: 13.3333px'>Your Magic-Finmart id is&nbsp;</span><b style='color: #222222; font-family: Arial; font-size: 13.3333px'><a href='mailto:{{mailto}}' target='_blank' style='color: #1155cc'>{{email}}</a></b><span style='color: #222222; font-family: Arial; font-size: 13.3333px'>&nbsp;&amp; password is&nbsp;</span><b style='color: #222222; font-family: Arial; font-size: 13.3333px'>{{password}}</b><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><span style='color: #222222; font-family: Arial; font-size: 13.3333px'>We thank you for associating with us on the platform and assure you of our best services at all times.</span><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><span style='color: #222222; font-family: Arial; font-size: 13.3333px'>Warm Regards,</span><br style='color: #222222; font-family: Arial; font-size: 13.3333px' /><span style='color: #222222; font-family: Arial; font-size: 13.3333px'>Magic Finmart Team</span><div class='yj6qo' style='color: #222222; font-family: Arial; font-size: 13.3333px'></div><div><span style='color: #222222; font-family: Arial; font-size: 13.3333px'><br /> </span></div>";
+	emailTemplate = emailTemplate.replace("{{name}}",req.body.FirstName + ' ' + req.body.LastName);
+	emailTemplate = emailTemplate.replace("{{email}}",req.body.EmailId);
+	emailTemplate = emailTemplate.replace("{{mailto}}",req.body.EmailId);
+	emailTemplate = emailTemplate.replace("{{password}}",req.body.password);
+	sendEmail(req.body.EmailId,"Finmart Business Associate","",emailTemplate);
+	 
+	
+	// req.body.password
+}
+
+
+function sendBecomePOSP(req) {
+	var emailTemplate_posp = "<div class='gmail_quote' style='color: #222222; font-family: arial, sans-serif; font-size: 12.8px'><div><table style='font-family: Arial, sans-serif; font-size: 14px; padding: 25px 0px 0px 25px; color: #000000'><tbody><tr><td style='font-family: arial, sans-serif'><p>Dear Mr.&nbsp;<b>{{name}}</b></p><p>Thank you very much for registering on the Magic Finmart Platform. As you will probably be aware the platform offers you the option of selling multiple products from multiple vendors.<br />However to unlock the full potential of the platform you will need to comply with IRDA norms for selling Insurance products and you can do the same by becoming a POSP with Landmark Insurance Brokers.</p><p><strong>Why you should become a POSP:</strong></p><p>IRDA Approved Sales Channel</p><p>Code (using Aadhar No) registered with IRDA</p><p>Name/Aadhar No appears on the policy document (guaranteeing renewals)</p><p>By registering as a POSP with a broker you get access to all insurance companies (you can offer choice of insurers to your customers)</p><p>POSP Life/GI can sell both Life &amp; GI products</p><p><strong>To become a POSP:</strong></p><p>you must be 18 years &amp; above</p><p>you must have education of 10th Std &amp; above</p><p>you must submit Pan/Aadhar/Photo/Education Proof</p><p>you must undergo 15 hours training and write a small exam</p><p><strong>you must not be an agent of any insurance company</strong></p><p>You can initiate the process by going to the main menu of your Finmart App and go to POSP enrolment to start the process.&nbsp;<br />In case you need any help you may reach out to our FBA Support Centre at 022-66048200.</p><p>We thank you for associating with us on the platform and assure you of our best services at all times.</p><p>Warm Regards,<br />Magic Finmart Team</p></td></tr></tbody></table><br /><div class='yj6qo'></div><div class='adL'></div></div><div class='adL'></div></div>";
+	emailTemplate_posp = emailTemplate_posp.replace("{{name}}",req.body.FirstName + ' ' + req.body.LastName);
+	sendEmail(req.body.EmailId,"Become a POSP with Landmark Insurance","",emailTemplate_posp);
+	console.log(emailTemplate_posp);
 }
 
 function InsertUpdateFBAProfessionalAuto(FBAID,req, res, next) {
