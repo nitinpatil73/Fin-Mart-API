@@ -8,6 +8,10 @@ var RBLog  = require('../model/RBUpdateLoanLog.js');
 
 var insertFBARegistration = function(req, res, next) {
 
+
+
+//res.send("success");
+
 // console.log(res.body);
 var fbadata = [];
 //console.log(req.body.FirstName);
@@ -31,10 +35,11 @@ console.log(fbadata);
 
 con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	if(data[0][0].SavedStatus == 0){
-		//RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
+		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
+		SetCustomerId(data[0][0].FBAID,req, res, next);
 		base.send_response(data[0][0].Message, data[0][0] ,res);
 	}
 	else{
@@ -50,10 +55,71 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 function RupeeBossFBARegistartion(FBAID,req, res, next) {
 	req.body.FBAID = FBAID;
 	req.body.fromrb = 1;
+
+
+
+var converteddata = {
+		FBAId : req.body.FBAID,
+        First_Name : req.body.FirstName,
+        Last_Name : req.body.LastName,
+        DOB : req.body.DOB,
+        Mobile_No1 : req.body.Mobile_1,
+        Mobile_No2 : req.body.Mobile_2,
+        Email : req.body.EmailId,
+
+        Address1 : req.body.Address_1,
+        Address2 : req.body.Address_2,
+        Address3 : req.body.Address_3,
+        Pincode : req.body.PinCode,
+        City : req.body.City,
+        State : req.body.State,
+
+        Life_Insurance : req.body.IsLic,
+        Life_Insurance_Comp : req.body.LIC_Comp,
+        General_Insurance : req.body.IsGic,
+        General_Insurance_Comp : req.body.GIC_Comp,
+        Health_Insurance : req.body.IsHealth,
+        Health_Insurance_Comp : req.body.Health_Comp,
+        Mutual_Fund : req.body.MF,
+        Mutual_Fund_Comp : req.body.MF_Comp,
+        Stocks : req.body.Stock,
+        Stocks_Comp : req.body.Stock_Comp,
+        Postal_Savings : req.body.Postal,
+        Postal_Savings_Comp : req.body.Postal_Comp,
+        Bonds : req.body.Bonds,
+        Bonds_Comp : req.body.Bonds_Comp,
+
+        POSP_First_Name : req.body.Posp_FirstName,
+        POSP_Last_Name : req.body.Posp_LastName,
+        POSP_Pan_No : req.body.Posp_PAN,
+        POSP_Aadhar_Card_No : req.body.Posp_Aadhaar,
+        POSP_Bank_Accnt_No : req.body.Posp_BankAcNo,
+        POSP_Accnt_Type : req.body.Posp_Account_Type,
+        POSP_IFSC_Code : req.body.Posp_IFSC,
+        POSP_MICR_Code : req.body.Posp_MICR,
+        POSP_Bank_Name : req.body.Posp_BankName,
+        POSP_Bank_Branch : req.body.Posp_BankBranch,
+        POSP_Bank_City : req.body.Posp_BankCity,
+
+        Representative_First_Name : req.body.Loan_FirstName,
+        Representative_Last_Name : req.body.Loan_LastName,
+        Representative_Pan_Nov : req.body.Loan_PAN,
+        Representative_Aadhar_Card_No : req.body.Loan_Aadhaar,
+        Representative_Bank_Accnt_No : req.body.Loan_BankAcNo,
+        Representative_Accnt_Type : req.body.Loan_Account_Type,
+        Representative_IFSC_Code : req.body.Loan_IFSC,
+        Representative_MICR_Code : req.body.Loan_MICR,
+        Representative_Bank_Name : req.body.Loan_BankName,
+        Representative_Bank_Branch : req.body.Loan_BankBranch,
+        Representative_Bank_City : req.body.Loan_BankCity,
+        fromrb : 1
+	};
 	
-	console.log(req.body);
-	wrapper('/LoginDtls.svc/xmlservice/insFbaRegistration', 'POST', 
-    req.body
+	console.log(converteddata);
+
+	
+	wrapper('/LoginDtls.svc/xmlservice/insFbaRegistrationForDC', 'POST', 
+    converteddata
   , function(data) {
   	console.log("LoanId"+data.result);
   	if(data.statusId == 0){
@@ -63,7 +129,7 @@ function RupeeBossFBARegistartion(FBAID,req, res, next) {
 		var loan = new RBLog({ FBAId: FBAID,RequestString:req.body,IsActive:true });
 		loan.save(function(err) {
 			if(err){
-				console.lof(err);
+				console.log(err);
 			};
 		});
   	}
@@ -174,5 +240,79 @@ var representation = [];
 		console.log(respdata);
 	});
 }
+
+ function SetCustomerId(fbaid,req, res, next) {
+	var inputInfo = {
+		CustType : "1",
+		Gender : req.body.Gender,// m for male ;f for female
+		CompName : "",// Company name
+		FirstName : req.body.FirstName,// "Sidheswar";
+		MiddleName : "",
+		LastName : req.body.LastName,//"Senapati";
+		Add1 : req.body.Address_1,// "jogeswari";
+		Add2 : req.body.Address_2, // "Mumbai";
+		Add3 : req.body.Address_3,// "Mumbai";
+		Pincode : req.body.PinCode,// "400062";
+		STDCode : "",
+		LandLine : "",
+		City : req.body.City,// "Mumbai";
+		Division : "",
+		Branch : "",
+		Mobile1 : req.body.Mobile_1,// "9938885469";
+		Mobile2 : req.body.Mobile_2,// "";
+		EmailId1 : req.body.EmailId,// "sidheswar@datacompwebtech.com";
+		EmailId2 : "",
+		DOB : req.body.DOB,// "06-Jun-1989";
+		MarrDate : "",
+		PartId : "0",
+		DOCode : "",
+		DOName : "",
+		Flag : "F",// For finmart
+		USERID : "0",
+		Rating : ""
+	};
+
+
+	var authenticateInputInfo = {
+		AppID : "171",
+		AppUSERID : "3OK92Dl/LwA0HqfC5+fCxw==",
+		AppPASSWORD : "BjLfd1dqTCyH1DQLhylKRQ=="
+	};
+
+
+    var soap = require('soap');
+    var url = 'http://magicsales.dwtsims.com/WCFServices/WCFServices.svc?wsdl';
+    var args = { "inputInfo" :inputInfo , "authenticateInputInfo" : authenticateInputInfo };
+    console.log(args);
+    var message = "success";
+    soap.createClient(url, function (err, client) {
+        client.CreateCustomer(args, function (err, result) {
+          if(err)
+          	console.log(err);
+          else
+          	{
+          		if(result){
+          			if(result.CreateCustomerResult.Status=="1"){
+          				var customer = [];
+						customer.push(result.CreateCustomerResult.CustID);
+						customer.push(fbaid);
+
+          				con.execute_proc('call sp_update_CustIdAndFOC(?,?)',customer,function(respdata) {
+							console.log(respdata);
+						});
+          			}
+          			else if(result.CreateCustomerResult.Status=="2"){
+          				console.log(result.CreateCustomerResult.MSG);
+          			}
+          			else{
+          				console.log(result.CreateCustomerResult.MSG);
+          			}
+          		}
+
+          	}
+        });
+    });
+        
+};
 
 module.exports = insertFBARegistration;

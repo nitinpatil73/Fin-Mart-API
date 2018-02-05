@@ -12,6 +12,7 @@ var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 var insurancecompany = require('../controller/ProfessionalInfoController');
 var vehicle = require('../controller/VehicleController');
+var posp = require('../controller/POSPRegistrationController');
 
 
 var login = require('../controller/LoginController');
@@ -60,14 +61,14 @@ router.post('/save-loan-request', function(req, res, next) {
 });
 
 router.post('/get-loan-request', function(req, res, next) {
-    loan.getLoanDataByFbaId(req,res,next);
+    loan.getLoanData(req,res,next);
 });
 
-router.post('/delete-loan-request', function(req, res, next) {
+router.post('/delete-loan-request-loan', function(req, res, next) {
     loan.deleteLoanRequestById(req,res,next);
 });
 
-router.post('/set-quote-to-application', function(req, res, next) {
+router.post('/set-quote-to-application-loan', function(req, res, next) {
     loan.setQuoteToApplication(req,res,next);
 });
 
@@ -109,5 +110,17 @@ router.post('/get-vehicle-request', function(req, res, next) {
 
 router.post('/set-quote-to-application-vehicle', function(req, res, next) {
   vehicle.quotetoapplicationvehicle(req,res,next);
+});
+
+
+//Delete vehicle request
+router.post('/delete-vehicle-request', function(req, res, next) {
+  vehicle.deleteVehicleRequest(req,res,next);
+});
+
+
+//POSP Registration
+router.post('/posp-registration', function(req, res, next) {
+  posp(req,res,next);
 });
 module.exports = router;

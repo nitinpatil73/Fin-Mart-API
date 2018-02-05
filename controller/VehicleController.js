@@ -7,63 +7,64 @@ var managevehicle = function(req, res, next) {
 var vehicleparameter = [];
 
 if(req.body.VehicleRequestID){
-	vehicleparameter.push(req.body.VehicleRequestID);	
+	vehicleparameter.push(req.body.VehicleRequestID);	//
 }
 else{
 	vehicleparameter.push(null);
 }
-//vehicleparameter.push(req.body.VehicleRequestID);
-vehicleparameter.push(req.body.birth_date);
-vehicleparameter.push(req.body.fba_id);
-vehicleparameter.push(req.body.product_id);
-vehicleparameter.push(req.body.vehicle_id);
-vehicleparameter.push(req.body.rto_id);
-vehicleparameter.push(req.body.vehicle_insurance_type);
-vehicleparameter.push(req.body.vehicle_manf_date);
-vehicleparameter.push(req.body.vehicle_registration_date);
-vehicleparameter.push(req.body.policy_expiry_date);
-vehicleparameter.push(req.body.prev_insurer_id);
-vehicleparameter.push(req.body.vehicle_registration_type);
-vehicleparameter.push(req.body.vehicle_ncb_current);
-vehicleparameter.push(req.body.is_claim_exists);
-vehicleparameter.push(req.body.method_type);
-vehicleparameter.push(req.body.execution_async);
-vehicleparameter.push(req.body.electrical_accessory);
-vehicleparameter.push(req.body.non_electrical_accessory);
-vehicleparameter.push(req.body.registration_no);
-vehicleparameter.push(req.body.is_llpd);
-vehicleparameter.push(req.body.is_antitheft_fit);
-vehicleparameter.push(req.body.voluntary_deductible);
-vehicleparameter.push(req.body.is_external_bifuel);
-vehicleparameter.push(req.body.external_bifuel_value);
-vehicleparameter.push(req.body.pa_owner_driver_si);
-vehicleparameter.push(req.body.pa_named_passenger_si);
-vehicleparameter.push(req.body.pa_unnamed_passenger_si);
-vehicleparameter.push(req.body.pa_paid_driver_si);
-vehicleparameter.push(req.body.vehicle_expected_idv);
-vehicleparameter.push(req.body.first_name);
-vehicleparameter.push(req.body.middle_name);
-vehicleparameter.push(req.body.last_name);
-vehicleparameter.push(req.body.mobile);
-vehicleparameter.push(req.body.email);
-vehicleparameter.push(req.body.crn);
-vehicleparameter.push(req.body.ip_address);
-vehicleparameter.push(req.body.secret_key);
-vehicleparameter.push(req.body.client_key);
-vehicleparameter.push(req.body.is_aai_member);
-vehicleparameter.push(req.body.external_bifuel_type);
-vehicleparameter.push(req.body.ss_id);
-vehicleparameter.push(req.body.geo_lat);
-vehicleparameter.push(req.body.geo_long);
-vehicleparameter.push(req.body.isActive);
+vehicleparameter.push(req.body.motorRequestEntity.birth_date);
+vehicleparameter.push(req.body.fba_id);//
+vehicleparameter.push(req.body.motorRequestEntity.product_id);
+vehicleparameter.push(req.body.motorRequestEntity.vehicle_id);
+vehicleparameter.push(req.body.motorRequestEntity.rto_id);
+vehicleparameter.push(req.body.motorRequestEntity.vehicle_insurance_type);
+vehicleparameter.push(req.body.motorRequestEntity.vehicle_manf_date);
+vehicleparameter.push(req.body.motorRequestEntity.vehicle_registration_date);
+vehicleparameter.push(req.body.motorRequestEntity.policy_expiry_date);
+vehicleparameter.push(req.body.motorRequestEntity.prev_insurer_id);
+vehicleparameter.push(req.body.motorRequestEntity.vehicle_registration_type);
+vehicleparameter.push(req.body.motorRequestEntity.vehicle_ncb_current);
+vehicleparameter.push(req.body.motorRequestEntity.is_claim_exists);
+vehicleparameter.push(req.body.motorRequestEntity.method_type);
+vehicleparameter.push(req.body.motorRequestEntity.execution_async);
+vehicleparameter.push(req.body.motorRequestEntity.electrical_accessory);
+vehicleparameter.push(req.body.motorRequestEntity.non_electrical_accessory);
+vehicleparameter.push(req.body.motorRequestEntity.registration_no);
+vehicleparameter.push(req.body.motorRequestEntity.is_llpd);
+vehicleparameter.push(req.body.motorRequestEntity.is_antitheft_fit);
+vehicleparameter.push(req.body.motorRequestEntity.voluntary_deductible);
+vehicleparameter.push(req.body.motorRequestEntity.is_external_bifuel);
+vehicleparameter.push(req.body.motorRequestEntity.external_bifuel_value);
+vehicleparameter.push(req.body.motorRequestEntity.pa_owner_driver_si);
+vehicleparameter.push(req.body.motorRequestEntity.pa_named_passenger_si);
+vehicleparameter.push(req.body.motorRequestEntity.pa_unnamed_passenger_si);
+vehicleparameter.push(req.body.motorRequestEntity.pa_paid_driver_si);
+vehicleparameter.push(req.body.motorRequestEntity.vehicle_expected_idv);
+vehicleparameter.push(req.body.motorRequestEntity.first_name);
+vehicleparameter.push(req.body.motorRequestEntity.middle_name);
+vehicleparameter.push(req.body.motorRequestEntity.last_name);
+vehicleparameter.push(req.body.motorRequestEntity.mobile);
+vehicleparameter.push(req.body.motorRequestEntity.email);
+vehicleparameter.push(req.body.motorRequestEntity.crn);
+vehicleparameter.push(req.body.motorRequestEntity.ip_address);
+vehicleparameter.push(req.body.motorRequestEntity.secret_key);
+vehicleparameter.push(req.body.motorRequestEntity.client_key);
+vehicleparameter.push(req.body.motorRequestEntity.is_aai_member);
+vehicleparameter.push(req.body.motorRequestEntity.external_bifuel_type);
+vehicleparameter.push(req.body.motorRequestEntity.ss_id);
+vehicleparameter.push(req.body.motorRequestEntity.geo_lat);
+vehicleparameter.push(req.body.motorRequestEntity.geo_long);
+vehicleparameter.push(req.body.isActive);//
+vehicleparameter.push(req.body.SRN);//
+vehicleparameter.push(req.body.agent_source);//
 
 
 
 
 console.log(vehicleparameter);
 
-// 44
-con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+
+con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
 	console.log(data);
@@ -93,11 +94,17 @@ if(req.body.fba_id){
 else{
 	vehicleparameter.push(null);
 }
-if(req.body.product_id){
-	vehicleparameter.push(req.body.product_id);	
+
+if(req.body.product_id == "0"){
+	vehicleparameter.push(null);
 }
 else{
-	vehicleparameter.push(null);
+	if(req.body.product_id){
+		vehicleparameter.push(req.body.product_id);
+	}
+	else{
+		vehicleparameter.push(null);	
+	}
 }
 if(req.body.crn){
 	vehicleparameter.push(req.body.crn);	
@@ -105,10 +112,50 @@ if(req.body.crn){
 else{
 	vehicleparameter.push(null);
 }
+if(req.body.first_name){
+	vehicleparameter.push(req.body.first_name);	
+}
+else{
+	vehicleparameter.push(null);
+}
+console.log(req.body.product_id);
 console.log(vehicleparameter);
 
-	con.execute_proc('call GetVehicleRequest(?,?,?,?)',vehicleparameter,function(data) {
-		var responsedata = {"quote":data[0],"application":data[1]};
+	con.execute_proc('call GetVehicleRequest(?,?,?,?,?)',vehicleparameter,function(data) {
+
+
+		
+		var quoteresponse = [];
+		var applicationquote = [];
+
+		for (var i = 0; i < data[0].length; i++) {
+			var response ={
+				"SRN" : data[0][i].srn,
+				"VehicleRequestID" : data[0][i].VehicleRequestID,
+				"fba_id" : data[0][i].fba_id,
+				"isActive" : data[0][i].isActive,
+				"motorRequestEntity" : data[0][i]
+			};
+			quoteresponse.push(response);
+		}
+
+
+		for (var i = 0; i < data[1].length; i++) {
+			var response ={
+				"SRN" : data[1][i].srn,
+				"VehicleRequestID" : data[1][i].VehicleRequestID,
+				"fba_id" : data[1][i].fba_id,
+				"isActive" : data[1][i].isActive,
+				"motorRequestEntity" : data[1][i]
+			};
+			applicationquote.push(response);
+		}
+
+
+// console.log(quoteresponse);
+// res.send(quoteresponse);
+
+		var responsedata = {"quote":quoteresponse,"application":applicationquote};
 		base.send_response("Success", responsedata,res);
 		// if(data[0].length>0){
 		// 	base.send_response("Success", data[0],res);
@@ -130,9 +177,11 @@ else{
 	vehicleparameter.push(0);
 }
 
+vehicleparameter.push(req.body.crn);
+
 console.log(vehicleparameter);
 
-	con.execute_proc('call QuoteToApplicationVehicle(?)',vehicleparameter,function(data) {
+	con.execute_proc('call QuoteToApplicationVehicle(?,?)',vehicleparameter,function(data) {
 		console.log(data[0][0]);
 		if(data[0][0].SavedStatus=="0"){
 			base.send_response("Success", data[0],res);
@@ -143,5 +192,28 @@ console.log(vehicleparameter);
 	});
 };
 
+var deleteVehicleRequest = function(req, res, next) {
 
-module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle};
+var parameter = [];
+
+if(req.body.VehicleRequestID){
+	parameter.push(req.body.VehicleRequestID);	
+}
+else{
+	parameter.push(0);
+}
+
+console.log(parameter);
+
+	con.execute_proc('call DeleteVehicleRequest(?)',parameter,function(data) {
+		console.log(data[0][0]);
+		if(data[0][0].SavedStatus=="0"){
+			base.send_response("Success", data[0],res);
+		}
+		else{
+			base.send_response("Failure",null,res);
+		}
+	});
+};
+
+module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest};
