@@ -52,7 +52,7 @@ BaseController.check_in_cache = function (req, res, callback) {
 BaseController.get_date_difference = function (d1, d2, callback) {
     var divideBy = { w:604800000,d:86400000,h:3600000,m:60000,s:1000 };
     //change m to d in for 1 day checck
-    var diff = (d2 - d1)/divideBy['m'];
+    var diff = (d2 - d1)/divideBy['d'];
     if (diff > 1)
     {
         callback(true);
