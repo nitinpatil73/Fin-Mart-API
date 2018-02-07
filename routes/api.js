@@ -16,6 +16,13 @@ var vehicle = require('../controller/VehicleController');
 var posp = require('../controller/POSPRegistrationController');
 
 
+var fpass = require('../controller/UserController');
+
+var balancetransfer = require('../controller/BalanceTransferController');
+//var setcodeapplibtransfer = require('../controller/SetQuodeApplicationBalanceTransfer.js');
+//var deletebtransfer = require('../controller/DeleteBalanceTransfer');
+
+
 var Mailer = require('../controller/MailController');
 var base = require('../controller/baseController');
 
@@ -135,5 +142,30 @@ router.post('/delete-vehicle-request', function(req, res, next) {
 router.post('/posp-registration', function(req, res, next) {
   posp(req,res,next);
 });
+
+
+//forgate password
+router.post('/forgotPassword', function(req, res, next) {
+  fpass(req,res,next);
+});
+
+//BalanceTransfer
+router.post('/ManageBalanceTransfer', function(req, res, next) {
+  balancetransfer.BalanceTransfer(req,res,next);
+});
+  //Set Code Application Balance Transfer
+  router.post('/set-Quote-application-balance-transfer', function(req, res, next) {
+  balancetransfer.SetQuoteApplicationBalanceTransfer(req,res,next);
+});
+
+//DeleteBalanceTransfer
+router.post('/delete-balance-transfer', function(req, res, next) {
+  balancetransfer.DeleteBalanceTransfer(req,res,next);
+});
+
+router.post('/get-balance-transfer-request', function(req, res, next) {
+  balancetransfer.getbalancetransferrequest(req,res,next);
+});
+
 
 module.exports = router;
