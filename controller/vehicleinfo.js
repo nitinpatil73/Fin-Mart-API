@@ -6,8 +6,10 @@ var base=require('./baseController');
 
 
 var getVehicleInfo = function(req, res, next) {
-app('/api/VehicleInfo', 'POST', {
-    RegistrationNumber: req.body.RegistrationNumber
+app('/quote/vehicle_info', 'POST', {
+    RegistrationNumber: req.body.RegistrationNumber,
+    client_key : "CLIENT-GLF2SRA5-CFIF-4X2T-HC1Z-CXV4ZWQTFQ3T",
+	secret_key : "SECRET-ODARQ6JP-9V2Q-7BIM-0NNM-DNRTXRWMRTAL"
   }, function(data) {
   	if(data!=null){
 	  	base.send_response("success",data, res);

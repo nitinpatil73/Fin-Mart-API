@@ -6,6 +6,7 @@ var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 var RBLog  = require('../model/RBUpdateLoanLog.js');
 var Mailer = require('../controller/MailController');
+var logger=require('../bin/Logger');
 var insertFBARegistration = function(req, res, next) {
 
 //res.send("success");
@@ -185,6 +186,8 @@ function sendEmail(to,subject,text,htmlbody){
           console.log("Mail send success");
       }else{
          console.log(subject +" :Mail send fail: "+status);
+         logger.error('error', subject +" :Mail send fail: "+status, subject +" :Mail send fail: "+status);
+		// logger.log(subject +" :Mail send fail: "+status);
       }
     });
 

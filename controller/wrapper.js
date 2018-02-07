@@ -5,8 +5,11 @@ var https = require('http');
 //2->qa.policyboss.com
 var wrapper = function(endpoint, method, data, success,hosttype) {
   var hostname = "";
+  var port = "80";
   if (hosttype == 1) {
-    hostname = "vehicleinfo.policyboss.com";
+    //hostname = "vehicleinfo.policyboss.com";
+    hostname = "qa-horizon.policyboss.com";
+    port = 3000;
   } else if(hosttype == 2) {
     hostname = "qa.policyboss.com";
   }
@@ -32,6 +35,7 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
   }
   var options = {
     host: hostname,
+    port : port,
     path: endpoint,
     method: method,
     headers: headers
