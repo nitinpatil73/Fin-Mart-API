@@ -20,6 +20,7 @@ var Mailer = require('../controller/MailController');
 var base = require('../controller/baseController');
 
 var login = require('../controller/LoginController');
+var personalloan = require('../controller/PersonalLoanController');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -135,5 +136,26 @@ router.post('/delete-vehicle-request', function(req, res, next) {
 router.post('/posp-registration', function(req, res, next) {
   posp(req,res,next);
 });
+
+//Manage Personal Loan(Insert and Update)
+router.post('/manage-personalloan', function(req, res, next) {
+  personalloan.managePersonalLoan(req,res,next);
+});
+
+//get Personal Loan request
+router.post('/get-personalloan-request', function(req, res, next) {
+  personalloan.getPersonalLoan(req,res,next);
+});
+
+//set quote to application in personal loan
+router.post('/set-quote-to-application-personal-loan', function(req, res, next) {
+  personalloan.quoteApplicationPersonalLoan(req,res,next);
+});
+
+//delete personal loan request
+router.post('/delete-personal-loan-request', function(req, res, next) {
+  personalloan.deletePersonalLoan(req,res,next);
+});
+
 
 module.exports = router;

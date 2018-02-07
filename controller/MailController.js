@@ -8,7 +8,7 @@ var Mailer = require('../controller/MailController');
 
 class MailController{};
 MailController.send=function(mailDetails,next){
-    mailDetails.from="Magic FinMart <fba.support@magicfinmart.com>";
+    mailDetails.from=()=>"Magic Finmart <info@magicfinamrt.com>";
     nodemailer.createTestAccount((err, account) => {
 
     // create reusable transporter object using the default SMTP transport
