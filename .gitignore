@@ -1,2 +1,4 @@
 /node_modules/
 /nbproject/private/
+/bin/MailConfig.js
+/bin/mongo_conn.js
