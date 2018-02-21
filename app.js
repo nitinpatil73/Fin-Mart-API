@@ -68,7 +68,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
 
   logger.error(err.stack);
-  res.send({Message: "Fatal error !!! " + err.status + ": "+err.message, Status: "Failure", StatusNo: 1, MasterData: null});
+  if(req.app.get('env') === 'production' ){
+     res.send({Message: "Fatal error !!! " + err.status + ": "+err.message, Status: "Failure", StatusNo: 1, MasterData: null});
+  }else{
+    throw err;
+    
+  }
+ 
 });
 
 
