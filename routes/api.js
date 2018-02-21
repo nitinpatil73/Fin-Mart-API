@@ -12,7 +12,8 @@ var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 var insurancecompany = require('../controller/ProfessionalInfoController');
 var vehicle = require('../controller/VehicleController');
-
+var app=express();
+var cors=require("cors")
 var posp = require('../controller/POSPRegistrationController');
 
 
@@ -28,6 +29,19 @@ var base = require('../controller/baseController');
 
 var login = require('../controller/LoginController');
 var personalloan = require('../controller/PersonalLoanController');
+var multer  = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, process.cwd()+'/uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null,  Date.now()+"/"+file.originalname )
+  }
+})
+
+var upload = multer({ storage: storage })
+app.use(cors());
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -185,6 +199,12 @@ router.post('/set-quote-to-application-personal-loan', function(req, res, next) 
 //delete personal loan request
 router.post('/delete-personal-loan-request', function(req, res, next) {
   personalloan.deletePersonalLoan(req,res,next);
+});
+router.post('/upload-doc', upload.any('image'), function (req, res, next) {
+  console.log(req.file);
+  console.log(req.body);
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
 });
 
 
