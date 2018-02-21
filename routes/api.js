@@ -12,7 +12,6 @@ var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 var insurancecompany = require('../controller/ProfessionalInfoController');
 var vehicle = require('../controller/VehicleController');
-
 var posp = require('../controller/POSPRegistrationController');
 
 
@@ -28,6 +27,7 @@ var base = require('../controller/baseController');
 
 var login = require('../controller/LoginController');
 var personalloan = require('../controller/PersonalLoanController');
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -185,6 +185,13 @@ router.post('/set-quote-to-application-personal-loan', function(req, res, next) 
 //delete personal loan request
 router.post('/delete-personal-loan-request', function(req, res, next) {
   personalloan.deletePersonalLoan(req,res,next);
+});
+
+// insert backoffice logs
+
+router.post('/insert-dc-logs', function(req, res, next) {
+  let backofficelogs = require('../controller/BOLogsController');
+  backofficelogs(req,res,next);
 });
 
 
