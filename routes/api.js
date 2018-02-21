@@ -14,7 +14,6 @@ var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 var insurancecompany = require('../controller/ProfessionalInfoController');
 var vehicle = require('../controller/VehicleController');
-
 var posp = require('../controller/POSPRegistrationController');
 
 
@@ -33,6 +32,7 @@ var personalloan = require('../controller/PersonalLoanController');
 var Upload = require('../controller/UploadController');
 
 app.use(cors());
+
 
 
 /* GET users listing. */
@@ -195,6 +195,13 @@ router.post('/delete-personal-loan-request', function(req, res, next) {
 router.post('/upload-doc', function (req, res, next) {
   Upload.save(req,res);
  
+});
+
+// insert backoffice logs
+
+router.post('/insert-dc-logs', function(req, res, next) {
+  let backofficelogs = require('../controller/BOLogsController');
+  backofficelogs(req,res,next);
 });
 
 
