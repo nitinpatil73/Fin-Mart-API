@@ -193,11 +193,6 @@ router.post('/set-quote-to-application-personal-loan', function(req, res, next) 
 router.post('/delete-personal-loan-request', function(req, res, next) {
   personalloan.deletePersonalLoan(req,res,next);
 });
-router.post('/upload-doc', function (req, res, next) {
-  var Upload = require('../controller/UploadController');
-  Upload.save(req,res);
- 
-});
 
 // insert backoffice logs
 
@@ -299,4 +294,11 @@ router.post('/delete-pending-cases', function(req, res, next) {
   var PendingCase = require('../controller/PendingCaseController');
   PendingCase.DeleteQuoteFromPendingCase(req,res,next);
 });
+//fba doc upload
+router.post('/upload-doc', function (req, res, next) {
+  var Upload = require('../controller/UploadController');
+  Upload.save(req,res);
+ 
+});
+
 module.exports = router;
