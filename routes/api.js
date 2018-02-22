@@ -62,7 +62,7 @@ router.post('/vehicle-info', function(req, res, next) {
 });
 
 router.post('/smart-health', function(req, res, next) {
-    smarthealth(req,res,next);
+    smarthealth.smarthealth(req,res,next);
 });
 router.post('/vehicle-details', function(req, res, next) {
     getVehicleDetail(req,res,next);
@@ -140,8 +140,9 @@ router.post('/delete-vehicle-request', function(req, res, next) {
 
 
 //POSP Registration
-router.post('/posp-registration', function(req, res, next) {
-  posp(req,res,next);
+router.post('/posp-registration', function(req, res, next) {  
+  var posp = require('../controller/POSPRegistrationController');
+  posp.pospregistration(req,res,next);
 });
 
 
@@ -187,5 +188,97 @@ router.post('/delete-personal-loan-request', function(req, res, next) {
   personalloan.deletePersonalLoan(req,res,next);
 });
 
+//get smart health request
+router.post('/get-smart-health', function(req, res, next) {
+    smarthealth.getHealthRequest(req,res,next);
+});
 
+//deactivate all quotes and application 
+router.post('/deactivate-vehicle-request', function(req, res, next) {
+    vehicle.deactivateVehicleRequest(req,res,next);
+});
+
+//get smart health request
+router.post('/delete-smart-health', function(req, res, next) {
+    smarthealth.deleteHealthRequest(req,res,next);
+});
+
+router.post('/set-quote-application-smart-health', function(req, res, next) {
+    smarthealth.setQuoteToApplicationHealthRequest(req,res,next);
+});
+
+//Update Quote status from Rupeeboss server
+router.post('/update-quote-status', function(req, res, next) {
+    var transaction = require('../controller/TransactionController');
+    transaction.UpdateQuotStatus(req,res,next);
+});
+
+//Update applciation no from Rupeeboss server
+router.post('/update-application-no', function(req, res, next) {
+    var transaction = require('../controller/TransactionController');
+    transaction.UpdateApplnNo(req,res,next);
+});
+
+//Update posp status. This will be triggered from policyboss
+router.post('/update-posp-status', function(req, res, next) {
+    var transaction = require('../controller/TransactionController');
+    transaction.UpdatePOSPStatus(req,res,next);
+});
+
+//Update payment info. This will be triggered from http://sales.datacompwebtech.com/
+router.post('/AddPaymentInfo', function(req, res, next) {
+    var transaction = require('../controller/TransactionController');
+    transaction.AddPaymentInfo(req,res,next);
+});
+
+router.post('/update-bank-id', function(req, res, next) {
+  var transaction = require('../controller/TransactionController');
+  transaction.UpdateBankId(req,res,next);
+});
+
+router.post('/quote-to-application-status', function(req, res, next) {
+  var transaction = require('../controller/TransactionController');
+  transaction.UpdateQuoteToApplicationStatus(req,res,next);
+});
+
+
+router.post('/my-account', function(req, res, next) {
+  var fbaupdate = require('../controller/MyAccountController');
+  fbaupdate.FBAUpdateAccount(req,res,next);
+});
+
+router.post('/pending-cases', function(req, res, next) {
+  var PendingCase = require('../controller/PendingCaseController');
+  PendingCase.pendingCases(req,res,next);
+});
+
+router.post('/get-ifsc-code', function(req, res, next) {
+  var transaction = require('../controller/TransactionController');
+  transaction.getIFSCCode(req,res,next);
+});
+
+router.post('/get-my-account', function(req, res, next) {
+  var fbaupdate = require('../controller/MyAccountController');
+  fbaupdate.GetMyAccount(req,res,next);
+});
+
+router.post('/get-posp-detail', function(req, res, next) {  
+  var posp = require('../controller/POSPRegistrationController');
+  posp.GetPOSPDetails(req,res,next);
+});
+
+router.post('/insert-tracking', function(req, res, next) {
+  var logs = require('../controller/TrackingController');
+  logs(req,res,next);
+});
+
+router.post('/sales-material-product', function(req, res, next) {
+  var salesmaterial = require('../controller/SalesMaterialController');
+  salesmaterial.GetSalesMaterial(req,res,next);
+});
+
+router.post('/delete-pending-cases', function(req, res, next) {
+  var PendingCase = require('../controller/PendingCaseController');
+  PendingCase.DeleteQuoteFromPendingCase(req,res,next);
+});
 module.exports = router;
