@@ -29,7 +29,7 @@ var base = require('../controller/baseController');
 
 var login = require('../controller/LoginController');
 var personalloan = require('../controller/PersonalLoanController');
-var Upload = require('../controller/UploadController');
+
 
 app.use(cors());
 
@@ -193,6 +193,7 @@ router.post('/delete-personal-loan-request', function(req, res, next) {
   personalloan.deletePersonalLoan(req,res,next);
 });
 router.post('/upload-doc', function (req, res, next) {
+  var Upload = require('../controller/UploadController');
   Upload.save(req,res);
  
 });
