@@ -12,8 +12,9 @@ loginparameter.push(req.body.Password);
 loginparameter.push(req.body.DeviceId);
 loginparameter.push(req.body.IpAdd);
 loginparameter.push(req.body.VersionNo);
+loginparameter.push(req.body.TokenId);
 
-con.execute_proc('call spValidateLogin(?,?,?,?,?)',loginparameter,function(data) {
+con.execute_proc('call spValidateLogin(?,?,?,?,?,?)',loginparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
 	console.log(data);

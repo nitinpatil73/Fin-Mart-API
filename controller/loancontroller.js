@@ -1,12 +1,12 @@
 var Loan = require('../model/loanmodel.js');
 var base = require('./baseController');
 var con=require('../bin/dbconnection.js');
-
+var handler = require('./HandlerController');
 
 var saveLoanData = function(req, res, next) {
 
 console.log(getLoanParameters(req, res, next));
- con.execute_proc('call ManageLoanRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',getLoanParameters(req, res, next),function(data) {
+ con.execute_proc('call ManageLoanRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',getLoanParameters(req, res, next),function(data) {
   console.log(data);
   if(data[0][0].SavedStatus == "0"){
     base.send_response("Success", data[0],res);
@@ -67,7 +67,9 @@ function getLoanParameters(req, res, next) {
     parameters.push(req.body.FBA_id);
     parameters.push(req.body.HomeLoanRequest.LoaniD);
     parameters.push(req.body.HomeLoanRequest.Type);
-    parameters.push(req.body.quote_id);
+    parameters.push(req.body.HomeLoanRequest.quote_id);
+    parameters.push(req.body.HomeLoanRequest.CoApplicantName);
+    parameters.push(req.body.HomeLoanRequest.CoApplicantRelation);
     return parameters;
 }
 
@@ -136,7 +138,7 @@ var setQuoteToApplication = function(req, res, next) {
 }
 
 var getLoanData = function(req, res, next) {
-  getAllLoanData(req.body.fbaid,req.body.type,res);
+  getAllLoanData(req.body.fbaid,req.body.type,res,req);
 }
 
 var deleteLoanRequestById = function(req, res, next) {
@@ -153,7 +155,7 @@ var deleteLoanRequestById = function(req, res, next) {
   });
 }
 
-function getAllLoanData(fbaid,type,res){
+function getAllLoanData(fbaid,type,res,req){
   var parameters = [];
   if(fbaid){
     parameters.push(fbaid);
@@ -177,17 +179,20 @@ function getAllLoanData(fbaid,type,res){
     var applicationresponse = [];
     
     for (var i = 0; i < data[0].length; i++) {
+      data[0][i].progress_image = null;
       var response = {
         "loan_requestID" : data[0][i].loan_requestID,
-        "fba_id" : data[0][i].FBA_id,        
+        "FBA_id" : data[0][i].FBA_id,        
         "HomeLoanRequest" : data[0][i]
       };
       quoteresponse.push(response);
     }
     for (var i = 0; i < data[1].length; i++) {
+      console.log(data[1][i].StatusPercent);
+      data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
       var response = {
         "loan_requestID" : data[1][i].loan_requestID,
-        "fba_id" : data[1][i].FBA_id,
+        "FBA_id" : data[1][i].FBA_id,
         "HomeLoanRequest" : data[1][i]
       };
       applicationresponse.push(response);

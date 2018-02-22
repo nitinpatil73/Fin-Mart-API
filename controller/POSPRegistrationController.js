@@ -1,24 +1,26 @@
 var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
-
+var app = require('./wrapper.js');
 
 var pospregistration = function(req, res, next) {
-
-
-SaveFBADetaPolicyBoss(req,res,'Mumbai',next);
-
-/*	con.execute_proc('call sp_Ins_UpPOSPInfo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',POSPRegistration(req),function(respdata) {
+console.log("hit");
+	//GetProdPriceDeta(7400032);
+	con.execute_proc('call sp_Ins_UpPOSPInfo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',POSPRegistration(req),function(respdata) {
+		console.log(respdata[0]);
 		if(respdata[0][0].SavedStatus == 0){
-			base.send_response(respdata[0][0].Message, respdata[0][0] ,res);
+			console.log(respdata[0]);
+			SaveFBADetaPolicyBoss(req,res,next);
+			//base.send_response(respdata[0][0].Message, respdata[0][0] ,res);
 		}
 		else{
+
 				base.send_response(respdata[0][0].Message, null,res);				
 		}	
-	});*/
+	});
 };
 
 
-function SaveFBADetaPolicyBoss(req,res,PospAdd_City,next){
+function SaveFBADetaPolicyBoss(req,res,next){
 
 	var basicDetails = {
 		FirstName : req.body.FirstName,
@@ -38,7 +40,7 @@ function SaveFBADetaPolicyBoss(req,res,PospAdd_City,next){
 		Address2 : req.body.Address_2,
 		Address3 : req.body.Address_3,
 		Pincode : req.body.PinCode,
-	    CityID : PospAdd_City
+	    CityID : req.body.City
 	};
 
 
@@ -70,18 +72,54 @@ function SaveFBADetaPolicyBoss(req,res,PospAdd_City,next){
 		BankCity : req.body.Other_BankCity
 	};
 
-	var fbaRegePolicyBossInfo = {
-		FBAID : req.body.FBAID,
-		SM_POSP_ID : req.body.SMID,
-		SM_POSP_Name : req.body.SM_Name,
-		BasicDetails : basicDetails,
-		Address : address,
-		Presentation : presentation,
-		Nominee : nominee
+	// var fbaRegePolicyBossInfo = {
+	// 	FBAID : req.body.FBAID,
+	// 	SM_POSP_ID : req.body.SMID,
+	// 	SM_POSP_Name : req.body.SM_Name,
+	// 	BasicDetails : basicDetails,
+	// 	Address : address,
+	// 	Presentation : presentation,
+	// 	Nominee : nominee
 
-	};
-	console.log(fbaRegePolicyBossInfo);
-	res.send(req);
+	// };
+	// console.log(BasicDetails);
+		app('/quotes/api/pospregistration', 'POST', {
+		    FBAID : req.body.FBAID,
+			SM_POSP_ID : req.body.SMID,
+			SM_POSP_Name : req.body.SM_Name,
+			BasicDetails : basicDetails,
+			Address : address,
+			Presentation : presentation,
+			Nominee : nominee
+	  }, function(data) {
+	  	console.log("............data..............");
+	  	if(data!=null){	  		
+	  		if(data=="Email Id already exists"){
+	  			base.send_response("Email Id already exists", null,res);
+	  		}
+	  		else{
+	  			console.log("............data 1..............");
+	  			console.log(data);
+	  			var pospparam= [];
+	  			pospparam.push(req.body.FBAID);
+	  			pospparam.push(data);
+	  				con.execute_proc('call UpdatePOSPNO(?,?)',pospparam,function(respdata) {
+					console.log(".....UpdatePOSPNO......");
+
+					console.log(respdata[0]);
+					if(respdata[0][0].SavedStatus == 0){
+						GetProdPriceDeta(respdata[0][0].CustID,respdata[0][0].MobiNumb1,respdata[0][0].FullName,respdata[0][0].EmailID,req.body.FBAID,res);				
+					}
+					else{
+							base.send_response(respdata[0][0].Message, null,res);				
+					}	
+				});
+	  		}
+	  	}
+	  	else{	  		
+	  		base.send_response("Invalid request", null,res);
+	  	}
+	  },2);
 }
 
 function POSPRegistration(req){
@@ -133,9 +171,131 @@ function POSPRegistration(req){
 	representation.push(req.body.Posp_City);//p_POSPCity VARCHAR(25),
 	representation.push(req.body.Posp_StatID);//p_POSPStatID SMALLINT,
 	representation.push(req.body.Posp_ChanPartCode);//p_POSPChanPartCode VARCHAR(20)
+	console.log(representation);
 	return representation;
 	// var representation =  InsertUpdateFBARepresentation(data[0][0].FBAID,req,res,next);
 	
 }
 
-module.exports = pospregistration;
+function GetProdPriceDeta(CustID,mobileno,custname,emailid,fbaid,res) {
+app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
+		"ProdID": "501",
+		"CustID": CustID,
+		"PartID": "4444444",
+		"UserID": "0",
+		"IsScheme": "0",
+		"FBAId": 0,
+		"ResponseJson": null,
+		"AppID": "171",
+		"AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
+		"AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
+	  }, function(dataa) {
+	  	console.log("....GetProdPriceDeta.......");
+	  	console.log(dataa);
+	  	if(dataa.message !=null){
+	  		var message =JSON.parse(dataa.message);
+	  		if(message.Status=="1"){
+	  			var amount = message.TotalAmt;	  		
+	  			PaymentDataRequest(CustID,amount,mobileno,custname,emailid,fbaid,res);
+	  		}
+	  		else{
+	  			base.send_response("Invalid response in GetProdPriceDeta", null,res);
+	  		}
+	  		console.log(message);
+	  	}
+	  	else{
+	  			base.send_response("Invalid response in GetProdPriceDeta 1", null,res);
+	  		}
+	  	
+	  },5);
+}
+
+// "FailResp": "http://sales.datacompwebtech.com/GatewayResponse/DWTFailed.aspx",
+
+function PaymentDataRequest(CustID,totalamount,mobileno,custname,emailid,fbaid,res) {
+app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
+	  "Amount": 590,
+	  "ProdID": 501,
+	  "MRP": 500,
+	  "Discount": 0,
+	  "ServTaxAmt": 90,
+	  "VATAmt": 0,
+	  "TotalAmt": totalamount,
+	  "BalanceAmt": 0,
+	  "DatacompCustomerID": CustID,
+	  "CustomerMobileNumber": mobileno,
+	  "PartID": 0,
+	  "CustomerEmailID": emailid,
+	  "CustomerName": custname,
+	  "OrderDesp": "Platform for onboarding for Fin-Mart",
+	  "AccNotes": "Platform for onboarding for Fin-Mart",
+	  "SuccResp": "http://sales.datacompwebtech.com/GatewayResponse/DWTSuccess.aspx",
+	  "FailResp": "http://sales.datacompwebtech.com/GatewayResponse/DWTFailed.aspx",
+	  "CancResp": "http://sales.datacompwebtech.com/GatewayResponse/DWTCancelled.aspx",
+	  "ufv1": "853",
+	  "ufv2": "",
+	  "ufv3": "",
+	  "ufv4": "",
+	  "ufv5": "",
+	  "BranCode": "",
+	  "ProdDesc": "Platform for onboarding for Fin-Mart",
+	  "ProdUSERID": null,
+	  "ProdPASSWORD": null,
+	  "DebitCredit": 0,
+	  "PromCode": null,
+	  "DWTInvo": null,
+	  "AppID": "171",
+	  "AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
+  "AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
+	  }, function(data) {
+
+	  	if(data.type == "Success"){
+	  		var message = JSON.parse(data.message);
+	  		console.log("-------------------------------");
+	  		console.log(message);
+	  		if(message.Status == "1"){
+	  			var parameter = [];
+	  			parameter.push(fbaid);
+	  			parameter.push(message.PaymentURL);
+	  			parameter.push(message.PaymRefeID);
+	  			parameter.push(CustID);
+	  			parameter.push(501);
+	  			console.log(parameter);
+	  			con.execute_proc('call sp_InsPaymentlink(?,?,?,?,?)',parameter,function(respdata) {
+	  				console.log(respdata);
+					if(respdata[0][0].SavedStatus == 0){
+						base.send_response("Success", message,res);
+					}
+					else{
+						base.send_response(respdata[0][0].Message, null,res);				
+					}	
+				});
+			  	//base.send_response("Success", message,res);
+	  		}
+	  		else{
+	  			base.send_response("Invalid response in PaymentDataRequest", null,res);
+	  		}
+	  	}
+	  	else{
+	  		base.send_response("Invalid response in `", null,res);
+	  	}
+	  	
+	  },5);
+}
+
+var GetPOSPDetails = function(req, res, next){
+		var GetPOSPDetailsParameter = [];
+		GetPOSPDetailsParameter.push(req.body.FBAID);	//
+		console.log(GetPOSPDetailsParameter);
+		con.execute_proc('call GetPOSPDetails(?)',GetPOSPDetailsParameter,function(data) {
+			if(data!=null){
+				base.send_response("Success", data[0],res);		
+			}
+			else{
+				base.send_response("No data found",null,res);
+			}		
+   	});
+}
+
+
+module.exports = {"pospregistration":pospregistration,"GetPOSPDetails":GetPOSPDetails};
