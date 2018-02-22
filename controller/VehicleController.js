@@ -1,6 +1,6 @@
 var con=require('../bin/dbconnection.js');
 var base = require('./baseController');
-
+var handler = require('./HandlerController');
 
 var managevehicle = function(req, res, next) {
 
@@ -56,7 +56,7 @@ vehicleparameter.push(req.body.motorRequestEntity.geo_lat);
 vehicleparameter.push(req.body.motorRequestEntity.geo_long);
 vehicleparameter.push(req.body.isActive);//
 vehicleparameter.push(req.body.SRN);//
-vehicleparameter.push(req.body.agent_source);//
+vehicleparameter.push(req.body.motorRequestEntity.agent_source);//
 
 
 
@@ -129,11 +129,13 @@ console.log(vehicleparameter);
 		var applicationquote = [];
 
 		for (var i = 0; i < data[0].length; i++) {
+			data[0][i].progress_image = null;
 			var response ={
 				"SRN" : data[0][i].srn,
 				"VehicleRequestID" : data[0][i].VehicleRequestID,
 				"fba_id" : data[0][i].fba_id,
 				"isActive" : data[0][i].isActive,
+				"selectedPrevInsID" : data[0][i].selectedPrevInsID,
 				"motorRequestEntity" : data[0][i]
 			};
 			quoteresponse.push(response);
@@ -141,11 +143,13 @@ console.log(vehicleparameter);
 
 
 		for (var i = 0; i < data[1].length; i++) {
+			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
 			var response ={
 				"SRN" : data[1][i].srn,
 				"VehicleRequestID" : data[1][i].VehicleRequestID,
 				"fba_id" : data[1][i].fba_id,
 				"isActive" : data[1][i].isActive,
+				"selectedPrevInsID" : data[1][i].selectedPrevInsID,
 				"motorRequestEntity" : data[1][i]
 			};
 			applicationquote.push(response);
@@ -176,8 +180,9 @@ if(req.body.VehicleRequestID){
 else{
 	vehicleparameter.push(0);
 }
+vehicleparameter.push(req.body.selectedPrevInsID);
 
-vehicleparameter.push(req.body.crn);
+// vehicleparameter.push(req.body.crn);
 
 console.log(vehicleparameter);
 
@@ -216,4 +221,11 @@ console.log(parameter);
 	});
 };
 
-module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest};
+var deactivateVehicleRequest = function(req, res, next) {
+
+  con.execute_proc('call deactivateVehicleRequest()',null,function(data) {
+    base.send_response("Success", data,res);
+  });
+};
+
+module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest,"deactivateVehicleRequest":deactivateVehicleRequest};

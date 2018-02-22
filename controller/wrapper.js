@@ -19,6 +19,10 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
   else if(hosttype == 4) {
     hostname = "services.rupeeboss.com";
   }
+   else if(hosttype == 5) {
+    hostname = "finmartwebapi.magicsales.in";
+  }
+
   var dataString = JSON.stringify(data);
   var headers = {};
   
@@ -52,12 +56,12 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
     });
 
     res.on('end', function() {
-      //console.log(responseString);
+      // console.log(hostname);
+      // console.log(responseString);
       var responseObject = JSON.parse(responseString);
       success(responseObject);
     });
   });
-
   req.write(dataString);
   req.end();
 }

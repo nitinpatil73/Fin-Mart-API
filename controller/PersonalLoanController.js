@@ -1,5 +1,6 @@
 var con=require('../bin/dbconnection.js');
 var base = require('./baseController');
+var handler = require('./HandlerController');
 
 var managePersonalLoan = function(req, res, next) {
 
@@ -23,8 +24,9 @@ parameter.push(req.body.PersonalLoanRequest.LoanRequired);
 parameter.push(req.body.PersonalLoanRequest.LoanTenure);
 parameter.push(req.body.PersonalLoanRequest.api_source);
 parameter.push(req.body.PersonalLoanRequest.empcode);
+parameter.push(req.body.PersonalLoanRequest.Contact);
 console.log(parameter);
-con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
 	console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);
@@ -47,8 +49,8 @@ con.execute_proc('call getPersonalLoanRequest(?)',parameter,function(data) {
 		var applicationquote = [];
 
 		for (var i = 0; i < data[0].length; i++) {
-			var response ={
-				
+			data[0][i].progress_image = null;
+			var response ={				
 				"loan_requestID" : data[0][i].loan_requestID,
 				"FBA_id" : data[0][i].FBA_id,
 				"PersonalLoanRequest" : data[0][i]
@@ -58,6 +60,7 @@ con.execute_proc('call getPersonalLoanRequest(?)',parameter,function(data) {
 
 
 		for (var i = 0; i < data[1].length; i++) {
+			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
 			var response ={
 				
 				"loan_requestID" : data[1][i].loan_requestID,
