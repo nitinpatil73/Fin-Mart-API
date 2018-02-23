@@ -16,12 +16,12 @@ con.execute_proc('call getPendingcases(?)',parameter,function(data) {
 		base.send_response("Success", data[0],res);
 	}
 	else{
-		base.send_response("Failure", "",res);				
+		base.send_response("Failure", null,res);				
 	}
 });
 }
 else{
-	base.send_response("FBAID not passed", "",res);		
+	base.send_response("FBAID not passed", null,res);		
 }
 
 };
@@ -42,12 +42,12 @@ con.execute_proc('call DeleteQuoteFromPendingCase(?,?)',parameter,function(data)
 		base.send_response("Success", data[0],res);
 	}
 	else{
-		base.send_response("Failure", "",res);				
+		base.send_response("Failure", null,res);				
 	}
 });
 }
 else{
-	base.send_response("Some details missing", "",res);		
+	base.send_response("Some details missing", null,res);		
 }
 
 };

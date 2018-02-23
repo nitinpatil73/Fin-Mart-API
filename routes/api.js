@@ -298,4 +298,34 @@ router.post('/delete-pending-cases', function(req, res, next) {
   var PendingCase = require('../controller/PendingCaseController');
   PendingCase.DeleteQuoteFromPendingCase(req,res,next);
 });
+
+router.post('/update-referer-code', function(req, res, next) {
+  var referal = require('../controller/ReferalController');
+  referal.UpdateRefererCode(req,res,next);
+});
+
+router.post('/contact-us', function(req, res, next) {
+  var contact = require('../controller/ContactusController');
+  contact(req,res,next);
+});
+
+router.post('/update-notification', function(req, res, next) {
+  var notification = require('../controller/NotificationController');
+  notification.UserNotificationOpen(req,res,next);
+});
+
+router.post('/whats-new', function(req, res, next) {
+  var whatsnew = require('../controller/WhatsNewController');
+  whatsnew(req,res,next);
+});
+
+router.post('/credit-card-rbl', function(req, res, next) {
+  var creditcard = require('../controller/CreditCardController');
+  creditcard.creditCardRBL(req,res,next);
+});
+
+router.post('/get-credit-card-data', function(req, res, next) {
+  var creditcard = require('../controller/CreditCardController');
+  creditcard.getCreditCardData(req,res,next);
+});
 module.exports = router;

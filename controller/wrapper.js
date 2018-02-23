@@ -22,6 +22,9 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
    else if(hosttype == 5) {
     hostname = "finmartwebapi.magicsales.in";
   }
+   else if(hosttype == 6) {
+    hostname = "api.rupeeboss.com";
+  }
 
   var dataString = JSON.stringify(data);
   var headers = {};
