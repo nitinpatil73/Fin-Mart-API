@@ -29,7 +29,7 @@ var base = require('../controller/baseController');
 
 var login = require('../controller/LoginController');
 var personalloan = require('../controller/PersonalLoanController');
-var Upload = require('../controller/UploadController');
+
 
 app.use(cors());
 
@@ -193,10 +193,6 @@ router.post('/set-quote-to-application-personal-loan', function(req, res, next) 
 router.post('/delete-personal-loan-request', function(req, res, next) {
   personalloan.deletePersonalLoan(req,res,next);
 });
-router.post('/upload-doc', function (req, res, next) {
-  Upload.save(req,res);
- 
-});
 
 // insert backoffice logs
 
@@ -327,5 +323,12 @@ router.post('/credit-card-rbl', function(req, res, next) {
 router.post('/get-credit-card-data', function(req, res, next) {
   var creditcard = require('../controller/CreditCardController');
   creditcard.getCreditCardData(req,res,next);
+});
+
+//fba doc upload
+router.post('/upload-doc', function (req, res, next) {
+  var Upload = require('../controller/UploadController');
+  Upload.save(req,res);
+ 
 });
 module.exports = router;
