@@ -1,6 +1,7 @@
 
 var con=require('../bin/dbconnection.js');
 var base = require('./baseController');
+var store_path='./uploads';
 class UploadController{};
       UploadController.save=function(req,res){
       var multer  = require('multer');
@@ -8,7 +9,7 @@ class UploadController{};
       var storage = multer.diskStorage({
       destination: function (req, recieved_file, cb) {
         //console.log(req);
-       cb(null, './uploads');
+       cb(null, store_path);
           },
        filename: function (req, recieved_file, cb) {
 
@@ -36,6 +37,18 @@ class UploadController{};
           con.execute_proc('call upload_doc(?,?,?,?,?)',doc_param,function(data) {
             //res.send(data);
               if(data!=null){
+                   prv_file=data[0][0].prv_file
+                   if(prv_file){
+                     console.log(store_path+"/"+prv_file);
+                      fs=require('fs');
+                      fs.unlink(store_path+"/"+prv_file, (err) => {
+                          if (err) throw err;
+                          var RBLog  = require('../model/RBUpdateLoanLog.js');
+                          console.log(store_path+"/"+prv_file+' was deleted');
+                        });
+                      
+                   }
+
                 base.send_response("Success",data[0],res);
               }else{
                   base.send_response("Upload failed",null,res);
