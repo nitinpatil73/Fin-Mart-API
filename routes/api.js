@@ -295,9 +295,78 @@ router.post('/delete-pending-cases', function(req, res, next) {
   PendingCase.DeleteQuoteFromPendingCase(req,res,next);
 });
 //fba doc upload
+ 
 router.post('/upload-doc', function (req, res, next) {
-  var Upload = require('../controller/UploadController');
+  let Upload = require('../controller/UploadController');
+  //console.log(req.body);
+
   Upload.save(req,res);
+ 
+});
+//done by shubham
+router.post('/insPersonalLoanApplnDtls', function (req, res, next) {
+  var cc = require('../controller/CreditCardWrapperController');
+  cc.insPersonalLoanApplnDtls(req,res);
+ 
+}); 
+
+router.post('/dsplypersonalloanDtls', function (req, res, next) {
+  var loanDtls = require('../controller/CreditCardWrapperController');
+  loanDtls.dsplypersonalloanDtls(req,res);
+ 
+});
+router.post('/insHomeLoanApplnDtls', function (req, res, next) {
+  var LoanApplnDtls = require('../controller/CreditCardWrapperController');
+  LoanApplnDtls.insHomeLoanApplnDtls(req,res);
+ 
+});
+router.post('/dsplyHomeloanDtls', function (req, res, next) {
+  var HomeloanDtls = require('../controller/CreditCardWrapperController');
+  HomeloanDtls.dsplyHomeloanDtls(req,res);
+ 
+});
+
+
+router.post('/dsplyLAPDtls', function (req, res, next) {
+  var LAPDtls = require('../controller/CreditCardWrapperController');
+  LAPDtls.dsplyLAPDtls(req,res);
+ 
+});
+
+router.post('/insLAPDtls', function (req, res, next) {
+  var insertlap = require('../controller/CreditCardWrapperController');
+  insertlap.insLAPDtls(req,res);
+ 
+});
+
+router.post('/getPincodeData', function (req, res, next) {
+  var PincodeData = require('../controller/CreditCardWrapperController');
+  PincodeData.getPincodeData(req,res);
+ 
+}); 
+router.post('/dsplyStateDtls', function (req, res, next) {
+  var statedtls = require('../controller/CreditCardWrapperController');
+  statedtls.dsplyStateDtls(req,res);
+ 
+}); 
+router.post('/dsplybankDtls', function (req, res, next) {
+  var bankDtls = require('../controller/CreditCardWrapperController');
+  bankDtls.dsplybankDtls(req,res);
+ 
+});
+router.post('/getbankDtlsbyIFSC', function (req, res, next) {
+  var IFSCbankDtls = require('../controller/CreditCardWrapperController');
+  IFSCbankDtls.getbankDtlsbyIFSC(req,res);
+ 
+});
+router.post('/sendnotification', function (req, res, next) {
+  var notdtls = require('../controller/sendnotification');
+  notdtls(req,res,next);
+ 
+});
+router.post('/getTicketRequest', function (req, res, next) {
+  var Ticketdtls = require('../controller/getTicketRequest');
+  Ticketdtls(req,res,next);
  
 });
 
