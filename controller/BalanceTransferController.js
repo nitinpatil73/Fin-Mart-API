@@ -11,17 +11,22 @@ var BalanceTransferparameter = [];
   else{
    		BalanceTransferparameter.push(0);
   }
-BalanceTransferparameter.push(req.body.ApplicantName);
-BalanceTransferparameter.push(req.body.loanamount);
-BalanceTransferparameter.push(req.body.loaninterest);
-BalanceTransferparameter.push(req.body.loanterm);
-BalanceTransferparameter.push(req.body.LoanType);
-BalanceTransferparameter.push(req.body.product_id);
-BalanceTransferparameter.push(req.body.fbaid);
-BalanceTransferparameter.push(req.body.LoanID);	//
+BalanceTransferparameter.push(req.body.BLLoanRequest.applicantname);
+BalanceTransferparameter.push(req.body.BLLoanRequest.loanamount);
+BalanceTransferparameter.push(req.body.BLLoanRequest.loaninterest);
+BalanceTransferparameter.push(req.body.BLLoanRequest.loanterm);
+BalanceTransferparameter.push(req.body.BLLoanRequest.Type);
+BalanceTransferparameter.push(req.body.BLLoanRequest.product_id);
+BalanceTransferparameter.push(req.body.FBA_id);
+BalanceTransferparameter.push(req.body.BLLoanRequest.LoaniD);	//
+BalanceTransferparameter.push(req.body.BLLoanRequest.Bank_Id);
+BalanceTransferparameter.push(req.body.BLLoanRequest.email);
+BalanceTransferparameter.push(req.body.BLLoanRequest.contact);
+BalanceTransferparameter.push(req.body.BLLoanRequest.quote_id);
+BalanceTransferparameter.push(req.body.BLLoanRequest.source);
 console.log(BalanceTransferparameter);
 
-con.execute_proc('call ManageBalanceTransfer(?,?,?,?,?,?,?,?,?)',BalanceTransferparameter,function(data) {
+con.execute_proc('call ManageBalanceTransfer(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',BalanceTransferparameter,function(data) {
 	console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
@@ -74,12 +79,34 @@ con.execute_proc('call deletebalancetransfer(?)',DeleteBalanceTransferparameter,
 
 var getbalancetransferrequest = function(req, res, next){
 		var getbalancetransferrequest = [];
-		getbalancetransferrequest.push(req.body.fbaid);	//
+		getbalancetransferrequest.push(req.body.FBA_id);	//
 		console.log(getbalancetransferrequest);
 		con.execute_proc('call GetBalanceTransferRequest(?)',getbalancetransferrequest,function(data) {
 		console.log(data);
-		
-			var responsedata = {"quote":data[0],"application":data[1]};
+		var quoteresponse = [];
+		var applicationquote = [];
+
+		for (var i = 0; i < data[0].length; i++) {
+			data[0][i].progress_image = null;
+			var response ={				
+				"BalanceTransferId" : data[0][i].BalanceTransferId,
+				"FBA_id" : data[0][i].fbaid,
+				"BLLoanRequest" : data[0][i]
+			};
+			quoteresponse.push(response);
+		}
+
+		for (var i = 0; i < data[1].length; i++) {
+			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
+			var response ={
+				
+				"BalanceTransferId" : data[1][i].BalanceTransferId,
+				"FBA_id" : data[1][i].fbaid,
+				"BLLoanRequest" : data[1][i]
+			};
+			applicationquote.push(response);
+		}
+			var responsedata = {"quote":quoteresponse,"application":applicationquote};
 			 base.send_response("Success", responsedata,res);
 		
    	});

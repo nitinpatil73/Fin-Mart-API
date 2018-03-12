@@ -7,7 +7,7 @@ var GetSalesMaterial = function(req, res, next){
 		if(data!=null)
 		{
 			for (var i = 0 ; i < data[0].length; i++) {
-				data[0][i].Product_image = req.headers.host + "/images/salesmaterial/"+ data[0][i].Product_image;
+				data[0][i].Product_image = "http://" + req.headers.host + "/images/salesmaterial/"+ data[0][i].Product_image;
 			}
 			base.send_response("Success", data[0],res);		
 		}
@@ -27,6 +27,9 @@ var GetSalesMaterialDocs = function(req, res, next){
 		{
 			var company = data[0];
 			var docs = data[1];
+			for (var i = 0; i < docs.length; i++) {
+				docs[i].image_path ="http://" + req.headers.host +"/"+ docs[i].image_path;
+			}
 			var response = { "company" : company , "docs":docs};
 			base.send_response("Success",response,res);
 			//}		
