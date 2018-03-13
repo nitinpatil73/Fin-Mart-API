@@ -34,14 +34,14 @@ UploadController.save=function(req,res){
       //console.log(destination);
 
       //make a folder with fbaid in current folder and move file with new name as docType
-       move(source,req.body.FBAID,req.body.DocType,function(err){
+       move(source,req.body.FBAID,req.body.DocName,function(err){
          //console.log("-------------------------------moved")
          if(err)
            base.send_response("Upload failed",null,res);
          else
            {
                      var extension = source.split(".");
-                    newFilePath="uploads/"+req.body.FBAID+"/"+req.body.DocType+"."+extension[extension.length-1];
+                    newFilePath="uploads/"+req.body.FBAID+"/"+req.body.DocName+"."+extension[extension.length-1];
                     var doc_param=[];
                     doc_param.push(req.body.FBAID);
                     doc_param.push(req.body.DocType);
