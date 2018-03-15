@@ -24,6 +24,8 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
   }
    else if(hosttype == 6) {
     hostname = "api.rupeeboss.com";
+  }else if(hosttype==7){
+    hostname="http://vas.mobilogi.com";
   }
 
   var dataString = JSON.stringify(data);
