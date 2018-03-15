@@ -28,7 +28,8 @@ var GetSalesMaterialDocs = function(req, res, next){
 			var company = data[0];
 			var docs = data[1];
 			for (var i = 0; i < docs.length; i++) {
-				docs[i].image_path ="http://" + req.headers.host +"/"+ docs[i].image_path;
+				// docs[i].image_path ="http://" + req.headers.host +"/"+ docs[i].image_path;
+				docs[i].image_path ="http://bo.magicfinmart.com/" + docs[i].image_path;
 			}
 			var response = { "company" : company , "docs":docs};
 			base.send_response("Success",response,res);

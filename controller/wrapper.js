@@ -22,15 +22,21 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
    else if(hosttype == 5) {
     hostname = "finmartwebapi.magicsales.in";
   }
-   else if(hosttype == 6) {
+  else if(hosttype == 6) {
     hostname = "api.rupeeboss.com";
   }
-
+  else if(hosttype == 7) {
+    hostname = "vas.mobilogi.com";
+  }
+else if(hosttype == 8) {
+    hostname = "demo.fundzmagiconline.com";
+  }
   var dataString = JSON.stringify(data);
   var headers = {};
   
   if (method == 'GET') {
-    endpoint += '?' + querystring.stringify(data);
+    //endpoint += '?' + JSON.stringify(data);
+    //console.log(endpoint);
   }
   else {
     headers = {
@@ -60,7 +66,7 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
 
     res.on('end', function() {
       // console.log(hostname);
-      // console.log(responseString);
+       console.log(responseString);
       var responseObject = JSON.parse(responseString);
       success(responseObject);
     });

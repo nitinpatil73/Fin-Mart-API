@@ -27,59 +27,144 @@ base.send_response("success",RBLog,res);
 }
 
 var smarthealth = function(req, res, next) {
-//console.log("asfdsf");
-//manageHealthRequest(req, res, next);
+var memeberlength = req.body.HealthRequest.MemberList.length;
+var age = "";
+var apitype = "";
+var adultcounter = 0;
+var childcounter = 0;
+if(memeberlength>1){
+  apitype = "GetFloterComparison";
+}
+else{
+  apitype = "GetIndividualComparison";
+}
+for (var i = 0; i < memeberlength; i++) {
+  // console.log(req.body.HealthRequest.MemberList[i]);
+  age += req.body.HealthRequest.MemberList[i].Age + ",";
+  if(req.body.HealthRequest.MemberList[i].MemberType =="Adult"){
+    adultcounter++;
+  }
+  else{
+    childcounter++;
+  }
+}
+age = age.replace(/,\s*$/, "");
+console.log(age);
+console.log(adultcounter);
+console.log(childcounter);
 
-wrapper('/quotes/api/SmartHealth', 'POST', {
-    CityID: req.body.HealthRequest.CityID,
-    ContactEmail: req.body.HealthRequest.ContactEmail,
-    ContactMobile: req.body.HealthRequest.ContactMobile,
-    ContactName: req.body.HealthRequest.ContactName,
-    DeductibleAmount: req.body.HealthRequest.DeductibleAmount,
-    ExistingCustomerReferenceID: req.body.HealthRequest.ExistingCustomerReferenceID,
-    HealthType: req.body.HealthRequest.HealthType,
-    MaritalStatusID: req.body.HealthRequest.MaritalStatusID,
-    MemberList: req.body.HealthRequest.MemberList,
-    PolicyFor: req.body.HealthRequest.PolicyFor,
-    PolicyTermYear: req.body.HealthRequest.PolicyTermYear,
-    ProductID: req.body.HealthRequest.ProductID,
-    SessionID: req.body.HealthRequest.SessionID,
-    SourceType: req.body.HealthRequest.SourceType,
-    SumInsured: req.body.HealthRequest.SumInsured,
-    SupportsAgentID: req.body.HealthRequest.SupportsAgentID
+var floterIndividualRequest = {
+  "Sum": req.body.HealthRequest.SumInsured,
+  "strAge": age,
+  "IsTopUp": 0,
+  "PinCode": req.body.HealthRequest.pincode,
+  "AdulMemb": adultcounter,
+  "ChilMemb": childcounter,
+  "TotMemb": memeberlength,
+  "AddOn1": "0_0_0_0_0",
+  "AddOn2": "0_0_0_0_0",
+  "AddOn3": "0_0_0_0_0",
+  "Para1": "0_0_0_0_0",
+  "Para2": "0_0_0_0_0",
+  "Para3": "0_0_0_0_0",
+  "Para4": "0_0_0_0_0",
+  "Para5": "0_0_0_0_0",
+  "Para6": "0_0_0_0_0",
+  "IFAID": "27bgc7eiR5RoCV5xXvTcTQ=="
+};
 
+
+console.log(floterIndividualRequest);
+// console.log(apitype);
+wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
+  "Sum": req.body.HealthRequest.SumInsured,
+  "strAge": age,
+  "IsTopUp": 0,
+  "PinCode": req.body.HealthRequest.pincode,
+  "AdulMemb": adultcounter,
+  "ChilMemb": childcounter,
+  "TotMemb": memeberlength,
+  "AddOn1": "0_0_0_0_0",
+  "AddOn2": "0_0_0_0_0",
+  "AddOn3": "0_0_0_0_0",
+  "Para1": "0_0_0_0_0",
+  "Para2": "0_0_0_0_0",
+  "Para3": "0_0_0_0_0",
+  "Para4": "0_0_0_0_0",
+  "Para5": "0_0_0_0_0",
+  "Para6": "0_0_0_0_0",
+  "IFAID": "27bgc7eiR5RoCV5xXvTcTQ=="
   }, function(data) {
     console.log(data);
     var CustomerReferenceID = "";
-  	if(data!=null){
+    if(data!=null){
+      var newresponse = {};
+      var newdata= [];
+      for(i = 0; i< data.length; i++) {
+         newresponse.CustomerReferenceID=0;
+         newresponse.QuoteId=0;
+         newresponse.PolicyTermYear=1;
+         newresponse.PlanName = data[i].Plantitl;
+         newresponse.InsurerName = data[i].InsuShorName;
+         newresponse.InsurerLogoName="";
+         newresponse.ProductName = data[i].ProdName;
+         newresponse.PlanID = data[i].PlanID;
+         newresponse.ZoneID = 0;
+         newresponse.OtherPlanID = "";
+         newresponse.ProdID = data[i].ProdID;
+         newresponse.InsurerId = data[i].InsuID;
+         newresponse.ServiceTax = 0;
+         newresponse.SumInsured = data[i].SumInsu;
+         newresponse.HMBValue = "";
+         newresponse.IsOnlinePayment = 0;
+         newresponse.KeyFeatures = "";
+         newresponse.BroucherDownloadLink = "";
+         newresponse.Discount = 0;
+         newresponse.Deductible_Amount = data[i].Deductible;
+         newresponse.NetPremium = data[i].FinalPremium;
+         newresponse.GrossPremium = 0;
+         newresponse.DiscountPercent ="";
+         newresponse.Premium = "";
+         newresponse.Group_name = "";
+         newresponse.QuoteStatus = "";
+         newresponse.ProposerPageUrl = "";
+         newresponse.pincode = data[i].pincode;
+         newresponse.FinalProductID = data[i].FinalProductID;
+         newresponse.BasicPremium = data[i].GrossPremium;
+         newresponse.GrossPremiumStep = data[i].GrossPremium;
+         newresponse.LstbenfitsFive =data[i].LstbenfitsAll;
+         // console.log("..............................");
+         // console.log(data[i].LstbenfitsFive);
+         newdata.push(newresponse);
+      }
+
+      console.log(newdata);
+      //res.send(newdata);
       var uniqueInsurerId = [];
       var uniqueData = [];
       var remainingData = [];
-      for(i = 0; i< data.length; i++){
-        CustomerReferenceID = data[0].CustomerReferenceID;
-          if(uniqueInsurerId.indexOf(data[i].InsurerId) === -1){
-            if(data[i].QuoteStatus == "Success"){
-                uniqueInsurerId.push(data[i].InsurerId);
-                uniqueData.push(data[i]);
-              }
-          }else{
-             if(data[i].QuoteStatus == "Success"){
-                remainingData.push(data[i]);
-              }
+      for(i = 0; i< newdata.length; i++){
+        CustomerReferenceID =0;// data[0].CustomerReferenceID;
+          if(uniqueInsurerId.indexOf(newdata[i].InsurerId) === -1){
+                uniqueInsurerId.push(newdata[i].InsurerId);
+                uniqueData.push(newdata[i]);
+          }else{            
+                remainingData.push(newdata[i]);              
           }
       }
 
       var final = {"header" :uniqueData , "child" : remainingData};
+      console.log(".............");
       console.log(final);
       //base.send_response("success",final,res);
 
-      manageHealthRequest(req, res, next,final,CustomerReferenceID);	  	
+     manageHealthRequest(req, res, next,final,CustomerReferenceID);      
 
-  	}
-  	else{
-  		base.send_response("failure",data, res);
-  	}
-  },2);
+    }
+    else{
+      base.send_response("failure",data, res);
+    }
+  },8);
 }
 
 
@@ -112,15 +197,18 @@ parameter.push(req.body.HealthRequest.SumInsured);
 parameter.push(req.body.HealthRequest.SupportsAgentID);
 parameter.push(req.body.fba_id);
 parameter.push(req.body.agent_source);
+
 //console.log("Length:"+req.body.HealthRequest.MemberList.length);
 var memberlist = "";
 for (var i = 0; i < req.body.HealthRequest.MemberList.length; i++) {
    memberlist += req.body.HealthRequest.MemberList[i].MemberDOB +","+req.body.HealthRequest.MemberList[i].MemberGender +","+req.body.HealthRequest.MemberList[i].MemberNumber +","+req.body.HealthRequest.MemberList[i].MemberType +","+req.body.HealthRequest.MemberList[i].MemberTypeID +"|";
  } 
  parameter.push(memberlist);
+ parameter.push(req.body.HealthRequest.pincode);
 //console.log(parameter);
-
-  con.execute_proc('call ManageHealthRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+console.log("...............2435.............");
+  con.execute_proc('call ManageHealthRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+    console.log("............................");
     console.log(data[0][0]);
     if(data[0][0].SavedStatus=="0"){
       var response = {
@@ -240,10 +328,87 @@ var setQuoteToApplicationHealthRequest = function(req, res, next) {
 };
 
 
+var GetCompareBenefits = function (req, res, next) {
+wrapper('/WMDataservice/api/HealthInsurance/GetCompareBenefits', 'POST', {
+   "StrProdBeneID": req.body.StrProdBeneID,
+  "IFAID": "27bgc7eiR5RoCV5xXvTcTQ==",
+  }, function(data) {
+     //console.log(data);
+     if(data!=null && data.length>0){
+        base.send_response("Success", data,res);    
+     }
+     else{
+        base.send_response("Failed to fetch", null,res);
+     }
+  },8);
+};
+
+var ComparePremium = function (req, res, next) {
+    var helth_req_id = [];
+    helth_req_id.push(req.body.HealthRequestId);
+    // helth_req_id.push(req.body.PlanID);
+    console.log(helth_req_id);
+    var getcomparedata;
+
+  con.execute_proc('call get_compare_premium(?)',helth_req_id,function(response) {
+    if(response!=null){
+wrapper('/quotes/api/SmartHealth', 'POST', {
+    CityID: response[0][0].CityID,
+    PlanID: req.body.PlanID,
+    HealthRequestId: req.body.HealthRequestId,
+    ContactEmail: response[0][0].ContactEmail,
+    ContactMobile: response[0][0].ContactMobile,
+    ContactName: response[0][0].ContactName,
+    DeductibleAmount: 0,
+    ExistingCustomerReferenceID: 0,
+    HealthType: "Health",
+    MaritalStatusID: response[0][0].MaritalStatusID,
+    MemberList: JSON.parse(response[0][0].MemberList),
+    PolicyFor: response[0][0].PolicyFor,
+    PolicyTermYear: 1,
+    ProductID: 2,
+    SessionID: "",
+    SourceType: "APP",
+    SumInsured: response[0][0].SumInsured,
+    SupportsAgentID: 2
 
 
+  }, function(data) {
+    console.log("test");
+   console.log(data);
+    if(data!=null && data.length>0){
+      var compare_premium_parameter = [];
+      compare_premium_parameter.push(req.body.HealthRequestId);
+      compare_premium_parameter.push(data[0].CustomerReferenceID);
+      con.execute_proc('call compare_premium(?,?)',compare_premium_parameter,function(responsedata) {
+        if(responsedata[0][0].SavedStatus == "0"){
+          if(data[0].QuoteStatus == "Success"){
+          var response={
+            NetPremium : data[0].NetPremium,
+            ProposerPageUrl : data[0].ProposerPageUrl,
+          }
+          base.send_response("Success",response,res);
+        }
+        else{
+          base.send_response("Failure", null,res);        
+        }
+      }else{
+          base.send_response("Failure", null,res);        
+        }
+      });
+    }
+    else{
+        base.send_response("failure",null, res);
+    }
+  },2);
+console.log('done');
+     //   base.send_response("Success",response,res);
+    }else{
+         base.send_response("failure",null,res);
+    }
+  
+  });
 
+};
 
-// });
-
-module.exports = {"smarthealth":smarthealth,"getHealthRequest":getHealthRequest,"deleteHealthRequest":deleteHealthRequest,"setQuoteToApplicationHealthRequest":setQuoteToApplicationHealthRequest};
+module.exports = {"smarthealth":smarthealth,"getHealthRequest":getHealthRequest,"deleteHealthRequest":deleteHealthRequest,"setQuoteToApplicationHealthRequest":setQuoteToApplicationHealthRequest,"GetCompareBenefits":GetCompareBenefits,"ComparePremium":ComparePremium};

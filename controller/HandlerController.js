@@ -6,7 +6,7 @@ HandelerController.validateimage = function (req, percent) {
 		return null;
 	}
 	else{
-		var image = req.headers.host + "/images/progress/"+ percent + ".png";
+		var image ="http://"+ req.headers.host + "/images/progress/"+ percent + ".png";
 		console.log(image);
 		return image;
 	}

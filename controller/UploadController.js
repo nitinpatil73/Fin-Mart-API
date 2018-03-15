@@ -33,7 +33,7 @@ class UploadController{};
           doc_param.push(req.body.RBID?req.body.RBID:0);
           doc_param.push(req.body.PBID?req.body.PBID:0);
           doc_param.push(req.file.filename);
-
+          console.log(doc_param);
           con.execute_proc('call upload_doc(?,?,?,?,?)',doc_param,function(data) {
             //res.send(data);
               if(data!=null){

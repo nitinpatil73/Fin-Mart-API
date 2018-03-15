@@ -4,14 +4,24 @@ var app = require('./wrapper.js');
 
 var pospregistration = function(req, res, next) {
 
-
-if()
-	//GetProdPriceDeta(7400032);
 	con.execute_proc('call sp_Ins_UpPOSPInfo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',POSPRegistration(req),function(respdata) {
 		console.log(respdata[0]);
 		if(respdata[0][0].SavedStatus == 0){
 			console.log(respdata[0]);
-			SaveFBADetaPolicyBoss(req,res,next);
+			if(req.body.POSPID && req.body.POSPID>0 && req.body.Link){
+				// respdata[0][0].PaymentURL = "http://rupeeboss.com";
+				// respdata[0][0].PospNo = "377";
+				base.send_response(respdata[0][0].Message, respdata[0][0] ,res);				
+			}
+			else if(req.body.POSPID && !req.body.Link){
+				//Call Link
+			}
+			else if(!req.body.POSPID && req.body.Link){
+
+			}
+			else {
+				SaveFBADetaPolicyBoss(req,res,next);
+			}
 			//base.send_response(respdata[0][0].Message, respdata[0][0] ,res);
 		}
 		else{
@@ -110,7 +120,7 @@ function SaveFBADetaPolicyBoss(req,res,next){
 
 					console.log(respdata[0]);
 					if(respdata[0][0].SavedStatus == 0){
-						GetProdPriceDeta(respdata[0][0].CustID,respdata[0][0].MobiNumb1,respdata[0][0].FullName,respdata[0][0].EmailID,req.body.FBAID,res);				
+						GetProdPriceDeta(respdata[0][0].CustID,respdata[0][0].MobiNumb1,respdata[0][0].FullName,respdata[0][0].EmailID,req.body.FBAID,res,data);				
 					}
 					else{
 							base.send_response(respdata[0][0].Message, null,res);				
@@ -132,7 +142,7 @@ function POSPRegistration(req){
 	else{
 		representation.push(0);
 	}
-	representation.push(req.body.Posp_FirstName + req.body.Posp_LastName );//p_POSPPAN  varchar(10),
+	representation.push(req.body.Posp_FirstName + " " +req.body.Posp_LastName );//p_POSPPAN  varchar(10),
 	representation.push(req.body.Posp_PAN );//p_POSPPAN  varchar(10),
 	representation.push(req.body.Posp_Aadhaar);//p_POSPAadhaar  varchar(15),
 	representation.push(req.body.Posp_BankAcNo);//p_POSPBankAccNo  varchar(20),
@@ -180,7 +190,7 @@ function POSPRegistration(req){
 	
 }
 
-function GetProdPriceDeta(CustID,mobileno,custname,emailid,fbaid,res) {
+function GetProdPriceDeta(CustID,mobileno,custname,emailid,fbaid,res,pospno) {
 app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
 		"ProdID": "501",
 		"CustID": CustID,
@@ -200,7 +210,7 @@ app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
 	  		if(message.Status=="1"){
 	  			var amount = message.TotalAmt;	 
 	  			console.log("amount:"+amount); 		
-	  			PaymentDataRequest(CustID,amount,mobileno,custname,emailid,fbaid,res);
+	  			PaymentDataRequest(CustID,amount,mobileno,custname,emailid,fbaid,res,pospno);
 	  		}
 	  		else{
 	  			base.send_response("Invalid response in GetProdPriceDeta", null,res);
@@ -216,9 +226,9 @@ app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
 
 // "FailResp": "http://sales.datacompwebtech.com/GatewayResponse/DWTFailed.aspx",
 
-function PaymentDataRequest(CustID,totalamount,mobileno,custname,emailid,fbaid,res) {
+function PaymentDataRequest(CustID,totalamount,mobileno,custname,emailid,fbaid,res,pospno) {
 
-	var resdata_new={
+	/*var resdata_new={
 	  "Amount": 590,
 	  "ProdID": 501,
 	  "MRP": 500,
@@ -253,7 +263,7 @@ function PaymentDataRequest(CustID,totalamount,mobileno,custname,emailid,fbaid,r
 	  "AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
   "AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
 	};
-	console.log(resdata_new);
+	console.log(resdata_new);*/
 app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
 	  "Amount": 590,
 	  "ProdID": 501,
@@ -307,6 +317,7 @@ console.log(data);
 	  			con.execute_proc('call sp_InsPaymentlink(?,?,?,?,?)',parameter,function(respdata) {
 	  				console.log(respdata);
 					if(respdata[0][0].SavedStatus == 0){
+						message.POSPNo = pospno;
 						base.send_response("Success", message,res);
 					}
 					else{
@@ -330,13 +341,27 @@ var GetPOSPDetails = function(req, res, next){
 		var GetPOSPDetailsParameter = [];
 		GetPOSPDetailsParameter.push(req.body.FBAID);	//
 		console.log(GetPOSPDetailsParameter);
-		con.execute_proc('call GetPOSPDetails(?)',GetPOSPDetailsParameter,function(data) {
-			if(data!=null){
-				base.send_response("Success", data[0],res);		
+		con.execute_proc('call GetPOSPDetails(?)',GetPOSPDetailsParameter,function(data) {	
+			if(data!=null && data[0].length>0){
+			 var doc_available = data[1];		
+			 var response = data[0];
+			for (var i = 0 ; i < data[1].length; i++) {
+				
+				if(data[1][i].FileName!=null &&data[1][i].FileName!=""){
+					console.log(data[1][i].FileName+"-----------------");
+					data[1][i].FileName ="http://"+ req.headers.host + "/upload/"+ data[1][i].FileName;
+				}				
 			}
-			else{
-				base.send_response("No data found",null,res);
-			}		
+			console.log(response[0].Posp_Profile_Url);
+			if(response[0].Posp_Profile_Url !=null && response[0].Posp_Profile_Url!=""){
+				response[0].Posp_Profile_Url ="http://"+  req.headers.host + "/upload/"+ response[0].Posp_Profile_Url;
+			} 
+			 response[0].doc_available = doc_available;
+			base.send_response("Success",response,res);
+		}
+		else{
+			base.send_response("No POSP Found", null,res);
+		}	
    	});
 }
 
