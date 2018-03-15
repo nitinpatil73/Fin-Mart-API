@@ -18,4 +18,18 @@ var UserNotificationOpen = function(req, res, next){
    	});
 }
 
-module.exports = {"UserNotificationOpen":UserNotificationOpen};
+var GetNotificationList = function(req, res, next){
+		var GetNotificationList = [];
+		GetNotificationList.push(req.body.FBAID);	//
+		console.log(GetNotificationList);
+		con.execute_proc('call GetNotificationList(?)',GetNotificationList,function(data) {
+		if(data!=null && data[0].length>0){
+			base.send_response("Success", data[0],res);		
+		}
+		else{
+			base.send_response("No data found",null,res);
+		}
+   	});
+}
+
+module.exports = {"UserNotificationOpen":UserNotificationOpen,"GetNotificationList":GetNotificationList};

@@ -25,8 +25,9 @@ parameter.push(req.body.PersonalLoanRequest.LoanTenure);
 parameter.push(req.body.PersonalLoanRequest.api_source);
 parameter.push(req.body.PersonalLoanRequest.empcode);
 parameter.push(req.body.PersonalLoanRequest.Contact);
+parameter.push(req.body.PersonalLoanRequest.panno);
 console.log(parameter);
-con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
 	console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);

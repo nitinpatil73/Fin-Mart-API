@@ -18,7 +18,7 @@ BalanceTransferparameter.push(req.body.BLLoanRequest.loanterm);
 BalanceTransferparameter.push(req.body.BLLoanRequest.Type);
 BalanceTransferparameter.push(req.body.BLLoanRequest.product_id);
 BalanceTransferparameter.push(req.body.FBA_id);
-BalanceTransferparameter.push(req.body.BLLoanRequest.LoaniD);	//
+BalanceTransferparameter.push(req.body.BLLoanRequest.LoanID);	//
 BalanceTransferparameter.push(req.body.BLLoanRequest.Bank_Id);
 BalanceTransferparameter.push(req.body.BLLoanRequest.email);
 BalanceTransferparameter.push(req.body.BLLoanRequest.contact);
@@ -30,7 +30,7 @@ con.execute_proc('call ManageBalanceTransfer(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',Balan
 	console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
-		base.send_response("Success", data[0][0],res);
+		base.send_response("Success", data[0],res);
 	}
 	else{
 		base.send_response("Failure", "",res);				

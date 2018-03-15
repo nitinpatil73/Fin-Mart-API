@@ -8,6 +8,7 @@ var UpdateQuotStatus = function(req, res, next) {
 		parameter.push(req.body.QuotId);	
 		parameter.push(req.body.TranType);
 		parameter.push(req.body.QuotStat);
+
 		con.execute_proc('call UpdateQuotStatus(?,?,?,?)',parameter,function(data) {
 			console.log(data);
 	      if(data[0][0].SavedStatus=="0"){
@@ -98,7 +99,13 @@ var UpdateQuoteToApplicationStatus = function(req, res, next) {
 		parameter.push(req.body.QuotId);	
 		parameter.push(req.body.TranType);
 		parameter.push(req.body.QuotStat);
-		con.execute_proc('call UpdateQuoteToApplicationStatus(?,?,?,?)',parameter,function(data) {
+		if(req.body.ApplNumb){
+			parameter.push(req.body.ApplNumb);
+		}
+		else{
+			parameter.push(null);	
+		}
+		con.execute_proc('call UpdateQuoteToApplicationStatus(?,?,?,?,?)',parameter,function(data) {
 			console.log(data);
 	      if(data[0][0].SavedStatus=="0"){
 	        base.send_response("Success", data[0],res);

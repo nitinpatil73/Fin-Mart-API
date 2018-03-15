@@ -39,6 +39,10 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
 		SetCustomerId(data[0][0].FBAID,req, res, next);
+		var handler = require('../controller/SMSController');
+		var msg = "Dear " + req.body.FirstName + " " + req.body.LastName + " Welcome to Magic Finmart. Your Magic Finmart UserName is :" +req.body.EmailId +" and Password is :"+req.body.password;
+		handler.sendMessage(req.body.Mobile_1,msg);
+				
 		base.send_response(data[0][0].Message, data[0][0] ,res);
 	}
 	else{
@@ -122,7 +126,9 @@ var converteddata = {
   , function(data) {
   	console.log("LoanId"+data.result);
   	if(data.statusId == 0){
+
   		UpdateLoanId(FBAID,data.result);
+  		
   	}
   	else{
 		var loan = new RBLog({ FBAId: FBAID,RequestString:req.body,IsActive:true });
