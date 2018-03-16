@@ -6,14 +6,14 @@ var GetConstantData = function(req, res, next){
 		GetConstantData.push(req.body.FBAID);		
 		con.execute_proc('call Get_Constant_Data(?)',GetConstantData,function(data) {
 		if(data!=null){
-			console.log(data[0].length);
-			var response = [];
-			for (var i = 0; i < data[0].length; i++) {
-				console.log(data[0][i].ConstantName );
-				response.push({data[0][i].ConstantName,data[0][i].ConstantValue});// = data[0][i].ConstantValue;
+			// console.log(data[0].length);
+			// var response = [];
+			// for (var i = 0; i < data[0].length; i++) {
+			// 	console.log(data[0][i].ConstantName );
+			// 	response.push({data[0][i].ConstantName,data[0][i].ConstantValue});// = data[0][i].ConstantValue;
 				
-			}
-			console.log(response);
+			// }
+			// console.log(response);
 			base.send_response("Success", data[0],res);		
 		}
 		else{
