@@ -17,7 +17,7 @@ con.execute_proc('call CreateOTPTransaction(?,?,?,?,?)',opt,function(data) {
 			if(data[0][0].MobileOTP){
 				console.log("Your One Time Password(OTP) for Magic Finmart is "+ data[0][0].MobileOTP + ". PLEASE DO NOT SHARE THE OTP WITH ANYONE.");
 				//sms(req.body.MobileNo,"Your One Time Password(OTP) for Magic Finmart is "+ data[0][0].MobileOTP + ". PLEASE DO NOT SHARE THE OTP WITH ANYONE.");
-				var handler = require('../controller/SmsController');
+				var handler = require('../controller/SMSController');
 				handler.sendMessage(req.body.MobileNo,"Your One Time Password(OTP) for Magic Finmart is "+ data[0][0].MobileOTP + ". PLEASE DO NOT SHARE THE OTP WITH ANYONE.");
 				
 			}

@@ -1,7 +1,8 @@
 var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
 var wrapper = require('./wrapper.js');
-class SmsController{};
+const https = require('http');
+class SMSController{};
 //for sending OTP
 SMSController.sendMessage = function (phoneno, message) {
 https.get("http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]="+phoneno+"&message[]="+message, (resp) => {
@@ -9,7 +10,7 @@ https.get("http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&
  });
 };
 
-SmsController.send = function (req, res, next) {
+SMSController.send = function (req, res, next) {
 	group=req.body.group_id;
 	if(!group){
 		 base.send_response("group id required",null,res);
@@ -103,4 +104,4 @@ function get_curr_dateTime(){
     }
     return year + "-" + month + "-" + day+" "+dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
 }
-module.exports=SmsController;
+module.exports=SMSController;
