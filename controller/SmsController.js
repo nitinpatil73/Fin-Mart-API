@@ -2,6 +2,13 @@ var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 class SmsController{};
+//for sending OTP
+SMSController.sendMessage = function (phoneno, message) {
+https.get("http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]="+phoneno+"&message[]="+message, (resp) => {
+
+ });
+};
+
 SmsController.send = function (req, res, next) {
 	group=req.body.group_id;
 	if(!group){
