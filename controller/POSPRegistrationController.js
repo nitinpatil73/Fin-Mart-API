@@ -8,18 +8,12 @@ var pospregistration = function(req, res, next) {
 		console.log(respdata[0]);
 		if(respdata[0][0].SavedStatus == 0){
 			console.log(respdata[0]);
-			if(req.body.POSPID && req.body.POSPID>0 && req.body.Link){
+			if(req.body.POSPID && req.body.POSPID>0){
 				// respdata[0][0].PaymentURL = "http://rupeeboss.com";
 				// respdata[0][0].PospNo = "377";
 				base.send_response(respdata[0][0].Message, respdata[0][0] ,res);				
 			}
-			else if(req.body.POSPID && !req.body.Link){
-				//Call Link
-			}
-			else if(!req.body.POSPID && req.body.Link){
-
-			}
-			else {
+			else{
 				SaveFBADetaPolicyBoss(req,res,next);
 			}
 			//base.send_response(respdata[0][0].Message, respdata[0][0] ,res);
@@ -142,7 +136,7 @@ function POSPRegistration(req){
 	else{
 		representation.push(0);
 	}
-	representation.push(req.body.Posp_FirstName + " " +req.body.Posp_LastName );//p_POSPPAN  varchar(10),
+	representation.push(req.body.Posp_FirstName + " " + req.body.Posp_LastName );//p_POSPPAN  varchar(10),
 	representation.push(req.body.Posp_PAN );//p_POSPPAN  varchar(10),
 	representation.push(req.body.Posp_Aadhaar);//p_POSPAadhaar  varchar(15),
 	representation.push(req.body.Posp_BankAcNo);//p_POSPBankAccNo  varchar(20),

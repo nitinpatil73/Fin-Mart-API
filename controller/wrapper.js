@@ -1,4 +1,3 @@
-
 "use strict";
 var https = require('http');
 //1->vehicleinfo.policyboss.com
@@ -24,9 +23,9 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
   }
   else if(hosttype == 6) {
     hostname = "api.rupeeboss.com";
-  }
-  else if(hosttype == 7) {
-    hostname = "vas.mobilogi.com";
+  
+  }else if(hosttype==7){
+    hostname="http://vas.mobilogi.com";
   }
 else if(hosttype == 8) {
     hostname = "demo.fundzmagiconline.com";

@@ -401,6 +401,11 @@ router.post('/getTicketRequest', function (req, res, next) {
   Ticketdtls(req,res,next);
  
 });
+router.post('/send-sms', function (req, res, next) {
+  var SMS = require('../controller/SmsController');
+  SMS.send(req,res);
+ 
+});
 
 
 module.exports = router;
