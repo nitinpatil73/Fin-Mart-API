@@ -3,6 +3,9 @@ var con=require('../bin/dbconnection.js');
 var base = require('./baseController');
 var store_path='./public/uploads';
 class UploadController{};
+String.prototype.replaceAll = function(target, replacement) {
+  return this.split(target).join(replacement);
+};
 UploadController.save=function(req,res){
   var multer  = require('multer');
 
@@ -28,25 +31,32 @@ UploadController.save=function(req,res){
         //throw err;
       }
       var path = require( 'path' )
-      var destination = store_path+"/"+ req.body.FBAID+"/"+req.file.filename;
-      var source=store_path+"/"+req.file.filename;
+      var fbaid=req.body.FBAID;
+      fbaid=fbaid.replaceAll('"',"");
+      var filename=(req.file.filename).replaceAll('"',"");
+      var destination = store_path+"/"+ fbaid+"/"+filename;
+      var DocName=(req.body.DocName).replaceAll('"',"")
+      var RBID=req.body.RBID?req.body.RBID.replaceAll('"',""):0;
+      var PBID=req.body.PBID?req.body.PBID.replaceAll('"',""):0;
+      var source=store_path+"/"+filename;
+      var DocType=(req.body.DocType).replaceAll('"',"")
       //console.log(source);
       //console.log(destination);
 
       //make a folder with fbaid in current folder and move file with new name as docType
-       move(source,req.body.FBAID,req.body.DocName,function(err){
+       move(source,fbaid,DocName,function(err){
          //console.log("-------------------------------moved")
          if(err)
            base.send_response("Upload failed",null,res);
          else
            {
                      var extension = source.split(".");
-                    newFilePath="uploads/"+req.body.FBAID+"/"+req.body.DocName+"."+extension[extension.length-1];
+                    newFilePath="uploads/"+fbaid+"/"+DocName+"."+extension[extension.length-1];
                     var doc_param=[];
-                    doc_param.push(req.body.FBAID);
-                    doc_param.push(req.body.DocType);
-                    doc_param.push(req.body.RBID?req.body.RBID:0);
-                    doc_param.push(req.body.PBID?req.body.PBID:0);
+                    doc_param.push(fbaid);
+                    doc_param.push(DocType);
+                    doc_param.push(RBID);
+                    doc_param.push(PBID);
                     doc_param.push(newFilePath);
                     //console.log("proc calling")
                     con.execute_proc('call upload_doc(?,?,?,?,?)',doc_param,function(data) {
