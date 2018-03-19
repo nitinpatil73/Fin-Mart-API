@@ -378,12 +378,21 @@ router.post('/compare-premium', function(req, res, next) {
 router.post('/quick-lead', function(req, res, next) {
   var quicklead=require('../controller/QuickleadController');
     quicklead.QuickLead(req,res,next);
+<<<<<<< HEAD
+=======
+});
+
+router.post('/set-loan-id', function(req, res, next) {
+  var loan=require('../controller/PendingController');
+    loan.GetLoanID(req,res,next);
+>>>>>>> 4fe1ab7076add994bede33b65b0d3421e054c9e6
 });
 router.post('/send-sms', function (req, res, next) {
-  var SMS = require('../controller/SmsController');
+  var SMS = require('../controller/SMSController');
   SMS.send(req,res);
  
 });
+<<<<<<< HEAD
 
 router.post('/set-loan-id', function(req, res, next) {
   var loan=require('../controller/PendingController');
@@ -401,9 +410,13 @@ router.post('/send-notification', function (req, res, next) {
   sendnoti(req,res,next);
 });
 
-router.post('/get-premium', function (req, res, next) {
-  var predata = require('../controller/PremiumController');
-  predata.PremiumParameter(req,res,next);
+
+router.post('/premium-initiate-wrapper',function(req,res,next){
+  vehicle.premiumInitiateWrapper(req,res);
+});
+router.post('/premium-list-db-wrapper',function(req,res,next){
+  vehicle.premiumListDbWrapper(req,res);
+
 });
 
 module.exports = router;
