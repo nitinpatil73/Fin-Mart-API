@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var app=express();
-var cors=require("cors")
 var con=require('../bin/dbconnection.js');
 var User = require('../model/user.js');
 var getvehicalcity = require('../controller/getvehiclecity');
@@ -14,6 +12,7 @@ var otp=require('../controller/OTPController');
 var CityAndState = require('../controller/CityAndState');
 var insurancecompany = require('../controller/ProfessionalInfoController');
 var vehicle = require('../controller/VehicleController');
+
 var posp = require('../controller/POSPRegistrationController');
 
 
@@ -29,11 +28,6 @@ var base = require('../controller/baseController');
 
 var login = require('../controller/LoginController');
 var personalloan = require('../controller/PersonalLoanController');
-
-
-app.use(cors());
-
-
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -194,13 +188,6 @@ router.post('/delete-personal-loan-request', function(req, res, next) {
   personalloan.deletePersonalLoan(req,res,next);
 });
 
-// insert backoffice logs
-
-router.post('/insert-dc-logs', function(req, res, next) {
-  let backofficelogs = require('../controller/BOLogsController');
-  backofficelogs(req,res,next);
-});
-
 //get smart health request
 router.post('/get-smart-health', function(req, res, next) {
     smarthealth.getHealthRequest(req,res,next);
@@ -238,22 +225,15 @@ router.post('/update-posp-status', function(req, res, next) {
     transaction.UpdatePOSPStatus(req,res,next);
 });
 
-//Update payment info. This will be triggered from http://sales.datacompwebtech.com/
-router.post('/AddPaymentInfo', function(req, res, next) {
-    var transaction = require('../controller/TransactionController');
-    transaction.AddPaymentInfo(req,res,next);
-});
-
 router.post('/update-bank-id', function(req, res, next) {
   var transaction = require('../controller/TransactionController');
-  transaction.UpdateBankId(req,res,next);
+   transaction.UpdateBankId(req,res,next);
 });
 
 router.post('/quote-to-application-status', function(req, res, next) {
   var transaction = require('../controller/TransactionController');
   transaction.UpdateQuoteToApplicationStatus(req,res,next);
 });
-
 
 router.post('/my-account', function(req, res, next) {
   var fbaupdate = require('../controller/MyAccountController');
@@ -290,6 +270,11 @@ router.post('/sales-material-product', function(req, res, next) {
   salesmaterial.GetSalesMaterial(req,res,next);
 });
 
+router.post('/sales-material-product-details', function(req, res, next) {
+  var salesmaterial = require('../controller/SalesMaterialController');
+  salesmaterial.GetSalesMaterialDocs(req,res,next);
+});
+
 router.post('/delete-pending-cases', function(req, res, next) {
   var PendingCase = require('../controller/PendingCaseController');
   PendingCase.DeleteQuoteFromPendingCase(req,res,next);
@@ -303,6 +288,21 @@ router.post('/update-referer-code', function(req, res, next) {
 router.post('/contact-us', function(req, res, next) {
   var contact = require('../controller/ContactusController');
   contact(req,res,next);
+});
+
+// insert backoffice logs
+
+router.post('/insert-dc-logs', function(req, res, next) {
+  let backofficelogs = require('../controller/BOLogsController');
+  backofficelogs(req,res,next);
+});
+//fba doc upload
+router.post('/upload-doc', function (req, res, next) {
+  let Upload = require('../controller/UploadController');
+  //console.log(req.body);
+
+  Upload.save(req,res);
+ 
 });
 
 router.post('/update-notification', function(req, res, next) {
@@ -325,87 +325,72 @@ router.post('/get-credit-card-data', function(req, res, next) {
   creditcard.getCreditCardData(req,res,next);
 });
 
-//fba doc upload
- 
-router.post('/upload-doc', function (req, res, next) {
-  let Upload = require('../controller/UploadController');
-  //console.log(req.body);
-
-  Upload.save(req,res);
- 
+router.post('/get-ticket-categories', function (req, res, next) {
+  var ticket = require('../controller/RaiseATicketController');
+  ticket.getTicketCategories(req,res);
 });
 
-//done by shubham
-router.post('/insPersonalLoanApplnDtls', function (req, res, next) {
-  var cc = require('../controller/CreditCardWrapperController');
-  cc.insPersonalLoanApplnDtls(req,res);
- 
-}); 
+router.post('/get-saved-creditcard-info', function(req, res, next) {
+  var creditcard = require('../controller/CreditCardController');
+  creditcard.getSavedCreditCardInfo(req,res,next);
+});
 
-router.post('/dsplypersonalloanDtls', function (req, res, next) {
-  var loanDtls = require('../controller/CreditCardWrapperController');
-  loanDtls.dsplypersonalloanDtls(req,res);
- 
+router.post('/get-rbl-city', function(req, res, next) {
+  var creditcard = require('../controller/CreditCardController');
+  creditcard.getRBLCity(req,res,next);
 });
-router.post('/insHomeLoanApplnDtls', function (req, res, next) {
-  var LoanApplnDtls = require('../controller/CreditCardWrapperController');
-  LoanApplnDtls.insHomeLoanApplnDtls(req,res);
- 
+
+router.post('/get-constant-data', function(req, res, next) {
+  var constant = require('../controller/ConstantController');
+  constant.GetConstantData(req,res,next);
 });
-router.post('/dsplyHomeloanDtls', function (req, res, next) {
-  var HomeloanDtls = require('../controller/CreditCardWrapperController');
-  HomeloanDtls.dsplyHomeloanDtls(req,res);
- 
+
+router.post('/get-notification-data', function(req, res, next) {
+  var notification = require('../controller/NotificationController');
+  notification.GetNotificationList(req,res,next);
 });
 
 
-router.post('/dsplyLAPDtls', function (req, res, next) {
-  var LAPDtls = require('../controller/CreditCardWrapperController');
-  LAPDtls.dsplyLAPDtls(req,res);
+router.post('/create-ticket', function (req, res, next) {
+  var ticket = require('../controller/RaiseATicketController');
+  ticket.createTicket(req,res);
  
 });
 
-router.post('/insLAPDtls', function (req, res, next) {
-  var insertlap = require('../controller/CreditCardWrapperController');
-  insertlap.insLAPDtls(req,res);
- 
+router.post('/get-ticket-request', function(req, res, next) {
+  var ticket=require('../controller/RaiseATicketController');
+  ticket.getTicketRequest(req,res,next);
+  // console.log(req.body.name);
 });
 
-router.post('/getPincodeData', function (req, res, next) {
-  var PincodeData = require('../controller/CreditCardWrapperController');
-  PincodeData.getPincodeData(req,res);
- 
-}); 
-router.post('/dsplyStateDtls', function (req, res, next) {
-  var statedtls = require('../controller/CreditCardWrapperController');
-  statedtls.dsplyStateDtls(req,res);
- 
-}); 
-router.post('/dsplybankDtls', function (req, res, next) {
-  var bankDtls = require('../controller/CreditCardWrapperController');
-  bankDtls.dsplybankDtls(req,res);
- 
+router.post('/credit-card-icici', function(req, res, next) {
+  var creditcard = require('../controller/CreditCardController');
+  creditcard.creditCardICICI(req,res,next);
 });
-router.post('/getbankDtlsbyIFSC', function (req, res, next) {
-  var IFSCbankDtls = require('../controller/CreditCardWrapperController');
-  IFSCbankDtls.getbankDtlsbyIFSC(req,res);
- 
+
+router.post('/GetCompareBenefits', function(req, res, next) {
+    smarthealth.GetCompareBenefits(req,res,next);
 });
-router.post('/sendnotification', function (req, res, next) {
-  var notdtls = require('../controller/sendnotification');
-  notdtls(req,res,next);
- 
+
+router.post('/compare-premium', function(req, res, next) {
+    smarthealth.ComparePremium(req,res,next);
 });
-router.post('/getTicketRequest', function (req, res, next) {
-  var Ticketdtls = require('../controller/getTicketRequest');
-  Ticketdtls(req,res,next);
- 
+router.post('/quick-lead', function(req, res, next) {
+  var quicklead=require('../controller/QuickleadController');
+    quicklead.QuickLead(req,res,next);
+});
+
+router.post('/set-loan-id', function(req, res, next) {
+  var loan=require('../controller/PendingController');
+    loan.GetLoanID(req,res,next);
 });
 router.post('/send-sms', function (req, res, next) {
-  var SMS = require('../controller/SmsController');
+  var SMS = require('../controller/SMSController');
   SMS.send(req,res);
  
 });
-
+router.post('/premium-initiate-wrapper',function(req,res,next){
+  vehicle.premiumInitiateWrapper(req,res);
+})
 
 module.exports = router;
