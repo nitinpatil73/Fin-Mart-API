@@ -7,6 +7,12 @@ var MPSControllerParameter = function (req, res, next, pospno) {
    fba_req_id.push(req.body.FBAID);
   con.execute_proc('call get_user_details_for_mps(?)',fba_req_id,function(response) {
     if(response!=null){
+      if(response[0][0].Link){
+        var resdata={
+          "PaymentURL": response[0][0].Link
+        };
+            base.send_response("success",resdata,res);
+      }else{
            app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
             "Amount": 1150,
             "ProdID": 512,
@@ -78,7 +84,8 @@ var MPSControllerParameter = function (req, res, next, pospno) {
               }
               
             },5);
-    }else{
+    }
+  }else{
          base.send_response("failure",null,res);
     }
 

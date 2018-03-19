@@ -5,6 +5,7 @@ var randomstring = require("randomstring");
 
 
 var creditCardRBL = function (req, res, next) {
+//saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email, req.body.Mobile,req.body.fba_id,"1","897",req.body.CardType,req.body.CreditCardDetailId);
 
 var brokerid = new Buffer(req.body.brokerid).toString('base64');
 console.log(brokerid);
@@ -48,7 +49,7 @@ wrapper('/BankAPIService.svc/createRBLCreditCardReq', 'POST', {
   			if(message.Errorcode==0){
     				var ApplnNo = message.ReferenceCode;	  			
   	  			console.log(ApplnNo);
-  	  			saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email, req.body.Mobile,req.body.fba_id,"1",ApplnNo,req.body.CardType);
+  	  			saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email, req.body.Mobile,req.body.fba_id,"1",ApplnNo,req.body.CardType,req.body.CreditCardDetailId);
   				  base.send_response("Thank you for choosing RBL Credit card. A has been sent to your registered Email id. Click on the link to upload your supporting documents.", message,res);	
     			 }
            else if(message.Errorcode==6){
@@ -90,7 +91,7 @@ var getCreditCardData = function(req, res, next){
    	});
 }
 
-function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,creditcardname){
+function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,creditcardname,CreditCardDetailId){
 		var parameter = [];
 		parameter.push(Name);		
 		parameter.push(Email);
@@ -99,7 +100,8 @@ function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,credi
 		parameter.push(CardType);
 		parameter.push(creditcardname);
 		parameter.push(ApplnNo);
-		con.execute_proc('call ManageCreditCardRequest(?,?,?,?,?,?,?)',parameter,function(data) {
+    parameter.push(CreditCardDetailId);
+		con.execute_proc('call ManageCreditCardRequest(?,?,?,?,?,?,?,?)',parameter,function(data) {
 			console.log(data);
    		});
 }
@@ -124,7 +126,6 @@ var getSavedCreditCardInfo = function(req, res, next){
 			base.send_response("No data found",null,res);
 		}	
    	});
-
 }
 
 var creditCardICICI = function (req, res, next) {
@@ -193,7 +194,7 @@ var parameter={
   "ICICIRelationshipNumber":req.body.ICICIRelationshipNumber
     };   
     console.log(parameter);
-wrapper('/BankAPIService.svc/PostIciciBank', 'POST', {
+    wrapper('/BankAPIService.svc/PostIciciBank', 'POST', {
 		 "_token": "NQmw3jBZbZREEStAkGVZTby7eZqeWJEj4tf5UUET",
   "empid": "MAA=",
   "brokerid": brokerid,
@@ -260,7 +261,7 @@ wrapper('/BankAPIService.svc/PostIciciBank', 'POST', {
   			var message = JSON.parse(data);
   			var ApplnNo = message.ApplicationId;
         if(ApplnNo){
-              saveCreditCardRequest(req.body.ApplicantFirstName + " " + req.body.ApplicantMiddleName + " " +req.body.ApplicantLastName, req.body.work_email, req.body.ResidenceMobileNo,req.body.fba_id,"2",ApplnNo,req.body.CardType)
+              saveCreditCardRequest(req.body.ApplicantFirstName + " " + req.body.ApplicantMiddleName + " " +req.body.ApplicantLastName, req.body.work_email, req.body.ResidenceMobileNo,req.body.fba_id,"2",ApplnNo,req.body.CardType,req.body.CreditCardDetailId)
               base.send_response(message.Reason, message,res);
         }
         else{
