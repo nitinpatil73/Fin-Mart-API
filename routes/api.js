@@ -378,22 +378,17 @@ router.post('/compare-premium', function(req, res, next) {
 router.post('/quick-lead', function(req, res, next) {
   var quicklead=require('../controller/QuickleadController');
     quicklead.QuickLead(req,res,next);
-<<<<<<< HEAD
-=======
 });
 
 router.post('/set-loan-id', function(req, res, next) {
   var loan=require('../controller/PendingController');
     loan.GetLoanID(req,res,next);
->>>>>>> 4fe1ab7076add994bede33b65b0d3421e054c9e6
 });
 router.post('/send-sms', function (req, res, next) {
   var SMS = require('../controller/SMSController');
   SMS.send(req,res);
  
 });
-<<<<<<< HEAD
-
 router.post('/set-loan-id', function(req, res, next) {
   var loan=require('../controller/PendingController');
     loan.GetLoanID(req,res,next);
