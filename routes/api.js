@@ -391,6 +391,9 @@ router.post('/send-sms', function (req, res, next) {
 });
 router.post('/premium-initiate-wrapper',function(req,res,next){
   vehicle.premiumInitiateWrapper(req,res);
-})
+});
+router.post('/premium-list-db-wrapper',function(req,res,next){
+  vehicle.premiumListDbWrapper(req,res);
+});
 
 module.exports = router;

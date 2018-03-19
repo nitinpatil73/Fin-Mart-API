@@ -231,7 +231,21 @@ var premiumInitiateWrapper=function(req,res,next){
 	wrapper('/quote/premium_initiate', 'POST', 
     req.body
   , function(data) {
-  		if(data){
+  		if(data && data.Summary){
+
+  			base.send_response("Success",data.Summary,res);	
+  		}else{
+  			base.send_response("Failure",null,res);
+  		}
+  		
+  },1);
+}
+var premiumListDbWrapper=function(req,res,next){
+		wrapper('/quote/premium_list_db', 'POST', 
+    req.body
+  , function(data) {
+  		if(data ){
+
   			base.send_response("Success",data,res);	
   		}else{
   			base.send_response("Failure",null,res);
@@ -240,4 +254,4 @@ var premiumInitiateWrapper=function(req,res,next){
   },1);
 }
 
-module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest,"deactivateVehicleRequest":deactivateVehicleRequest,"premiumInitiateWrapper":premiumInitiateWrapper};
+module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest,"deactivateVehicleRequest":deactivateVehicleRequest,"premiumInitiateWrapper":premiumInitiateWrapper,"premiumListDbWrapper":premiumListDbWrapper};
