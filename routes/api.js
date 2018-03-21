@@ -413,5 +413,15 @@ router.post('/premium-list-db-wrapper',function(req,res,next){
   vehicle.premiumListDbWrapper(req,res);
 
 });
+router.post('/premium-list-db-wrapper',function(req,res,next){
+  vehicle.premiumListDbWrapper(req,res);
+
+});
+router.post('/payment',function(req,res,next){
+  var transaction = require('../controller/TransactionController');
+  transaction.AddPaymentInfo(req,res);
+});
+
+
 
 module.exports = router;
