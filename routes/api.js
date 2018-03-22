@@ -379,17 +379,16 @@ router.post('/compare-premium', function(req, res, next) {
 router.post('/quick-lead', function(req, res, next) {
   var quicklead=require('../controller/QuickleadController');
     quicklead.QuickLead(req,res,next);
+
 });
 
 router.post('/get-quick-lead', function(req, res, next) {
   var Deletequicklead=require('../controller/QuickleadController');
     Deletequicklead.DeleteOtherLoanLeadReqParameter(req,res,next);
+
 });
 
-router.post('/set-loan-id', function(req, res, next) {
-  var loan=require('../controller/PendingController');
-    loan.GetLoanID(req,res,next);
-});
+
 router.post('/send-sms', function (req, res, next) {
   var SMS = require('../controller/SMSController');
   SMS.send(req,res);
@@ -420,5 +419,15 @@ router.post('/premium-list-db-wrapper',function(req,res,next){
   vehicle.premiumListDbWrapper(req,res);
 
 });
+router.post('/premium-list-db-wrapper',function(req,res,next){
+  vehicle.premiumListDbWrapper(req,res);
+
+});
+router.post('/payment',function(req,res,next){
+  var transaction = require('../controller/TransactionController');
+  transaction.AddPaymentInfo(req,res);
+});
+
+
 
 module.exports = router;
