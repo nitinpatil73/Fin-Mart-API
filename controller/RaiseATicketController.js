@@ -31,7 +31,7 @@ var createTicket = function(req, res, next) {
 	con.execute_proc('call CreateATicket(?,?,?,?,?)',parameter,function(data) {
 
 	if(data[0][0].SavedStatus == 0){
-		base.send_response("Success", data[0],res);
+		base.send_response("Ticket raised successfully", data[0],res);
 	}
 	else{
 		base.send_response("Failure", null,res);
