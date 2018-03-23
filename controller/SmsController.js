@@ -5,6 +5,7 @@ const https = require('http');
 class SMSController{};
 //for sending OTP
 SMSController.sendMessage = function (phoneno, message) {
+  message=encodeURIComponent(message);
 https.get("http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]="+phoneno+"&message[]="+message, (resp) => {
 
  });
@@ -28,7 +29,7 @@ SMSController.send = function (req, res, next) {
                             update_msg_id(group,msg[1]);
                             base.send_response("Success",msg[1],res);
                         }
-                            //base.send_response("Failure",msg,res);
+                            base.send_response("Failure",msg,res);
                     });
 		});
             }
@@ -39,7 +40,8 @@ SMSController.send = function (req, res, next) {
 function send_sms(data,cb){
     //console.log("sendsm")
    var request = require('request');
-   var url='http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]='+data.mobile+'&message[]=test';
+   message=encodeURIComponent(data.msg);
+   var url='http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]='+data.mobile+'&message[]='+data.msg ;
    console.log(url);
    request(url, function (error, response, body) {
   if (!error && response.statusCode == 200) {
@@ -60,7 +62,7 @@ function get_mobiles_and_msg(data,cb){
                 mobiles+=",";
             }
           }
-	cb({mobile:mobiles,msg:data[0][0].mobileno});
+	cb({mobile:mobiles,msg:data[0][0].message});
 }
 function get_data(group,cb){
 	//curr=get_curr_dateTime();
