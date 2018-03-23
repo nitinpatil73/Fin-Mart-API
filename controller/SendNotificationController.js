@@ -4,7 +4,7 @@ var notificationwrapper = require('./sendnotificationWrapper.js');
 
 var sendnotification = function(req, res, next){
     var sendnotification = [];
-    console.log(sendnotification);
+   // console.log(sendnotification);
     con.execute_proc('call Usp_send_notification()',null,function(data) {
     if(data!=null)
     {
@@ -25,6 +25,7 @@ var sendnotification = function(req, res, next){
         };
 //console.log(notificationdata);
         sendNotificationToUser(notificationdata)
+
       }
             //console.log(message);
       //for (var i = 0 ; i < data[0][1].length; i++) {
@@ -39,12 +40,15 @@ var sendnotification = function(req, res, next){
 }
 
 function sendNotificationToUser (data) {
-  console.log("***********************************");
 notificationwrapper('/fcm/send', 'POST', 
   data
   , function(response) {
-    console.log("-----------------------------");
-     console.log(data);      
+    // console.log("********************");
+    // console.log(data.data.message_id);
+    var updateNotificationParameter=[];
+    updateNotificationParameter.push(data.data.message_id);
+    con.execute_proc('call Update_IsSend_After_SendNoti(?)',updateNotificationParameter,function(){
+    });    
   });
 };
 

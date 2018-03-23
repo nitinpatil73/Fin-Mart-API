@@ -40,7 +40,7 @@ function sendEmail(to,subject,text,htmlbody,res){
 
 	Mailer.send(email,function(status){
       if(status===1){
-     base.send_response("Success","Mail Send",res);
+     base.send_response("Success","Email has been sent on your registered Email address.",res);
       }else{
           base.send_response("Failure","",res);
       }
