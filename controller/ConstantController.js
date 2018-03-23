@@ -6,20 +6,24 @@ var GetConstantData = function(req, res, next){
 		GetConstantData.push(req.body.FBAID);		
 		con.execute_proc('call Get_Constant_Data(?)',GetConstantData,function(data) {
 		if(data!=null){
-			// console.log(data[0].length);
-			// var response = [];
-			// for (var i = 0; i < data[0].length; i++) {
-			// 	console.log(data[0][i].ConstantName );
-			// 	response.push({data[0][i].ConstantName,data[0][i].ConstantValue});// = data[0][i].ConstantValue;
-				
-			// }
-			// console.log(response);
-			base.send_response("Success", data[0],res);		
+			var response={
+			     "VersionCode":data[0][0].ConstantValue,
+				 "IsForceUpdate":data[0][1].ConstantValue,
+				 "PBNoOfHits":data[0][2].ConstantValue,
+				 "PBHitTime":data[0][3].ConstantValue,
+				 "ROIHLBL":data[0][4].ConstantValue,
+				 "ROIPLBL":data[0][5].ConstantValue,
+				 "ROILABL":data[0][6].ConstantValue,
+				 "POSPNo":data[0][7].ConstantValue,
+				 "POSPStat":data[0][8].ConstantValue,
+			};
+			base.send_response("Success",response,res);
 		}
 		else{
 			base.send_response("No data found",null,res);
 		}
    	});
+
 }
 
 
