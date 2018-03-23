@@ -91,4 +91,4 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
 //     } 
 //   },6);
 // };
-module.exports = {"QuickLead":QuickLead,"DeleteOtherLoanLeadReqParameter":DeleteOtherLoanLeadReqParameter,};
+module.exports = {"QuickLead":QuickLead};
