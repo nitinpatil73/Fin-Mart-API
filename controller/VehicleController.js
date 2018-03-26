@@ -56,7 +56,15 @@ vehicleparameter.push(req.body.motorRequestEntity.geo_lat);
 vehicleparameter.push(req.body.motorRequestEntity.geo_long);
 vehicleparameter.push(req.body.isActive);//
 vehicleparameter.push(req.body.SRN);//
-vehicleparameter.push(req.body.motorRequestEntity.agent_source);//
+vehicleparameter.push(req.body.motorRequestEntity.agent_source);
+vehicleparameter.push(req.body.motorRequestEntity.city);
+
+vehicleparameter.push(req.body.motorRequestEntity.app_version);
+vehicleparameter.push(req.body.motorRequestEntity.device_id);
+vehicleparameter.push(req.body.motorRequestEntity.erp_source);
+vehicleparameter.push(req.body.motorRequestEntity.mac_address);
+vehicleparameter.push(req.body.motorRequestEntity.insImage);
+
 
 
 
@@ -64,7 +72,7 @@ vehicleparameter.push(req.body.motorRequestEntity.agent_source);//
 console.log(vehicleparameter);
 
 
-con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
 	console.log(data);
@@ -181,12 +189,13 @@ else{
 	vehicleparameter.push(0);
 }
 vehicleparameter.push(req.body.selectedPrevInsID);
+vehicleparameter.push(req.body.p_insImage);
 
 // vehicleparameter.push(req.body.crn);
 
 console.log(vehicleparameter);
 
-	con.execute_proc('call QuoteToApplicationVehicle(?,?)',vehicleparameter,function(data) {
+	con.execute_proc('call QuoteToApplicationVehicle(?,?,?)',vehicleparameter,function(data) {
 		console.log(data[0][0]);
 		if(data[0][0].SavedStatus=="0"){
 			base.send_response("Success", data[0],res);
