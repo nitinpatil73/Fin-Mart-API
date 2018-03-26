@@ -427,6 +427,11 @@ router.post('/payment',function(req,res,next){
   var transaction = require('../controller/TransactionController');
   transaction.AddPaymentInfo(req,res);
 });
+router.post('/set-cust-id',function(req,res,next){
+  var CustomerId=require("../controller/CustomerIdController");
+  console.log("Manuaaly setting Cutomer Id ...............")
+  CustomerId.SetCustomerId(-1,req, res,1);  
+});
 
 
 

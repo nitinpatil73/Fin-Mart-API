@@ -289,77 +289,10 @@ var representation = [];
 }
 
  function SetCustomerId(fbaid,req, res, next) {
-	var inputInfo = {
-		CustType : "1",
-		Gender : req.body.Gender,// m for male ;f for female
-		CompName : "",// Company name
-		FirstName : req.body.FirstName,// "Sidheswar";
-		MiddleName : "",
-		LastName : req.body.LastName,//"Senapati";
-		Add1 : req.body.Address_1,// "jogeswari";
-		Add2 : req.body.Address_2, // "Mumbai";
-		Add3 : req.body.Address_3,// "Mumbai";
-		Pincode : req.body.PinCode,// "400062";
-		STDCode : "",
-		LandLine : "",
-		City : req.body.City,// "Mumbai";
-		Division : "",
-		Branch : "",
-		Mobile1 : req.body.Mobile_1,// "9938885469";
-		Mobile2 : req.body.Mobile_2,// "";
-		EmailId1 : req.body.EmailId,// "sidheswar@datacompwebtech.com";
-		EmailId2 : "",
-		DOB : req.body.DOB,// "06-Jun-1989";
-		MarrDate : "",
-		PartId : "0",
-		DOCode : "",
-		DOName : "",
-		Flag : "F",// For finmart
-		USERID : "0",
-		Rating : ""
-	};
-
-
-	var authenticateInputInfo = {
-		AppID : "171",
-		AppUSERID : "3OK92Dl/LwA0HqfC5+fCxw==",
-		AppPASSWORD : "BjLfd1dqTCyH1DQLhylKRQ=="
-	};
-
-
-    var soap = require('soap');
-    var url = 'http://magicsales.dwtsims.com/WCFServices/WCFServices.svc?wsdl';
-    var args = { "inputInfo" :inputInfo , "authenticateInputInfo" : authenticateInputInfo };
-    console.log(args);
-    var message = "success";
-    soap.createClient(url, function (err, client) {
-        client.CreateCustomer(args, function (err, result) {
-          if(err)
-          	console.log(err);
-          else
-          	{
-          		if(result){
-          			if(result.CreateCustomerResult.Status=="1"){
-          				var customer = [];
-						customer.push(result.CreateCustomerResult.CustID);
-						customer.push(fbaid);
-
-          				con.execute_proc('call sp_update_CustIdAndFOC(?,?)',customer,function(respdata) {
-							console.log(respdata);
-						});
-          			}
-          			else if(result.CreateCustomerResult.Status=="2"){
-          				console.log(result.CreateCustomerResult.MSG);
-          			}
-          			else{
-          				console.log(result.CreateCustomerResult.MSG);
-          			}
-          		}
-
-          	}
-        });
-    });
-        
+	var CustomerId=require("./CustomerIdController");
+	console.log("going to set Cutomer Id and FOC ...............")
+	CustomerId.SetCustomerId(fbaid,req, res);
+	next();   
 };
 
 module.exports = insertFBARegistration;
