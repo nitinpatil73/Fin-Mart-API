@@ -193,7 +193,7 @@ else{
 	vehicleparameter.push(0);
 }
 vehicleparameter.push(req.body.selectedPrevInsID);
-vehicleparameter.push(req.body.p_insImage);
+vehicleparameter.push(req.body.insImage);
 
 // vehicleparameter.push(req.body.crn);
 
