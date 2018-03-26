@@ -63,7 +63,7 @@ vehicleparameter.push(req.body.motorRequestEntity.app_version);
 vehicleparameter.push(req.body.motorRequestEntity.device_id);
 vehicleparameter.push(req.body.motorRequestEntity.erp_source);
 vehicleparameter.push(req.body.motorRequestEntity.mac_address);
-vehicleparameter.push(req.body.motorRequestEntity.insImage);
+vehicleparameter.push(req.body.insImage);
 
 
 
@@ -144,7 +144,9 @@ console.log(vehicleparameter);
 				"fba_id" : data[0][i].fba_id,
 				"isActive" : data[0][i].isActive,
 				"selectedPrevInsID" : data[0][i].selectedPrevInsID,
+				"insImage":data[0][i].insImage,
 				"motorRequestEntity" : data[0][i]
+				
 			};
 			quoteresponse.push(response);
 		}
@@ -158,7 +160,9 @@ console.log(vehicleparameter);
 				"fba_id" : data[1][i].fba_id,
 				"isActive" : data[1][i].isActive,
 				"selectedPrevInsID" : data[1][i].selectedPrevInsID,
+				"insImage":data[0][i].insImage,
 				"motorRequestEntity" : data[1][i]
+
 			};
 			applicationquote.push(response);
 		}
