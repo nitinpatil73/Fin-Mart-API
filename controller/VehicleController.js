@@ -160,7 +160,7 @@ console.log(vehicleparameter);
 				"fba_id" : data[1][i].fba_id,
 				"isActive" : data[1][i].isActive,
 				"selectedPrevInsID" : data[1][i].selectedPrevInsID,
-				"insImage":data[0][i].insImage,
+				"insImage":data[1][i].insImage,
 				"motorRequestEntity" : data[1][i]
 
 			};
