@@ -2,12 +2,12 @@ var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 class CustomerIdController{};
-CustomerIdController.SetCustomerId=function(fbaid,req, res, next) {
-
-	
+CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
+	var res_data=null;
+	var res_msg="failure";
 	pre_process_data(fbaid,req,function(inputInfo){
 		//console.log(inputInfo);
-			if(!inputInfo){base.send_response("Unable to build Customer ID", null,res);}
+			if(inputInfo){
 			var authenticateInputInfo = {
 				AppID : "171",
 				AppUSERID : "3OK92Dl/LwA0HqfC5+fCxw==",
@@ -32,16 +32,14 @@ CustomerIdController.SetCustomerId=function(fbaid,req, res, next) {
 		          			else{
 		          				console.log(result.CreateCustomerResult.MSG);
 		          			}
-		          			if(result.CreateCustomerResult.CustID){
-		          				base.send_response(result.CreateCustomerResult.MSG, result.CreateCustomerResult.CustID,res);	
-		          			}else{
-		          				base.send_response(result.CreateCustomerResult.MSG,null,res);
-		          			}
-		          			
-		          		}else{
-		          			base.send_response("Unable to fetch Customer ID", null,res);
+		          			res_msg="success";
+		          			res_data=result;
+		          				
 		          		}
+		          		next(res_data,res_msg);
 			});
+			}
+
 	});
 			    
 };
@@ -56,7 +54,7 @@ function call_cust_soap(authenticateInputInfo,inputInfo,next){
 		    soap.createClient(url, function (err, client) {
 		        client.CreateCustomer(args, function (err, result) {
 		          if(err)
-		          	next();
+		          	throw err;
 		          else
 		          	{
 		          		next(result);
@@ -107,7 +105,8 @@ function pre_process_data(fbaid,req,next){
 	//  -1 means req is made by api to update customer id manually
 			con.execute_proc('call customer_controllet_get_fba_data(?)',fbaparameter,function(data) {
 					if(data != null){
-						//console.log(data);
+						console.log("++++++++++++++++++++++++++++++++++++++++")
+						console.log(data);
 						fbaid=data[0][0].FBAID;
 						inputInfo =
 						 {

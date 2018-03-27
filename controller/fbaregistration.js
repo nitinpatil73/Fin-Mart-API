@@ -38,10 +38,13 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
-		SetCustomerId(data[0][0].FBAID,req, res, next);
+		SetCustomerId(data[0][0].FBAID,req, res,function(data){
+			console.log(data);
+		});
+		
 		var handler = require('../controller/SMSController');
 		var msg = "Dear " + req.body.FirstName + " " + req.body.LastName + " Welcome to Magic Finmart. Your Magic Finmart UserName is :" +req.body.EmailId +" and Password is :"+req.body.password;
-		handler.sendMessage(req.body.Mobile_1,msg);
+		//handler.sendMessage(req.body.Mobile_1,msg);
 				
 		   base.send_response(data[0][0].Message, data[0][0] ,res);
 	}
@@ -288,11 +291,15 @@ var representation = [];
 	});
 }
 
- function SetCustomerId(fbaid,req, res, next) {
+function SetCustomerId(fbaid,req, res, next) {
 	var CustomerId=require("./CustomerIdController");
 	console.log("going to set Cutomer Id and FOC ...............")
-	CustomerId.SetCustomerId(fbaid,req, res);
+	CustomerId.SetCustomerId(fbaid,req, res,function(data){
+		
+		console.log(data);
+	});
 	next();   
 };
+
 
 module.exports = insertFBARegistration;
