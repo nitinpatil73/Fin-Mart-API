@@ -35,7 +35,7 @@ if(req.body.Type == 0){
 
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
-		base.send_response("Success", data[0][0],res);
+		base.send_response("Profile updated successfully", data[0][0],res);
 	}
 	else{
 		base.send_response("Failure", "",res);				
@@ -52,7 +52,7 @@ else if(req.body.Type == 1){//1st panel
 
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
-		base.send_response("Success", data[0][0],res);
+		base.send_response("Profile updated successfully", data[0][0],res);
 	}
 	else{
 		base.send_response("Failure", "",res);				
@@ -72,7 +72,7 @@ else if(req.body.Type == 2){//2nd panel
 	console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
-		base.send_response("Success", data[0][0],res);
+		base.send_response("Profile updated successfully", data[0][0],res);
 	}
 	else{
 		base.send_response("Failure", "",res);				
@@ -94,7 +94,7 @@ else if(req.body.Type == 2){//2nd panel
 	console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
-		base.send_response("Success", data[0][0],res);
+		base.send_response("Profile updated successfully", data[0][0],res);
 	}
 	else{
 		base.send_response("Failure", "",res);				
@@ -111,7 +111,7 @@ else if(req.body.Type == 4){
 	console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
-		base.send_response("Success", data[0][0],res);
+		base.send_response("Profile updated successfully", data[0][0],res);
 	}
 	else{
 		base.send_response("Failure", "",res);				
@@ -139,7 +139,7 @@ var GetMyAccount = function(req, res, next){
 			// for (var i = 0 ; i < data[0].length; i++) {
 			// 	data[0][i].doc_available = req.headers.host + "/upload/"+ data[0][i].doc_available;
 			// }
-			base.send_response("Success",response,res);
+			base.send_response("Profile updated successfully",response,res);
 		}
 		else{
 			base.send_response("Failed to fetch", null,res);
