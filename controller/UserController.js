@@ -10,13 +10,14 @@ console.log(emailparameter);
 
 
 con.execute_proc('call forgotPassword(?)',emailparameter,function(data) {
-	console.log(data);
-	if(data[0][0].EmailStatus == "0"){
+	console.log("**************");
+	console.log(data[1]);
+	if(data[0][0] && data[0][0].EmailStatus == 0){
 		sendforgotpassword(data,res);
 		//base.send_response("Success", data[0],res);
 	}
 	else{
-			base.send_response("Failure", "",res);				
+		base.send_response("Invalid email id", "",res);				
 	}
 });
 
