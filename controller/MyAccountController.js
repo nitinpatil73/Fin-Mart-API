@@ -26,7 +26,7 @@ if(req.body.Type == 0){
 	FBAUpdateAccountparameter.push(req.body.Loan_BankBranch);
 	FBAUpdateAccountparameter.push(req.body.Loan_IFSC);
 	FBAUpdateAccountparameter.push(req.body.Loan_MICR);
-	FBAUpdateAccountparameter.push(req.body.Loan_BankCity);
+	FBAUpdateAccountparameter.push(req.body.Loan_Bank_City);
 	FBAUpdateAccountparameter.push(req.body.DisplayEmail);
 	FBAUpdateAccountparameter.push(req.body.DisplayPhoneNo);
 	FBAUpdateAccountparameter.push(req.body.DisplayDesignation);
