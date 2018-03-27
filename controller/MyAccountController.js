@@ -26,7 +26,7 @@ if(req.body.Type == 0){
 	FBAUpdateAccountparameter.push(req.body.Loan_BankBranch);
 	FBAUpdateAccountparameter.push(req.body.Loan_IFSC);
 	FBAUpdateAccountparameter.push(req.body.Loan_MICR);
-	FBAUpdateAccountparameter.push(req.body.Loan_Bank_City);
+	FBAUpdateAccountparameter.push(req.body.Loan_BankCity);
 	FBAUpdateAccountparameter.push(req.body.DisplayEmail);
 	FBAUpdateAccountparameter.push(req.body.DisplayPhoneNo);
 	FBAUpdateAccountparameter.push(req.body.DisplayDesignation);
@@ -89,7 +89,7 @@ else if(req.body.Type == 2){//2nd panel
 	FBAUpdateAccountparameter.push(req.body.Loan_BankBranch);
 	FBAUpdateAccountparameter.push(req.body.Loan_IFSC);
 	FBAUpdateAccountparameter.push(req.body.Loan_MICR);
-	FBAUpdateAccountparameter.push(req.body.Loan_Bank_City);
+	FBAUpdateAccountparameter.push(req.body.Loan_BankCity);
 	con.execute_proc('call UpdateAccountBankDetails(?,?,?,?,?,?,?,?,?,?,?)',FBAUpdateAccountparameter,function(data) {
 	console.log(data);
 	if(data[0][0].SavedStatus == 0){

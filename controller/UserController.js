@@ -12,7 +12,7 @@ console.log(emailparameter);
 con.execute_proc('call forgotPassword(?)',emailparameter,function(data) {
 	console.log("**************");
 	console.log(data[1]);
-	if(data[0][0] && data[0][0].EmailStatus == 0){
+	if(data[0][0].EmailStatus == 0){
 		sendforgotpassword(data,res);
 		//base.send_response("Success", data[0],res);
 	}
@@ -41,7 +41,7 @@ function sendEmail(to,subject,text,htmlbody,res){
 
 	Mailer.send(email,function(status){
       if(status===1){
-     base.send_response("Success","Email has been sent on your registered Email address.",res);
+     base.send_response("Email has been sent on your registered Email address.","Email has been sent on your registered Email address.",res);
       }else{
           base.send_response("Failure","",res);
       }
