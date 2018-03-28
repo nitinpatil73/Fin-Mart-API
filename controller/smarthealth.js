@@ -249,6 +249,8 @@ console.log(parameter);
     for (var i = 0; i < data[0].length; i++) {
       data[0][i].progress_image = null;
       var healthrequest = data[0][i];
+      console.log("***************************************")
+      console.log(data[0][i])
       var arr = JSON.parse(data[0][i].MemberList);
            
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
@@ -276,6 +278,7 @@ console.log(parameter);
         "agent_source" : data[1][i].agent_source,
         "crn" : data[1][i].crn,
         "selectedPrevInsID"  : data[1][i].selectedPrevInsID,
+
         "HealthRequest" :healthrequest
       };
       applicationquote.push(response);
@@ -316,8 +319,9 @@ var setQuoteToApplicationHealthRequest = function(req, res, next) {
     parameter.push(0);
   }
   parameter.push(req.body.selectedPrevInsID); 
+  parameter.push(req.body.insImage); 
   
-  con.execute_proc('call setQuoteToApplicationHealthRequest(?,?)',parameter,function(data) {
+  con.execute_proc('call setQuoteToApplicationHealthRequest(?,?,?)',parameter,function(data) {
       if(data[0][0].SavedStatus=="0"){
         base.send_response("Success", data[0],res);
       }
@@ -346,11 +350,13 @@ wrapper('/WMDataservice/api/HealthInsurance/GetCompareBenefits', 'POST', {
 var ComparePremium = function (req, res, next) {
     var helth_req_id = [];
     helth_req_id.push(req.body.HealthRequestId);
-    // helth_req_id.push(req.body.PlanID);
+    helth_req_id.push(req.body.PlanID);
     console.log(helth_req_id);
     var getcomparedata;
 
-  con.execute_proc('call get_compare_premium(?)',helth_req_id,function(response) {
+  con.execute_proc('call get_compare_premium(?,?)',helth_req_id,function(response) {
+    console.log("***************************");
+    console.log(response);
     if(response!=null){
 wrapper('/quotes/api/SmartHealth', 'POST', {
     CityID: response[0][0].CityID,
@@ -374,7 +380,7 @@ wrapper('/quotes/api/SmartHealth', 'POST', {
 
 
   }, function(data) {
-    console.log("test");
+    console.log("***************************");
    console.log(data);
     if(data!=null && data.length>0){
       var compare_premium_parameter = [];
@@ -383,11 +389,25 @@ wrapper('/quotes/api/SmartHealth', 'POST', {
       con.execute_proc('call compare_premium(?,?)',compare_premium_parameter,function(responsedata) {
         if(responsedata[0][0].SavedStatus == "0"){
           if(data[0].QuoteStatus == "Success"){
-          var response={
-            NetPremium : data[0].NetPremium,
-            ProposerPageUrl : data[0].ProposerPageUrl,
-          }
-          base.send_response("Success",response,res);
+
+              var parameterCompare = [];
+              parameterCompare.push(req.body.HealthRequestId); 
+              parameterCompare.push(req.body.selectedPrevInsID); 
+              parameterCompare.push(req.body.insImage); 
+              con.execute_proc('call setQuoteToApplicationHealthRequest(?,?,?)',parameterCompare,function(datacompare) {
+              if(datacompare[0][0].SavedStatus=="0"){
+                      var response={
+                        NetPremium : data[0].NetPremium,
+                        ProposerPageUrl : data[0].ProposerPageUrl,
+                      }
+                      base.send_response("Success",response,res);
+                  }
+                  else{
+                    base.send_response("Failure",null,res);
+                  }
+              });
+
+        
         }
         else{
           base.send_response("Failure", null,res);        
