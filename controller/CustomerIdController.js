@@ -7,6 +7,8 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 	var res_msg="failure";
 	pre_process_data(fbaid,req,function(inputInfo){
 		//console.log(inputInfo);
+		//from api fbaid come in req and fbaid param is -1 so setting manually from req
+		if(fbaid==-1){fbaid=req.body.FBAId;}
 			if(inputInfo){
 			var authenticateInputInfo = {
 				AppID : "171",
@@ -15,13 +17,14 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 			};
 
 			call_cust_soap(authenticateInputInfo,inputInfo,function(result){
-				console.log(result);
+				//console.log(result);
 				if(result){
 		          			if(result.CreateCustomerResult.Status=="1"){
 		          				var customer = [];
 								customer.push(result.CreateCustomerResult.CustID);
 								customer.push(fbaid);
-
+								console.log("++++++++++++++++++++++++++")
+								console.log(customer);
 		          				con.execute_proc('call sp_update_CustIdAndFOC(?,?)',customer,function(respdata) {
 									console.log(respdata);
 								});
@@ -105,8 +108,8 @@ function pre_process_data(fbaid,req,next){
 	//  -1 means req is made by api to update customer id manually
 			con.execute_proc('call customer_controllet_get_fba_data(?)',fbaparameter,function(data) {
 					if(data != null){
-						console.log("++++++++++++++++++++++++++++++++++++++++")
-						console.log(data);
+						// console.log("++++++++++++++++++++++++++++++++++++++++")
+						// console.log(data);
 						fbaid=data[0][0].FBAID;
 						inputInfo =
 						 {

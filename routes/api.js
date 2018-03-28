@@ -431,7 +431,12 @@ router.post('/set-cust-id',function(req,res,next){
   var CustomerId=require("../controller/CustomerIdController");
   console.log("Manuaaly setting Cutomer Id ...............")
   CustomerId.SetCustomerId(-1,req, res,function(data,msg){
-    base.send_response(msg,data,res)
+    if(data.CreateCustomerResult.Status==1){
+      base.send_response(msg,data,res)  
+    }else{
+      base.send_response(data.CreateCustomerResult.Status,null,res)
+    }
+    
   });  
 });
 
