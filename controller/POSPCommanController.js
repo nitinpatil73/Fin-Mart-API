@@ -3,7 +3,7 @@ var base=require('./baseController');
 var app = require('./wrapper.js');
  
 class POSPCommanController{};
-POSPCommanController.GetProdPriceDeta=function(CustID,mobileno,custname,emailid,fbaid,res,pospno) {
+POSPCommanController.GetProdPriceDeta=function(CustID,mobileno,custname,emailid,fbaid,res,pospno,next) {
 app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
 		"ProdID": "501",
 		"CustID": CustID,
@@ -23,21 +23,33 @@ app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
 	  		if(message.Status=="1"){
 	  			var amount = message.TotalAmt;	 
 	  			console.log("amount:"+amount); 		
-	  			PaymentDataRequest(CustID,amount,mobileno,custname,emailid,fbaid,res,pospno);
+	  			PaymentDataRequest(CustID,amount,mobileno,custname,emailid,fbaid,res,pospno,function(pay_data,status){
+	  				if(status==0){
+	  					console.log("Failure......................")
+
+	  				}else{
+	  					console.log("Success.......................")
+	  				}
+	  				console.log(pay_data);
+	  				next(pay_data,status);
+	  			});
 	  		}
 	  		else{
-	  			base.send_response("Invalid response in GetProdPriceDeta", null,res);
+	  			//base.send_response("Invalid response in GetProdPriceDeta", null,res);
+	  			next("Invalid response in GetProdPriceDeta",0);
 	  		}
 	  		console.log(message);
 	  	}
 	  	else{
-	  			base.send_response("Invalid response in GetProdPriceDeta 1", null,res);
+	  			//base.send_response("Invalid response in GetProdPriceDeta 1", null,res);
+	  			next("Invalid response in GetProdPriceDeta 1",0);
 	  		}
 	  	
 	  },5);
 }
 
-function PaymentDataRequest(CustID,totalamount,mobileno,custname,emailid,fbaid,res,pospno) {
+function PaymentDataRequest(CustID,totalamount,mobileno,custname,emailid,fbaid,res,pospno,next) {
+
 app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
 	  "Amount": 590,
 	  "ProdID": 501,
@@ -73,6 +85,7 @@ app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
 	  "AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
   "AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
 	  }, function(data) {
+
 		console.log("---PaymentDataRequest----");
 		console.log(data);
 	  	if(data.type == "Success"){
@@ -92,20 +105,24 @@ app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
 	  				console.log(respdata);
 					if(respdata[0][0].SavedStatus == 0){
 						message.POSPNo = pospno;
-						base.send_response("Success", message,res);
+						next(message,1);
+						//base.send_response("Success", message,res);
 					}
 					else{
-						base.send_response(respdata[0][0].Message, null,res);				
+						//base.send_response(respdata[0][0].Message, null,res);
+						next(respdata[0][0].Message,0);
 					}	
 				});
 			  	//base.send_response("Success", message,res);
 	  		}
 	  		else{
-	  			base.send_response("Invalid response in PaymentDataRequest", null,res);
+	  			next("Invalid response in PaymentDataRequest",0);
+	  			//base.send_response("Invalid response in PaymentDataRequest", null,res);
 	  		}
 	  	}
 	  	else{
-	  		base.send_response("Invalid response in `", null,res);
+	  		next("Invalid response in ", 0);
+	  		// base.send_response("Invalid response in `", null,res);
 	  	}
 	  	
 	  },5);

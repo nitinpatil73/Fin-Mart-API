@@ -40,7 +40,9 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
 		SetCustomerId(data[0][0].FBAID,req, res,function(data){
 			console.log(data);
+			//called payment link in function below
 		});
+	
 		
 		var handler = require('../controller/SMSController');
 		var msg = "Dear " + req.body.FirstName + " " + req.body.LastName + " Welcome to Magic Finmart. Your Magic Finmart UserName is :" +req.body.EmailId +" and Password is :"+req.body.password;
@@ -295,8 +297,19 @@ function SetCustomerId(fbaid,req, res, next) {
 	var CustomerId=require("./CustomerIdController");
 	console.log("going to set Cutomer Id and FOC ...............")
 	CustomerId.SetCustomerId(fbaid,req, res,function(data){
-		
-		console.log(data);
+		CustID=data.CreateCustomerResult.CustID;
+			var POSP=require("./POSPCommanController");
+			POSP.GetProdPriceDeta(CustID,req.body.Mobile_1,req.body.FirstName+" "+req.body.LastName,req.body.EmailId,fbaid,res,0,function(pay_stat,status){
+				if(status==0){
+					console.log("Failure......................")
+						//base.send_response(pay_data, null,res);	
+  				}else{
+  					console.log("Success.......................")
+  					//base.send_response("Success", pay_data,res);	
+  				}
+  				console.log(pay_stat);
+
+			});
 	});
 	next();   
 };

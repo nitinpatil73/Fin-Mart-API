@@ -114,7 +114,24 @@ function SaveFBADetaPolicyBoss(req,res,next){
 
 					console.log(respdata[0]);
 					if(respdata[0][0].SavedStatus == 0){
-						pospComman.GetProdPriceDeta(respdata[0][0].CustID,respdata[0][0].MobiNumb1,respdata[0][0].FullName,respdata[0][0].EmailID,req.body.FBAID,res,data);				
+						if(respdata[0][0].Link){
+							base.send_response("Sucess", respdata[0][0],res);	
+						}else{
+							pospComman.GetProdPriceDeta(respdata[0][0].CustID,respdata[0][0].MobiNumb1,respdata[0][0].FullName,respdata[0][0].EmailID,req.body.FBAID,res,data,function(pay_data,status){
+							console.log(pay_data);
+							if(status==0){
+			  					console.log("Failure......................")
+
+			  						base.send_response(pay_data, null,res);	
+				  				}else{
+				  					console.log("Success.......................")
+				  					base.send_response("Success", pay_data,res);	
+				  				}
+
+				  				
+							});		
+						}
+								
 					}
 					else{
 							base.send_response(respdata[0][0].Message, null,res);				

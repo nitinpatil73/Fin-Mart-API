@@ -23,8 +23,8 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 		          				var customer = [];
 								customer.push(result.CreateCustomerResult.CustID);
 								customer.push(fbaid);
-								console.log("++++++++++++++++++++++++++")
-								console.log(customer);
+								// console.log("++++++++++++++++++++++++++")
+								// console.log(customer);
 		          				con.execute_proc('call sp_update_CustIdAndFOC(?,?)',customer,function(respdata) {
 									console.log(respdata);
 								});
