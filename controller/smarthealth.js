@@ -122,7 +122,8 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
          newresponse.Discount = 0;
          newresponse.Deductible_Amount = data[i].Deductible;
          newresponse.NetPremium = data[i].FinalPremium;
-         newresponse.GrossPremium = 0;
+         //newresponse.GrossPremium = 0;
+         newresponse.GrossPremium = data[i].GrossPremiumStep;
          newresponse.DiscountPercent ="";
          newresponse.Premium = "";
          newresponse.Group_name = "";
@@ -130,9 +131,12 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
          newresponse.ProposerPageUrl = "";
          newresponse.pincode = data[i].pincode;
          newresponse.FinalProductID = data[i].FinalProductID;
+         newresponse.servicetaxincl =data[i].servicetaxincl;
          newresponse.BasicPremium = data[i].GrossPremium;
          newresponse.GrossPremiumStep = data[i].GrossPremium;
          newresponse.LstbenfitsFive =data[i].LstbenfitsAll;
+
+         
          // console.log("..............................");
          // console.log(data[i].LstbenfitsFive);
          newdata.push(newresponse);
@@ -337,7 +341,7 @@ wrapper('/WMDataservice/api/HealthInsurance/GetCompareBenefits', 'POST', {
    "StrProdBeneID": req.body.StrProdBeneID,
   "IFAID": "27bgc7eiR5RoCV5xXvTcTQ==",
   }, function(data) {
-     //console.log(data);
+     console.log(data);
      if(data!=null && data.length>0){
         base.send_response("Success", data,res);    
      }
