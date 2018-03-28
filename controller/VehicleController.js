@@ -137,7 +137,7 @@ console.log(vehicleparameter);
 		var applicationquote = [];
 
 		for (var i = 0; i < data[0].length; i++) {
-			data[0][i].progress_image = null;
+			data[0][i].progress_image = "";
 			var response ={
 				"SRN" : data[0][i].srn,
 				"VehicleRequestID" : data[0][i].VehicleRequestID,
