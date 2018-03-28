@@ -95,18 +95,30 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Para6": "0_0_0_0_0",
   "IFAID": "27bgc7eiR5RoCV5xXvTcTQ=="
   }, function(data) {
+    console.log("--------------------------------------");
     console.log(data);
+    console.log("--------------------------------------");
     var CustomerReferenceID = "";
-    if(data!=null){
-      var newresponse = {};
+    if(data!=null){     
       var newdata= [];
       for(i = 0; i< data.length; i++) {
+
+        var logo = data[i].InsuLogoName;
+        console.log("......."+logo);
+        var imagepath = "";
+        if(logo!=""){
+            var filename = data[i].InsuLogoName.split('.');
+           // console.log(filename);
+            imagepath =   "http://" + req.headers.host + "/uploads/InsurerLogo/" + filename[0] + ".png";
+            //console.log(filename.split('.'));
+        }
+        var newresponse = {};
          newresponse.CustomerReferenceID=0;
          newresponse.QuoteId=0;
          newresponse.PolicyTermYear=1;
          newresponse.PlanName = data[i].Plantitl;
          newresponse.InsurerName = data[i].InsuShorName;
-         newresponse.InsurerLogoName="";
+         newresponse.InsurerLogoName=imagepath;
          newresponse.ProductName = data[i].ProdName;
          newresponse.PlanID = data[i].PlanID;
          newresponse.ZoneID = 0;
