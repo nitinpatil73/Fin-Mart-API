@@ -6,7 +6,8 @@ var MPSControllerParameter = function (req, res, next, pospno) {
    var fba_req_id = [];
    fba_req_id.push(req.body.FBAID);
   con.execute_proc('call get_user_details_for_mps(?)',fba_req_id,function(response) {
-    if(response!=null){
+    console.log(response[0].length);
+    if(response!=null && response[0].length>0){
       if(response[0][0].Link){
         var resdata={
           "PaymentURL": response[0][0].Link
@@ -86,7 +87,7 @@ var MPSControllerParameter = function (req, res, next, pospno) {
             },5);
     }
   }else{
-         base.send_response("failure",null,res);
+         base.send_response("Payment link not available",null,res);
     }
 
   });
