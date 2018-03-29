@@ -373,10 +373,10 @@ var ComparePremium = function (req, res, next) {
   con.execute_proc('call get_compare_premium(?,?)',helth_req_id,function(response) {
     console.log("***************************");
     console.log(response);
-    if(response!=null){
+    if(response!=null){      
 wrapper('/quotes/api/SmartHealth', 'POST', {
     CityID: response[0][0].CityID,
-    PlanID: req.body.PlanID,
+    PlanID: response[0][0].PBPlanID,
     HealthRequestId: req.body.HealthRequestId,
     ContactEmail: response[0][0].ContactEmail,
     ContactMobile: response[0][0].ContactMobile,
