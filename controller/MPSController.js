@@ -6,7 +6,7 @@ var MPSControllerParameter = function (req, res, next, pospno) {
    var fba_req_id = [];
    fba_req_id.push(req.body.FBAID);
   con.execute_proc('call get_user_details_for_mps(?)',fba_req_id,function(response) {
-    console.log(response[0].length);
+    console.log(response);
     if(response!=null && response[0].length>0){
       if(response[0][0].Link){
         var resdata={
@@ -14,7 +14,10 @@ var MPSControllerParameter = function (req, res, next, pospno) {
         };
             base.send_response("success",resdata,res);
       }else{
-           app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
+          if(response[0][0].CustID=='0'){
+             base.send_response("Customer ID not found.",null,res);
+          }else{
+             app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
             "Amount": 1150,
             "ProdID": 512,
             "MRP": 500,
@@ -81,10 +84,11 @@ var MPSControllerParameter = function (req, res, next, pospno) {
                 }
               }
               else{
-                base.send_response("Invalid response in `", null,res);
+                base.send_response("Invalid response", null,res);
               }
               
             },5);
+          }
     }
   }else{
          base.send_response("Payment link not available",null,res);
