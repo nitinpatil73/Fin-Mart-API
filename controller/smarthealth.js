@@ -94,12 +94,24 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Para5": "0_0_0_0_0",
   "Para6": "0_0_0_0_0",
   "IFAID": "27bgc7eiR5RoCV5xXvTcTQ=="
-  }, function(data) {
+  }, function(datax) {
     console.log("--------------------------------------");
-    console.log(data);
+    console.log(datax);
     console.log("--------------------------------------");
     var CustomerReferenceID = "";
-    if(data!=null){     
+    if(datax!=null){     
+      var data = datax.sort(function(first, second) {
+        var a = first.GrossPremiumStep;
+        var b = second.GrossPremiumStep;
+        
+        if(a > b) {
+            return 1;
+        } else if(a < b) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
       var newdata= [];
       for(i = 0; i< data.length; i++) {
 
