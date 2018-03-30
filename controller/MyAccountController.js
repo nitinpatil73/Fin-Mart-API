@@ -132,7 +132,7 @@ var GetMyAccount = function(req, res, next){
 			for (var i = 0 ; i < data[1].length; i++) {
 				
 				if(data[1][i].FileName!=null &&data[1][i].FileName!=""){					
-					data[1][i].FileName = "http://" + req.headers.host + "/upload/"+ data[1][i].FileName;
+					data[1][i].FileName = "http://" + req.headers.host + "/"+ data[1][i].FileName;
 				}				
 			} 
 			 response[0].doc_available = doc_available;
