@@ -256,7 +256,9 @@ console.log(parameter);
 
   con.execute_proc('call getHealthRequest(?)',parameter,function(data) {
 
-
+    console.log("*****************data**********************")
+    console.log(data);
+     console.log("*****************data**********************")
     
     var quoteresponse = [];
     var applicationquote = [];
@@ -265,7 +267,7 @@ console.log(parameter);
     for (var i = 0; i < data[0].length; i++) {
       data[0][i].progress_image = null;
       var healthrequest = data[0][i];
-      console.log("***************************************")
+    //  console.log("***************************************")
       console.log(data[0][i])
       var arr = JSON.parse(data[0][i].MemberList);
            
@@ -294,10 +296,14 @@ console.log(parameter);
         "agent_source" : data[1][i].agent_source,
         "crn" : data[1][i].crn,
         "selectedPrevInsID"  : data[1][i].selectedPrevInsID,
-
+        "insImage" : data[1][i].insImage,
         "HealthRequest" :healthrequest
       };
       applicationquote.push(response);
+
+      console.log("------------------------");
+       console.log(applicationquote); 
+       console.log("------------------------");
     }
     var responsedata = {"quote":quoteresponse,"application":applicationquote};
     base.send_response("Success", responsedata,res);
