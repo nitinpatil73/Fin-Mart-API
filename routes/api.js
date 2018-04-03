@@ -354,7 +354,11 @@ router.post('/get-notification-data', function(req, res, next) {
 router.post('/create-ticket', function (req, res, next) {
   var ticket = require('../controller/RaiseATicketController');
   ticket.createTicket(req,res);
- 
+});
+
+router.post('/zoho-ticket', function (req, res, next) {
+  var zohoticket = require('../controller/RaiseATicketController');
+  zohoticket.InsertTickets(req,res);
 });
 
 router.post('/get-ticket-request', function(req, res, next) {
@@ -427,6 +431,28 @@ router.post('/payment',function(req,res,next){
   var transaction = require('../controller/TransactionController');
   transaction.AddPaymentInfo(req,res);
 });
+
+router.post('/early-salary',function(req,res,next){
+  var esalary = require('../controller/EarlySalaryController');
+  esalary.EarlySalary(req,res);
+});
+
+router.post('/express-loan',function(req,res,next){
+  var eloan = require('../controller/ExpressLoan');
+  eloan.ExpressLoanParameter(req,res);
+});
+
+router.post('/save-loan',function(req,res,next){
+  var saveloan = require('../controller/ExpressLoan');
+  saveloan.SaveExpressLoanParameter(req,res);
+});
+
+router.post('/get-express-loan',function(req,res,next){
+  var getloan = require('../controller/ExpressLoan');
+  getloan.GetExpressLoanParameter(req,res);
+});
+
+
 router.post('/set-cust-id',function(req,res,next){
   var CustomerId=require("../controller/CustomerIdController");
   console.log("Manually setting Cutomer Id ...............")
