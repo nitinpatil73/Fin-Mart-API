@@ -9,11 +9,26 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
     //hostname = "vehicleinfo.policyboss.com";
     hostname = "qa-horizon.policyboss.com";
     port = 3000;
-  } else if(hosttype == 2) {
-    hostname = "qa.policyboss.com";
   }
-  else if(hosttype == 3) {
-    hostname = "beta.services.rupeeboss.com";
+else if(hosttype == 2) {
+    if(process.env.NODE_ENV == 'development'){
+        port = 8063;
+        hostname = "qa.policyboss.com";
+    }
+    else{
+        hostname = "vehicleinfo.policyboss.com";
+    } 
+  }
+   else if(hosttype == 3) {
+    if(process.env.NODE_ENV == 'development'){
+        port = 8063;
+        hostname = "erp.rupeeboss.com";
+    }
+    else{
+        hostname = "beta.services.rupeeboss.com";
+    }
+
+    
   }
   else if(hosttype == 4) {
     hostname = "services.rupeeboss.com";
