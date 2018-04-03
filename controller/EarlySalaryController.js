@@ -21,7 +21,9 @@ var EarlySalary = function (req, res, next) {
 		  }, function(response) {
 		     if(response != null){
 		     	 var ExpressLoan = require('./ExpressLoan');
-		     	 ExpressLoan.SaveExpressLoanParameter(req, res, next);
+		     	 ExpressLoan.SaveExpressLoanParameter(req, res, function(data){
+		     	 	console.log(data);
+		     	 });
 		        base.send_response("success",response,res);    
 		     }
 		     else{

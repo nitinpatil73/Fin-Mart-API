@@ -28,12 +28,7 @@ var SaveExpressLoanParameter = function(req, res, next) {
 	SaveLoanParameter.push(req.body.FBAID);
 	SaveLoanParameter.push(req.body.ApplicationID);
 	con.execute_proc('call SaveExpressLoanRequest(?,?,?,?,?,?,?,?)',SaveLoanParameter,function(savedata) {
-  	if(savedata[0][0].SavedStatus == 0){
-    	base.send_response("Success",savedata[0],res);
-  	}
-  	else{
-      base.send_response("Failure",null,res);        
-  	}
+    next(savedata);
 });
 
 }

@@ -444,7 +444,14 @@ router.post('/express-loan',function(req,res,next){
 
 router.post('/save-loan',function(req,res,next){
   var saveloan = require('../controller/ExpressLoan');
-  saveloan.SaveExpressLoanParameter(req,res);
+  saveloan.SaveExpressLoanParameter(req,res,function(savedata){
+    if(savedata[0][0].SavedStatus == 0){
+      base.send_response("Success",savedata[0],res);
+    }
+    else{
+      base.send_response("Failure",null,res);        
+    }
+  });
 });
 
 router.post('/get-express-loan',function(req,res,next){
