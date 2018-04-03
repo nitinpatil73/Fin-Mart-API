@@ -466,6 +466,11 @@ router.post('/set-cust-id',function(req,res,next){
   });  
 });
 
+router.post('/get-posp-payment-link',function(req,res,next){
+  var payment = require('../controller/PaymentLinkController');
+  payment.getPOSPPaymentLink(req,res,next);
+});
+
 
 
 module.exports = router;
