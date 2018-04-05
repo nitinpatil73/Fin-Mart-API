@@ -219,9 +219,9 @@ var updateRefererCode = function(req, res, next) {
 var insertPaymentLink = function(req, res, next){
 		var parameter = [];
 		parameter.push(req.body.FBAId);
-		parameter.push(req.body.Link);
-		parameter.push(req.body.PaymRefId);
-		parameter.push(req.body.DwtCustId);
+		parameter.push(req.body.PayURL);
+		parameter.push(req.body.PayRefrenceID);
+		parameter.push(req.body.DWTCustID);
 		parameter.push(501);
 		console.log(parameter);
 		con.execute_proc('call sp_InsPaymentlink(?,?,?,?,?)',parameter,function(respdata) {
