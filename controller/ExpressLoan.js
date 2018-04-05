@@ -17,8 +17,19 @@ var ExpressLoanParameter = function(req, res, next) {
 }
 
 
-var SaveExpressLoanParameter = function(req, res, next) {
+var SaveExpressLoanParameter = function(index,req, res,kotakparameter, next) {
 	var SaveLoanParameter = [];
+if(index == 1){
+  SaveLoanParameter.push(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName);
+  SaveLoanParameter.push(req.body.PersonalLoan.Mobile);
+  SaveLoanParameter.push(req.body.PersonalLoan.OffCity);
+  SaveLoanParameter.push(req.body.PersonalLoan.LnAmt);
+  SaveLoanParameter.push(req.body.PersonalLoan.BankId);
+  SaveLoanParameter.push(req.body.PersonalLoan.LoanType);
+  SaveLoanParameter.push(req.body.PersonalLoan.FBAID);
+  SaveLoanParameter.push(kotakparameter);
+}
+  else if(index ==2 ){
 	SaveLoanParameter.push(req.body.FirstName + " " + req.body.LastName);
 	SaveLoanParameter.push(req.body.phoneNumber);
 	SaveLoanParameter.push(req.body.City);
@@ -27,6 +38,7 @@ var SaveExpressLoanParameter = function(req, res, next) {
 	SaveLoanParameter.push(req.body.LoanType);
 	SaveLoanParameter.push(req.body.FBAID);
 	SaveLoanParameter.push(req.body.ApplicationID);
+}
 	con.execute_proc('call SaveExpressLoanRequest(?,?,?,?,?,?,?,?)',SaveLoanParameter,function(savedata) {
     next(savedata);
 });
