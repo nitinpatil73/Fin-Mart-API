@@ -45,6 +45,12 @@ else if(hosttype == 2) {
 else if(hosttype == 8) {
     hostname = "demo.fundzmagiconline.com";
   }
+  else if(hosttype == 9) {
+    hostname = "http://horizon.policyboss.com:5000";
+  }
+  else if(hosttype == 10) {
+    hostname = "zohowebapi.magicsales.in";
+  }
   var dataString = JSON.stringify(data);
   var headers = {};
   
