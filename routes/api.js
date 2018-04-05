@@ -478,6 +478,11 @@ router.post('/get-posp-payment-link',function(req,res,next){
   payment.getPOSPPaymentLink(req,res,next);
 });
 
+router.post('/insertPaymentLink',function(req,res,next){
+  var payment = require('../controller/TransactionController');
+  payment.insertPaymentLink(req,res,next);
+});
+
 
 
 module.exports = router;

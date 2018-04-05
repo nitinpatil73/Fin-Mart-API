@@ -215,4 +215,23 @@ var updateRefererCode = function(req, res, next) {
 		base.send_response("Code missing", "",res);
 	}
 };
-module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode};
+
+var insertPaymentLink = function(req, res, next){
+		var parameter = [];
+		parameter.push(req.body.FBAId);
+		parameter.push(req.body.Link);
+		parameter.push(req.body.PaymRefId);
+		parameter.push(req.body.DwtCustId);
+		parameter.push(501);
+		console.log(parameter);
+		con.execute_proc('call sp_InsPaymentlink(?,?,?,?,?)',parameter,function(respdata) {
+			console.log(respdata);
+		if(respdata[0][0].SavedStatus == 0){
+				base.send_response("Success", respdata[0],res);				
+		}
+		else{
+			base.send_response("Failure", null,res);	
+		}	
+	});
+}
+module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode,"insertPaymentLink":insertPaymentLink};
