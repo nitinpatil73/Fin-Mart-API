@@ -20,8 +20,16 @@ var EarlySalary = function (req, res, next) {
 		    "CampaignName":req.body.CampaignName
 		  }, function(response) {
 		     if(response != null){
-		     	 var ExpressLoan = require('./ExpressLoan');
-		     	 ExpressLoan.SaveExpressLoanParameter(2,req, res, function(data){
+		     	// var ExpressLoan = require('./ExpressLoan');
+		     	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+		     		req.body.phoneNumber,
+		     		req.body.City,
+		     		req.body.LoanAmount,
+		     		req.body.BankId,
+		     		req.body.LoanType,
+		     		req.body.FBAID,
+		     		req.body.ApplicationID,
+		     		req, res, function(data){
 		     	 	console.log(data);
 		     	 });
 		        base.send_response("success",response,res);    
@@ -103,11 +111,19 @@ var EarlySalary = function (req, res, next) {
 		  	console.log(kotakresponse);
 		     if(kotakresponse != null){
 		 	  js=JSON.parse(kotakresponse);
-		 	  var kotakparameter = [];
-		 	  kotakparameter.push(js.Response.ReferenceCode);
+		 	  // var kotakparameter = [];
+		 	  // kotakparameter.push(js.Response.ReferenceCode);
 
-		 	  var KotakLoan = require('./ExpressLoan');
-		     	 KotakLoan.SaveExpressLoanParameter(1,req, res,kotakparameter, function(data){
+		 	//  var KotakLoan = require('./ExpressLoan');
+		     	SaveExpressKotakLoanParameter(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName,
+		     	 	req.body.PersonalLoan.Mobile,
+		     	 	req.body.PersonalLoan.OffCity,
+		     	 	req.body.PersonalLoan.LnAmt,
+		     	 	req.body.PersonalLoan.BankId,
+		     	 	req.body.PersonalLoan.LoanType,
+		     	 	req.body.PersonalLoan.FBAID,
+		     	 	js.Response.ReferenceCode,
+		     	 	req, res, function(data){
 		     	 	console.log(data);
 		     	 });
 		        base.send_response("success",js,res);    
@@ -116,5 +132,21 @@ var EarlySalary = function (req, res, next) {
 		        base.send_response("Failed to fetch", null,res);
 		     }
 		  },6);
-	};
-module.exports = {"EarlySalary":EarlySalary,"KotakPersonalLoan":KotakPersonalLoan};
+		};
+
+
+	var SaveExpressKotakLoanParameter = function(name,mobile,city,loanamount,bankid,loantype,fbaid,applicationid,req, res, next) {
+	var   SaveLoanParameter = [];
+		  SaveLoanParameter.push(name);
+		  SaveLoanParameter.push(mobile);
+		  SaveLoanParameter.push(city);
+		  SaveLoanParameter.push(loanamount);
+		  SaveLoanParameter.push(bankid);
+		  SaveLoanParameter.push(loantype);
+		  SaveLoanParameter.push(fbaid);
+		  SaveLoanParameter.push(applicationid);
+    	  con.execute_proc('call SaveExpressLoanRequest(?,?,?,?,?,?,?,?)',SaveLoanParameter,function(savedata) {
+      	  next(savedata);
+    });
+}
+module.exports = {"EarlySalary":EarlySalary,"KotakPersonalLoan":KotakPersonalLoan,"SaveExpressKotakLoanParameter":SaveExpressKotakLoanParameter};
