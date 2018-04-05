@@ -442,6 +442,18 @@ router.post('/kotak-personal-loan',function(req,res,next){
   kotak.KotakPersonalLoan(req,res);
 });
 
+router.post('/save-loan-kotak',function(req,res,next){
+  var saveloan = require('../controller/EarlySalaryController');
+  saveloan.SaveExpressKotakLoanParameter(req,res,function(savedata){
+    if(savedata[0][0].SavedStatus == 0){
+      base.send_response("Success",savedata[0],res);
+    }
+    else{
+      base.send_response("Failure",null,res);        
+    }
+  });
+});
+
 router.post('/express-loan',function(req,res,next){
   var eloan = require('../controller/ExpressLoan');
   eloan.ExpressLoanParameter(req,res);
@@ -489,21 +501,21 @@ router.post('/insertPaymentLink',function(req,res,next){
 });
 
 
-router.post('/kotak-loan',function(req,res,next){
-  var kotak = require('../controller/KotakPersonalLoanController');
-  kotak.KotakPersonalparameter(req,res);
-});
+// router.post('/kotak-loan',function(req,res,next){
+//   var kotak = require('../controller/KotakPersonalLoanController');
+//   kotak.KotakPersonalparameter(req,res);
+// });
 
 
-router.post('/save-loan-kotak',function(req,res,next){
-  var saveloan = require('../controller/KotakPersonalLoanController');
-  saveloan.SaveExpressLoanKotakParameter(req,res,function(savedata){
-    if(savedata[0][0].SavedStatus == 0){
-      base.send_response("Success",savedata[0],res);
-    }
-    else{
-      base.send_response("Failure",null,res);        
-    }
-  });
-});
+// router.post('/save-loan-kotak',function(req,res,next){
+//   var saveloan = require('../controller/KotakPersonalLoanController');
+//   saveloan.SaveExpressLoanKotakParameter(req,res,function(savedata){
+//     if(savedata[0][0].SavedStatus == 0){
+//       base.send_response("Success",savedata[0],res);
+//     }
+//     else{
+//       base.send_response("Failure",null,res);        
+//     }
+//   });
+// });
 module.exports = router;
