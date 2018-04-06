@@ -149,4 +149,120 @@ var EarlySalary = function (req, res, next) {
       	  next(savedata);
     });
 }
-module.exports = {"EarlySalary":EarlySalary,"KotakPersonalLoan":KotakPersonalLoan,"SaveExpressKotakLoanParameter":SaveExpressKotakLoanParameter};
+
+		var HDFCPLParameter = function (req, res, next) {
+			//var HDFCResponse = ("{\"Status\":\"1\",\"Lead_Id\":\"796295\"}");
+			wrapper('/BankAPIService.svc/createHDFCPLReq', 'POST', {
+			 	"branch_location": req.body.branch_location,
+						  "branch_code": req.body.branch_code,
+						  "customer_name": req.body.customer_name,
+						  "dob": req.body.dob,
+						  "qualification": req.body.qualification,
+						  "loanamount": req.body.loanamount,
+						  "pancard": req.body.pancard,
+						  "company_name": req.body.company_name,
+						  "profile": req.body.profile,
+						  "mobile_num": req.body.mobile_num,
+						  "alternate_num": req.body.alternate_num,
+						  "landline": req.body.landline,
+						  "alt_landline": req.body.alt_landline,
+						  "net_income": req.body.net_income,
+						  "pincode": req.body.pincode,
+						  "emi": req.body.emi,
+						  "yrs_of_emp": req.body.yrs_of_emp,
+						  "email": req.body.email,
+						  "current_add": req.body.current_add,
+						  "same": req.body.same,
+						  "per_add": req.body.per_add,
+						  "brokerid": req.body.brokerid,
+						  "empid": req.body.empid,
+						  "source": req.body.source,
+						  "CampaignName": req.body.CampaignName
+		  }, function(HDFCResponse) {
+		 if(HDFCResponse != null){
+		 	  js=JSON.parse(HDFCResponse);
+		    	  	SaveExpressKotakLoanParameter(req.body.customer_name,
+		     		req.body.mobile_num,
+		     		req.body.City,
+		     		req.body.loanamount,
+		     		req.body.BankId,
+		     		req.body.LoanType,
+		     		req.body.FBAID,
+		     		js.Lead_Id,
+		     		req, res, function(data){
+		     	 	console.log(data);
+		     	 });
+		        base.send_response("success",js,res);    
+		     }
+		     else{
+		        base.send_response("Failed to fetch", null,res);
+		     }
+		   },6);
+		};
+
+		var RupeeBossParameter = function (req, res, next) {
+			//var RupeeBoss = ("{\"Status\":4,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
+			var PersonalLoan = {
+				"FirstName": req.body.PersonalLoan.FirstName,
+			    "MiddleName": req.body.PersonalLoan.MiddleName,
+			    "LastName": req.body.PersonalLoan.LastName,
+			    "Gender": req.body.PersonalLoan.Gender,
+			    "ResAddress1": req.body.PersonalLoan.ResAddress1,
+			    "ResAddress2": req.body.PersonalLoan.ResAddress2,
+			    "ResLand": req.body.PersonalLoan.ResLand,
+			    "DOB": req.body.PersonalLoan.DOB,
+			    "ResType": req.body.PersonalLoan.ResType,
+			    "CurResSince": req.body.PersonalLoan.CurResSince,
+			    "ResPIN": req.body.PersonalLoan.ResPIN,
+			    "Mobile": req.body.PersonalLoan.Mobile,
+			    "Email": req.body.PersonalLoan.Email,
+			    "EmpType": req.body.PersonalLoan.EmpType,
+			    "LnAmt": req.body.PersonalLoan.LnAmt,
+			    "TnrMths": req.body.PersonalLoan.TnrMths,
+			    "IRR": req.body.PersonalLoan.IRR,
+			    "ProcFee": req.body.PersonalLoan.ProcFee,
+			    "NMI": req.body.PersonalLoan.NMI,
+			    "EmiCurPay": req.body.PersonalLoan.EmiCurPay,
+			    "ResCity": req.body.PersonalLoan.ResCity,
+			    "CompanyName": req.body.PersonalLoan.CompanyName,
+			    "CurCmpnyJoinDt": req.body.PersonalLoan.CurCmpnyJoinDt,
+			    "TotWrkExp": req.body.PersonalLoan.TotWrkExp,
+			    "OffAddress1": req.body.PersonalLoan.OffAddress1,
+			    "OffAddress2": req.body.PersonalLoan.OffAddress2,
+			    "OrgCategory": req.body.PersonalLoan.OrgCategory,
+			    "OffCity": req.body.PersonalLoan.OffCity,
+			    "OffPIN": req.body.PersonalLoan.OffPIN,
+			    "OffPhone": req.body.PersonalLoan.OffPhone,
+			    "PAN": req.body.PersonalLoan.PAN,
+			    "Qualification": req.body.PersonalLoan.Qualification,
+			    "check": req.body.PersonalLoan.check,
+			    "brokerid": req.body.PersonalLoan.brokerid,
+			    "empid": req.body.PersonalLoan.empid,
+			    "source": req.body.PersonalLoan.source,
+			    "CampaignName": req.body.PersonalLoan.CampaignName
+			}
+			wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
+			 	"PersonalLoan":PersonalLoan
+		  }, function(RBLData) {
+		 if(RBLData != null){
+		 	  js=JSON.parse(RBLData);
+		    	  	SaveExpressKotakLoanParameter(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName,
+		     		req.body.PersonalLoan.Mobile,
+		     		req.body.PersonalLoan.ResCity,
+		     		req.body.PersonalLoan.LnAmt,
+		     		req.body.PersonalLoan.BankId,
+		     		req.body.PersonalLoan.LoanType,
+		     		req.body.PersonalLoan.FBAID,
+		     		js.ReferenceCode,
+		     		req, res, function(data){
+		     	 });
+		        base.send_response("success",js,res);    
+		     }
+		     else{
+		        base.send_response("Failed to fetch", null,res);
+		     }
+		   },6);
+		};
+
+
+module.exports = {"EarlySalary":EarlySalary,"KotakPersonalLoan":KotakPersonalLoan,"SaveExpressKotakLoanParameter":SaveExpressKotakLoanParameter,"HDFCPLParameter":HDFCPLParameter,"RupeeBossParameter":RupeeBossParameter};
