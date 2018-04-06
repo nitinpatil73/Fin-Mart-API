@@ -125,8 +125,13 @@ var converteddata = {
 	
 	console.log(converteddata);
 
+	var apiname = "/LoginDtls.svc/xmlservice/insFbaRegistration";
+
+	if(process.env.NODE_ENV == 'development'){
+		apiname = "/LoginDtls.svc/xmlservice/insFbaRegistrationForDC";
+	}
 	
-	wrapper('/LoginDtls.svc/xmlservice/insFbaRegistrationForDC', 'POST', 
+	wrapper(apiname, 'POST', 
     converteddata
   , function(data) {
   	console.log("LoanId"+data.result);
