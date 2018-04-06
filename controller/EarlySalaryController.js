@@ -42,6 +42,7 @@ var EarlySalary = function (req, res, next) {
 
 
 	var KotakPersonalLoan = function (req, res, next) {
+	//	var kotakresponse = ("{\"?xml\":{\"@version\":\"1.0\",\"@encoding\":\"UTF-8\"},\"Response\":{\"@xmlns:ns0\":\"http://www.kotak.com/schemas/PersonalLoanResponse.xsd\",\"Status\":\"0\",\"ReferenceCode\":\"#PLT75JIPHT\",\"EligLnAmt\":\"0\",\"ROI\":\"0\",\"ErrorCode\":\"0\",\"ErrorInfo\":null,\"RequestIP\":\"10.10.3.144\"}}");
 		 var PersonalLoan ={
 				"IsExstCust": req.body.PersonalLoan.IsExstCust,
 			    "ExstCustType": req.body.PersonalLoan.ExstCustType,
@@ -107,30 +108,27 @@ var EarlySalary = function (req, res, next) {
 		wrapper('/BankAPIService.svc/createKotakPersonalLoanReq', 'POST', {
 			 	"PersonalLoan":PersonalLoan
 		  }, function(kotakresponse) {
-		  	console.log("----------------------------");
-		  	console.log(kotakresponse);
-		     if(kotakresponse != null){
-		 	  js=JSON.parse(kotakresponse);
-		 	  // var kotakparameter = [];
-		 	  // kotakparameter.push(js.Response.ReferenceCode);
+			 js=JSON.parse(kotakresponse);
+			 if(js.Response.Status == 3)
+			 {
+			    SaveExpressKotakLoanParameter(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName,
+			    req.body.PersonalLoan.Mobile,
+			    req.body.PersonalLoan.OffCity,
+			    req.body.PersonalLoan.LnAmt,
+			    req.body.PersonalLoan.BankId,
+			    req.body.PersonalLoan.LoanType,
+			    req.body.PersonalLoan.FBAID,
+			    js.Response.ReferenceCode,
+			    req, res, function(savedata){
+			     	next(savedata);
+			    });
 
-		 	//  var KotakLoan = require('./ExpressLoan');
-		     	SaveExpressKotakLoanParameter(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName,
-		     	 	req.body.PersonalLoan.Mobile,
-		     	 	req.body.PersonalLoan.OffCity,
-		     	 	req.body.PersonalLoan.LnAmt,
-		     	 	req.body.PersonalLoan.BankId,
-		     	 	req.body.PersonalLoan.LoanType,
-		     	 	req.body.PersonalLoan.FBAID,
-		     	 	js.Response.ReferenceCode,
-		     	 	req, res, function(data){
-		     	 	console.log(data);
-		     	 });
-		        base.send_response("success",js,res);    
-		     }
-		     else{
-		        base.send_response("Failed to fetch", null,res);
-		     }
+			   var successresponse = {"ReferenceCode":js.Response.ReferenceCode};
+			    base.send_response("Record saved successfully.",successresponse,res);    
+			}
+			 else{
+			        base.send_response("Please change PAN or Mobile No.",null,res);
+			}
 		  },6);
 		};
 
@@ -145,13 +143,13 @@ var EarlySalary = function (req, res, next) {
 		  SaveLoanParameter.push(loantype);
 		  SaveLoanParameter.push(fbaid);
 		  SaveLoanParameter.push(applicationid);
-    	  con.execute_proc('call SaveExpressLoanRequest(?,?,?,?,?,?,?,?)',SaveLoanParameter,function(savedata) {
-      	  next(savedata);
+    	  con.execute_proc('call SaveExpressLoanRequest(?,?,?,?,?,?,?,?)',SaveLoanParameter,function(loansavedata) {
+      	  next(loansavedata);
     });
 }
 
 		var HDFCPLParameter = function (req, res, next) {
-			//var HDFCResponse = ("{\"Status\":\"1\",\"Lead_Id\":\"796295\"}");
+		//	var HDFCResponse = ("{\"Status\":\"0\",\"Lead_Id\":\"796295\"}");
 			wrapper('/BankAPIService.svc/createHDFCPLReq', 'POST', {
 			 	"branch_location": req.body.branch_location,
 						  "branch_code": req.body.branch_code,
@@ -179,8 +177,8 @@ var EarlySalary = function (req, res, next) {
 						  "source": req.body.source,
 						  "CampaignName": req.body.CampaignName
 		  }, function(HDFCResponse) {
-		 if(HDFCResponse != null){
-		 	  js=JSON.parse(HDFCResponse);
+		 js=JSON.parse(HDFCResponse);
+		 if(js.Status == 1){
 		    	  	SaveExpressKotakLoanParameter(req.body.customer_name,
 		     		req.body.mobile_num,
 		     		req.body.City,
@@ -192,16 +190,17 @@ var EarlySalary = function (req, res, next) {
 		     		req, res, function(data){
 		     	 	console.log(data);
 		     	 });
-		        base.send_response("success",js,res);    
+		    	  var successresponse = {"Lead_Id":js.Lead_Id};
+		        base.send_response("Record saved successfully.",successresponse,res);    
 		     }
 		     else{
-		        base.send_response("Failed to fetch", null,res);
+		        base.send_response("Please change PAN or Mobile No.", null,res);
 		     }
 		   },6);
 		};
 
 		var RupeeBossParameter = function (req, res, next) {
-			//var RupeeBoss = ("{\"Status\":4,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
+		//	var RBLData = ("{\"Status\":1,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
 			var PersonalLoan = {
 				"FirstName": req.body.PersonalLoan.FirstName,
 			    "MiddleName": req.body.PersonalLoan.MiddleName,
@@ -244,7 +243,8 @@ var EarlySalary = function (req, res, next) {
 			wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
 			 	"PersonalLoan":PersonalLoan
 		  }, function(RBLData) {
-		 if(RBLData != null){
+		 js=JSON.parse(RBLData);
+		 if(js.Status == 4){
 		 	  js=JSON.parse(RBLData);
 		    	  	SaveExpressKotakLoanParameter(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName,
 		     		req.body.PersonalLoan.Mobile,
@@ -256,10 +256,11 @@ var EarlySalary = function (req, res, next) {
 		     		js.ReferenceCode,
 		     		req, res, function(data){
 		     	 });
-		        base.send_response("success",js,res);    
+		    	  var successresponse = { "ReferenceCode":js.ReferenceCode }
+		        base.send_response("Record saved successfully.",successresponse,res);    
 		     }
 		     else{
-		        base.send_response("Failed to fetch", null,res);
+		        base.send_response("Please change PAN or Mobile No.", null,res);
 		     }
 		   },6);
 		};
