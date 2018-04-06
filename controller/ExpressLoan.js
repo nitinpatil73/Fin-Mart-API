@@ -43,7 +43,7 @@ var GetExpressLoanParameter = function(req, res, next) {
     	base.send_response("Success",getdata[0],res);
   	}
   	else{
-      base.send_response("Record not found",null,res);        
+      base.send_response("Record not found",[],res);        
   	}
 });
 
