@@ -36,9 +36,9 @@ var notificationwrapper = function(endpoint, method, data, success) {
 
       'Content-Type': 'application/json',
 
-      'Authorization': 'key=AAAA8LQEaJk:APA91bFCHbV-Agn5pAFEIZlo1I5a1kJT045bSmgzxSPtTt6InH7upheQY_qcepYoMG5XiRgLGWnWPBSkVK0DpTrLo0OgXtylhCUAxSgD_SCof9_xd_E2UhjGrWRNJbFjFjvzWZQnTDPi',
+      'Authorization': 'key=AAAAS_NxFJ0:APA91bHaDvrs7g_ezcnzlMX-oM21lcR9quuKll2ISo6QwcL1gESfavPUA7sRcnBanttfJjDHaaiWdPQ_ykEyjLKySdKk8Zyll-SN6PnvY--UXWqq8IfFuEYSvkDKoZPsrIEOX-h9D0sD',
 
-      'Sender': '1033812338841',
+      'Sender': '326206821533',
 
       'Cache-Control': 'no-cache'
 
