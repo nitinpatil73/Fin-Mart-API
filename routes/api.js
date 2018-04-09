@@ -527,5 +527,9 @@ router.post('/save-loan-kotak',function(req,res,next){
   });
 });
 
+router.post('/smart-term-life',function(req,res,next){
+  var SmartTermLife = require('../controller/SmartTermLifeController');
+  SmartTermLife.SmartTermLifeParameter(req,res);
+});
 
 module.exports = router;

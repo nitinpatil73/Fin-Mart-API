@@ -51,6 +51,10 @@ else if(hosttype == 8) {
   else if(hosttype == 10) {
     hostname = "zohowebapi.magicsales.in";
   }
+
+    else if(hosttype == 11) {
+    hostname = "qa.policyboss.com";
+  }
   var dataString = JSON.stringify(data);
   var headers = {};
   
