@@ -51,9 +51,12 @@ else if(hosttype == 8) {
   else if(hosttype == 10) {
     hostname = "zohowebapi.magicsales.in";
   }
-
-    else if(hosttype == 11) {
+else if(hosttype == 11) {
     hostname = "qa.policyboss.com";
+  }
+  else if(hosttype == 12) {
+    //port="80";
+    hostname = "www.rupeeboss.com";
   }
   var dataString = JSON.stringify(data);
   var headers = {};
@@ -77,7 +80,7 @@ else if(hosttype == 8) {
     method: method,
     headers: headers
   };
-  //console.log(options);
+  console.log(options);
 
   var req = https.request(options, function(res) {
     res.setEncoding('utf-8');
@@ -90,7 +93,7 @@ else if(hosttype == 8) {
 
     res.on('end', function() {
       // console.log(hostname);
-       console.log(responseString);
+      // console.log(responseString);
       var responseObject = JSON.parse(responseString);
       success(responseObject);
     });
