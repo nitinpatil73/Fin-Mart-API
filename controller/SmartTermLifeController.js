@@ -113,4 +113,139 @@ var SmartTermLifeParameter = function(req, res, next) {
 		     	}
 		  },11);
 }
-module.exports = {"SmartTermLifeParameter":SmartTermLifeParameter};
+
+var GetSmartTermLife = function(req, res, next) {
+	var getsmartterm = [];
+	getsmartterm.push(req.body.InsurerId);
+	getsmartterm.push(req.body.fba_id);
+	con.execute_proc('call GetSmartTermLife(?,?)',getsmartterm,function(getsmartdata) {
+		if(getsmartdata != null){
+			var quoteresponse = [];
+    		var applicationquote = [];
+    		for (var i = 0; i < getsmartdata[0].length; i++) {
+    		var response_quote ={
+    				"lifetermrequestid": getsmartdata[0][i].lifetermrequestid,
+		            "PolicyTerm": getsmartdata[0][i].PolicyTerm,
+		            "InsuredGender": getsmartdata[0][i].InsuredGender,
+		            "Is_TabaccoUser": getsmartdata[0][i].Is_TabaccoUser,
+		            "SumAssured": getsmartdata[0][i].SumAssured,
+		            "InsuredDOB": getsmartdata[0][i].InsuredDOB,
+		            "PaymentModeValue": getsmartdata[0][i].PaymentModeValue,
+		            "PolicyCommencementDate": getsmartdata[0][i].PolicyCommencementDate,
+		            "CityName": getsmartdata[0][i].CityName,
+		            "State": getsmartdata[0][i].State,
+		            "PlanTaken": getsmartdata[0][i].PlanTaken,
+		            "Frequency": getsmartdata[0][i].Frequency,
+		            "DeathBenefitOption": getsmartdata[0][i].DeathBenefitOption,
+		            "PPT": getsmartdata[0][i].PPT,
+		            "IncomeTerm": getsmartdata[0][i].IncomeTerm,
+		            "MonthlyIncome": getsmartdata[0][i].MonthlyIncome,
+		            "LumpsumAmount": getsmartdata[0][i].LumpsumAmount,
+		            "IncreaseIncomePercentage": getsmartdata[0][i].IncreaseIncomePercentage,
+		            "IncreaseSAPercentage": getsmartdata[0][i].IncreaseSAPercentage,
+		            "ADBPercentage": getsmartdata[0][i].ADBPercentage,
+		            "CISA": getsmartdata[0][i].CISA,
+		            "LumpsumBSAProp": getsmartdata[0][i].LumpsumBSAProp,
+		            "ADBSA": getsmartdata[0][i].ADBSA,
+		            "TypeOfLife": getsmartdata[0][i].TypeOfLife,
+		            "ATPDSA": getsmartdata[0][i].ATPDSA,
+		            "HCBSA": getsmartdata[0][i].HCBSA,
+		            "WOP": getsmartdata[0][i].WOP,
+		            "PaymentOptn": getsmartdata[0][i].PaymentOptn,
+		            "MaritalStatus": getsmartdata[0][i].MaritalStatus,
+		            "PremiumPaymentOption": getsmartdata[0][i].PremiumPaymentOption,
+		            "ServiceTaxNotApplicable": getsmartdata[0][i].ServiceTaxNotApplicable,
+		            "CIBenefit": getsmartdata[0][i].CIBenefit,
+		            "ADHB": getsmartdata[0][i].ADHB,
+		            "InsurerId": getsmartdata[0][i].InsurerId,
+		            "SessionID": getsmartdata[0][i].SessionID,
+		            "Existing_ProductInsuranceMapping_Id": getsmartdata[0][i].Existing_ProductInsuranceMapping_Id,
+		            "ContactName": getsmartdata[0][i].ContactName,
+		            "ContactEmail": getsmartdata[0][i].ContactEmail,
+		            "ContactMobile": getsmartdata[0][i].ContactMobile,
+		            "SupportsAgentID": getsmartdata[0][i].SupportsAgentID,
+		            "crn": getsmartdata[0][i].crn,
+		            "fba_id": getsmartdata[0][i].fba_id,
+		            "Quote_Application_Status": getsmartdata[0][i].Quote_Application_Status,
+		            "conversion_date": getsmartdata[0][i].conversion_date,
+		            "created_date": getsmartdata[0][i].created_date,
+		            "updated_date": getsmartdata[0][i].updated_date,
+		            "isActive": getsmartdata[0][i].isActive,
+		            "PBStatus": getsmartdata[0][i].PBStatus,
+		            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
+		            "ApplNumb": getsmartdata[0][i].ApplNumb,
+		            "ApplDate": getsmartdata[0][i].ApplDate
+
+    			};
+    			quoteresponse.push(response_quote);
+    		}
+
+    			for (var i = 0; i < getsmartdata[0].length; i++) {
+    			var response_appli ={
+    					"lifetermrequestid": getsmartdata[1][i].lifetermrequestid,
+			            "PolicyTerm": getsmartdata[1][i].PolicyTerm,
+			            "InsuredGender": getsmartdata[1][i].InsuredGender,
+			            "Is_TabaccoUser": getsmartdata[1][i].Is_TabaccoUser,
+			            "SumAssured": getsmartdata[1][i].SumAssured,
+			            "InsuredDOB": getsmartdata[1][i].InsuredDOB,
+			            "PaymentModeValue": getsmartdata[1][i].PaymentModeValue,
+			            "PolicyCommencementDate": getsmartdata[1][i].PolicyCommencementDate,
+			            "CityName": getsmartdata[1][i].CityName,
+			            "State": getsmartdata[1][i].State,
+			            "PlanTaken": getsmartdata[1][i].PlanTaken,
+			            "Frequency": getsmartdata[1][i].Frequency,
+			            "DeathBenefitOption": getsmartdata[1][i].DeathBenefitOption,
+			            "PPT": getsmartdata[1][i].PPT,
+			            "IncomeTerm": getsmartdata[1][i].IncomeTerm,
+			            "MonthlyIncome": getsmartdata[1][i].MonthlyIncome,
+			            "LumpsumAmount": getsmartdata[1][i].LumpsumAmount,
+			            "IncreaseIncomePercentage": getsmartdata[1][i].IncreaseIncomePercentage,
+			            "IncreaseSAPercentage": getsmartdata[1][i].IncreaseSAPercentage,
+			            "ADBPercentage": getsmartdata[1][i].ADBPercentage,
+			            "CISA": getsmartdata[1][i].CISA,
+			            "LumpsumBSAProp": getsmartdata[1][i].LumpsumBSAProp,
+			            "ADBSA": getsmartdata[1][i].ADBSA,
+			            "TypeOfLife": getsmartdata[1][i].TypeOfLife,
+			            "ATPDSA": getsmartdata[1][i].ATPDSA,
+			            "HCBSA": getsmartdata[1][i].HCBSA,
+			            "WOP": getsmartdata[1][i].WOP,
+			            "PaymentOptn": getsmartdata[1][i].PaymentOptn,
+			            "MaritalStatus": getsmartdata[1][i].MaritalStatus,
+			            "PremiumPaymentOption": getsmartdata[1][i].PremiumPaymentOption,
+			            "ServiceTaxNotApplicable": getsmartdata[1][i].ServiceTaxNotApplicable,
+			            "CIBenefit": getsmartdata[1][i].CIBenefit,
+			            "ADHB": getsmartdata[1][i].ADHB,
+			            "InsurerId": getsmartdata[1][i].InsurerId,
+			            "SessionID": getsmartdata[1][i].SessionID,
+			            "Existing_ProductInsuranceMapping_Id": getsmartdata[1][i].Existing_ProductInsuranceMapping_Id,
+			            "ContactName": getsmartdata[1][i].ContactName,
+			            "ContactEmail": getsmartdata[1][i].ContactEmail,
+			            "ContactMobile": getsmartdata[1][i].ContactMobile,
+			            "SupportsAgentID": getsmartdata[1][i].SupportsAgentID,
+			            "crn": getsmartdata[1][i].crn,
+			            "fba_id": getsmartdata[1][i].fba_id,
+			            "Quote_Application_Status": getsmartdata[1][i].Quote_Application_Status,
+			            "conversion_date": getsmartdata[1][i].conversion_date,
+			            "created_date": getsmartdata[1][i].created_date,
+			            "updated_date": getsmartdata[1][i].updated_date,
+			            "isActive": getsmartdata[1][i].isActive,
+			            "PBStatus": getsmartdata[1][i].PBStatus,
+			            "PBStatusDate": getsmartdata[1][i].PBStatusDate,
+			            "ApplNumb": getsmartdata[1][i].ApplNumb,
+			            "ApplDate": getsmartdata[1][i].ApplDate
+
+    			};
+    			applicationquote.push(response_appli);
+    		}
+
+    		var getsmart = {"quote":quoteresponse,"application":applicationquote};
+			base.send_response("Success",getsmart,res);
+		}else{
+			base.send_response("Failure","",res);
+		}
+
+	});
+
+}
+
+module.exports = {"SmartTermLifeParameter":SmartTermLifeParameter,"GetSmartTermLife":GetSmartTermLife};
