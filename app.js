@@ -10,6 +10,11 @@ var api = require('./routes/api');
 var app = express();
 var base=require('./controller/baseController');
 var logger=require('./bin/Logger');
+ process.env.API_HOST_URL =  (process.env.NODE_ENV == 'production')?"http://api.magicfinmart.com":"http://qa.mgfm.in";
+ process.env.BO_HOST_URL =  (process.env.NODE_ENV == 'production')?"http://bo.magicfinmart.com":"http://bo.mgfm.in";
+ // console.log(process.env.BO_HOST_URL);
+ // console.log("-------------------")
+ // console.log(process.env.API_HOST_URL)
 // view engine setup
 // var phpExpress = require('php-express')({
 //   binPath: 'php'

@@ -10,7 +10,7 @@ var sendnotification = function(req, res, next){
       for (var i = 0; i < data[0].length; i++) {
         var message ={
           "notifyFlag": data[0][i].MessageType,
-          "img_url": data[0][i].ImagePath,
+          "img_url":  process.env.BO_HOST_URL+"/"+data[0][i].ImagePath,
           "body":data[0][i].Message,
           "title":data[0][i].NotificationTitle,
           "web_url": data[0][i].WebUrl,
