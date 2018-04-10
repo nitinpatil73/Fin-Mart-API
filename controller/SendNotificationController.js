@@ -37,6 +37,7 @@ function sendNotificationToUser (data,Requestid) {
 notificationwrapper('/fcm/send', 'POST', 
   data
   , function(response) {
+     //console.log(response);
      con.execute_proc('call Update_IsSend_After_SendNoti(?)',Requestid,function(data) {
 
      });      
