@@ -532,4 +532,15 @@ router.post('/smart-term-life',function(req,res,next){
   SmartTermLife.SmartTermLifeParameter(req,res);
 });
 
+
+router.post('/rbl-pl-calc',function(req,res,next){
+  var rblplcalc = require('../controller/CalculationController');
+  rblplcalc.rblplcalc(req,res);
+});
+
+router.post('/UpdatePartnerinfo',function(req,res,next){
+  var UpdatePartnerinfo = require('../controller/PartnerInfoController');
+  UpdatePartnerinfo.UpdatePartnerinfo(req,res);
+});
+
 module.exports = router;
