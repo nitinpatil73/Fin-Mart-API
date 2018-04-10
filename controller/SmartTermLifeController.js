@@ -118,13 +118,17 @@ var GetSmartTermLife = function(req, res, next) {
 	var getsmartterm = [];
 	getsmartterm.push(req.body.InsurerId);
 	getsmartterm.push(req.body.fba_id);
+	console.log("------------------------");
+	console.log(getsmartterm);
 	con.execute_proc('call GetSmartTermLife(?,?)',getsmartterm,function(getsmartdata) {
+		console.log("***************************");
+		console.log(getsmartdata);
 		if(getsmartdata != null){
 			var quoteresponse = [];
     		var applicationquote = [];
     		for (var i = 0; i < getsmartdata[0].length; i++) {
+    		//var response_lifetermrequestid = {"lifetermrequestid": getsmartdata[0][i].lifetermrequestid };
     		var response_quote ={
-    				"lifetermrequestid": getsmartdata[0][i].lifetermrequestid,
 		            "PolicyTerm": getsmartdata[0][i].PolicyTerm,
 		            "InsuredGender": getsmartdata[0][i].InsuredGender,
 		            "Is_TabaccoUser": getsmartdata[0][i].Is_TabaccoUser,
@@ -177,12 +181,13 @@ var GetSmartTermLife = function(req, res, next) {
 		            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-    			quoteresponse.push(response_quote);
+
+    			//quoteresponse.push({"termRequestEntity":response_quote});
+    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid });
     		}
 
     			for (var i = 0; i < getsmartdata[0].length; i++) {
     			var response_appli ={
-    					"lifetermrequestid": getsmartdata[1][i].lifetermrequestid,
 			            "PolicyTerm": getsmartdata[1][i].PolicyTerm,
 			            "InsuredGender": getsmartdata[1][i].InsuredGender,
 			            "Is_TabaccoUser": getsmartdata[1][i].Is_TabaccoUser,
@@ -235,7 +240,9 @@ var GetSmartTermLife = function(req, res, next) {
 			            "ApplDate": getsmartdata[1][i].ApplDate
 
     			};
-    			applicationquote.push(response_appli);
+
+    			//applicationquote.push({"termRequestEntity":response_appli});
+    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid });
     		}
 
     		var getsmart = {"quote":quoteresponse,"application":applicationquote};
