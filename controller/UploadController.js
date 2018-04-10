@@ -54,7 +54,7 @@ UploadController.save=function(req,res){
                     newFilePath="uploads/"+fbaid+"/"+DocName+"."+extension[extension.length-1];
                     var doc_param=[];
                     doc_param.push(fbaid);
-                    doc_param.push(DocType);
+                    doc_param.push(DocName);
                     doc_param.push(RBID);
                     doc_param.push(PBID);
                     doc_param.push(newFilePath);
