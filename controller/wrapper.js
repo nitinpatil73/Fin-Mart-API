@@ -12,7 +12,7 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
   }
 else if(hosttype == 2) {
     if(process.env.NODE_ENV == 'development'){
-        port = 8063;
+        
         hostname = "qa.policyboss.com";
     }
     else{
