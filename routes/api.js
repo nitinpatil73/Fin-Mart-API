@@ -550,4 +550,10 @@ router.post('/UpdatePartnerinfo',function(req,res,next){
 
 });
 
+router.post('/short-url',function(req,res,next){
+  var shorturl = require('../controller/ShortURLController');
+  shorturl.shorturl(req,res);
+
+});
+
 module.exports = router;
