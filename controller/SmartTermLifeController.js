@@ -183,7 +183,7 @@ var GetSmartTermLife = function(req, res, next) {
     			};
 
     			//quoteresponse.push({"termRequestEntity":response_quote});
-    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid });
+    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":" " });
     		}
 
     			for (var i = 0; i < getsmartdata[0].length; i++) {
@@ -242,7 +242,7 @@ var GetSmartTermLife = function(req, res, next) {
     			};
 
     			//applicationquote.push({"termRequestEntity":response_appli});
-    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid });
+    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid,"statusProgress": 0,"insImage":""});
     		}
 
     		var getsmart = {"quote":quoteresponse,"application":applicationquote};
