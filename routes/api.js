@@ -533,6 +533,12 @@ router.post('/smart-term-life',function(req,res,next){
 });
 
 
+
+router.post('/get-smart-term-life',function(req,res,next){
+  var GetTerm = require('../controller/SmartTermLifeController');
+  GetTerm.GetSmartTermLife(req,res);
+});
+
 router.post('/rbl-pl-calc',function(req,res,next){
   var rblplcalc = require('../controller/CalculationController');
   rblplcalc.rblplcalc(req,res);
@@ -541,6 +547,7 @@ router.post('/rbl-pl-calc',function(req,res,next){
 router.post('/UpdatePartnerinfo',function(req,res,next){
   var UpdatePartnerinfo = require('../controller/PartnerInfoController');
   UpdatePartnerinfo.UpdatePartnerinfo(req,res);
+
 });
 
 module.exports = router;
