@@ -75,7 +75,8 @@ var notificationwrapper = function(endpoint, method, data, success) {
     res.on('data', function(data) {        
 
       responseString += data;
-
+      console.log(responseString);
+       console.log("+++++++++++++++++++++++++")
     });
 
 
@@ -84,9 +85,8 @@ var notificationwrapper = function(endpoint, method, data, success) {
 
       // console.log(hostname);
 
-      // console.log(responseString);
 
-      var responseObject = JSON.parse(responseString);
+      var responseObject = "";
 
       success(responseObject);
 
