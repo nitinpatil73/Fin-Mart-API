@@ -532,4 +532,10 @@ router.post('/smart-term-life',function(req,res,next){
   SmartTermLife.SmartTermLifeParameter(req,res);
 });
 
+
+router.post('/get-smart-term-life',function(req,res,next){
+  var GetTerm = require('../controller/SmartTermLifeController');
+  GetTerm.GetSmartTermLife(req,res);
+});
+
 module.exports = router;
