@@ -556,4 +556,10 @@ router.post('/short-url',function(req,res,next){
 
 });
 
+router.post('/updateloanid',function(req,res,next){
+  var updateloanid = require('../controller/UpdateLoanIDControlller');
+  updateloanid.updateloanid(req,res);
+
+});
+
 module.exports = router;
