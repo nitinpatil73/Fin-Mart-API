@@ -572,7 +572,16 @@ router.post('/delete-smart-term-life',function(req,res,next){
 router.post('/short-url',function(req,res,next){
   var shorturl = require('../controller/ShortURLController');
   shorturl.shorturl(req,res);
-
 });
 
+
+router.post('/get-rbl-pl-city-master',function(req,res,next){
+  var rblcity = require('../controller/RBLPLController');
+  rblcity.RBLPlParameter(req,res);
+});
+
+router.post('/get-rbl-pl-calc',function(req,res,next){
+  var rblcal = require('../controller/RBLPLController');
+  rblcal.RBLlCalParameter(req,res);
+});
 module.exports = router;
