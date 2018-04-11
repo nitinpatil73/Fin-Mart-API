@@ -255,4 +255,19 @@ var GetSmartTermLife = function(req, res, next) {
 
 }
 
-module.exports = {"SmartTermLifeParameter":SmartTermLifeParameter,"GetSmartTermLife":GetSmartTermLife};
+
+var DeleteSmartTerm = function(req, res, next) {
+  var deleteparameter = [];
+      deleteparameter.push(req.body.termRequestId); 
+      con.execute_proc('call DeleteSmartTerm(?)',deleteparameter,function(deldata) {
+      if(deldata[0][0].SavedStatus=="0"){
+        base.send_response("Record deleted successfully.", deldata[0],res);
+      }
+      else{
+        base.send_response("Failure",null,res);
+      }
+  });
+};
+
+
+module.exports = {"SmartTermLifeParameter":SmartTermLifeParameter,"GetSmartTermLife":GetSmartTermLife,"DeleteSmartTerm":DeleteSmartTerm};

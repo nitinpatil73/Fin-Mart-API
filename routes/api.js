@@ -547,7 +547,26 @@ router.post('/rbl-pl-calc',function(req,res,next){
 router.post('/UpdatePartnerinfo',function(req,res,next){
   var UpdatePartnerinfo = require('../controller/PartnerInfoController');
   UpdatePartnerinfo.UpdatePartnerinfo(req,res);
+});
 
+router.post('/get-kotak-pl-company-master',function(req,res,next){
+  var getkpl = require('../controller/KotakPLController');
+  getkpl.KotakplParameter(req,res);
+});
+
+router.post('/get-kotak-pl-calc',function(req,res,next){
+  var getkplcal = require('../controller/KotakPLController');
+  getkplcal.KotakplCalParameter(req,res);
+});
+
+router.post('/get-kotak-pl-city-list',function(req,res,next){
+  var getkcity = require('../controller/KotakPLController');
+  getkcity.KotakplCityParameter(req,res);
+});
+
+router.post('/delete-smart-term-life',function(req,res,next){
+  var delsmart = require('../controller/SmartTermLifeController');
+  delsmart.DeleteSmartTerm(req,res);
 });
 
 module.exports = router;
