@@ -547,14 +547,39 @@ router.post('/rbl-pl-calc',function(req,res,next){
 router.post('/UpdatePartnerinfo',function(req,res,next){
   var UpdatePartnerinfo = require('../controller/PartnerInfoController');
   UpdatePartnerinfo.UpdatePartnerinfo(req,res);
+});
 
+router.post('/get-kotak-pl-company-master',function(req,res,next){
+  var getkpl = require('../controller/KotakPLController');
+  getkpl.KotakplParameter(req,res);
+});
+
+router.post('/get-kotak-pl-calc',function(req,res,next){
+  var getkplcal = require('../controller/KotakPLController');
+  getkplcal.KotakplCalParameter(req,res);
+});
+
+router.post('/get-kotak-pl-city-list',function(req,res,next){
+  var getkcity = require('../controller/KotakPLController');
+  getkcity.KotakplCityParameter(req,res);
+});
+
+router.post('/delete-smart-term-life',function(req,res,next){
+  var delsmart = require('../controller/SmartTermLifeController');
+  delsmart.DeleteSmartTerm(req,res);
 });
 
 router.post('/short-url',function(req,res,next){
   var shorturl = require('../controller/ShortURLController');
   shorturl.shorturl(req,res);
-
 });
+
+
+router.post('/get-rbl-pl-city-master',function(req,res,next){
+  var rblcity = require('../controller/RBLPLController');
+  rblcity.RBLPlParameter(req,res);
+});
+
 
 router.post('/updateloanid',function(req,res,next){
   var updateloanid = require('../controller/UpdateLoanIDControlller');
@@ -562,4 +587,9 @@ router.post('/updateloanid',function(req,res,next){
 
 });
 
+
+router.post('/get-rbl-pl-calc',function(req,res,next){
+  var rblcal = require('../controller/RBLPLController');
+  rblcal.RBLlCalParameter(req,res);
+});
 module.exports = router;
