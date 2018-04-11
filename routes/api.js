@@ -569,4 +569,10 @@ router.post('/delete-smart-term-life',function(req,res,next){
   delsmart.DeleteSmartTerm(req,res);
 });
 
+router.post('/short-url',function(req,res,next){
+  var shorturl = require('../controller/ShortURLController');
+  shorturl.shorturl(req,res);
+
+});
+
 module.exports = router;
