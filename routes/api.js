@@ -592,4 +592,10 @@ router.post('/get-rbl-pl-calc',function(req,res,next){
   var rblcal = require('../controller/RBLPLController');
   rblcal.RBLlCalParameter(req,res);
 });
+
+
+router.post('/get-url',function(req,res,next){
+  var surl = require('../controller/ShortURLController');
+  surl.ShortURLParameter(req,res);
+});
 module.exports = router;
