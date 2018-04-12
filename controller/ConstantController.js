@@ -15,7 +15,7 @@ var GetConstantData = function(req, res, next){
 				 "ROIPLBL":data[0][5].ConstantValue,
 				 "ROILABL":data[0][6].ConstantValue,
 				 "POSPNo":data[0][7].ConstantValue,
-				 "POSPStat":data[0][8].ConstantValue,
+				 "POSPStat":"6",
 			};
 			base.send_response("Success",response,res);
 		}
