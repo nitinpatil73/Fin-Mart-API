@@ -20,9 +20,11 @@ wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
 	loan.push(data.loanId); 
 	con.execute_proc('call UpdateLoanId(?,?)',loan,function(loandata) {
 		console.log(loandata);
-		    console.log("******############***********");
+		 console.log("******############***********");
+		 console.log(loandata[0].SavedStatus);
+		if(loandata!=null && loandata[0][0].SavedStatus==0){
+
 		    console.log(loandata[0]);
-		if(loandata!=null && loandata[0].SavedStatus==0){
 				base.send_response("Loan ID Updated Sucessfully",loandata[0],res);
 		}
 		else{
