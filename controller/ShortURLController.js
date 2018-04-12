@@ -24,9 +24,20 @@ var parameter = [];
   else{
      base.send_response("Failure", "",res);  
   }
-
-
-
 };
 
-module.exports = {"shorturl" :shorturl}
+
+var ShortURLParameter = function(req, res, next) {
+    var shorturlpara =[];
+    shorturlpara.push(req.body.shorturl);
+    con.execute_proc('call GetUrl(?)',shorturlpara,function(rdata) {
+        if(rdata != null){
+            base.send_response("Success",rdata[0],res);
+        }
+        else{
+              base.send_response("Failure", "",res);  
+        }
+    });
+
+}
+module.exports = {"shorturl" :shorturl,"ShortURLParameter":ShortURLParameter}
