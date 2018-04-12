@@ -5,6 +5,8 @@ var https = require('http');
 var wrapper = function(endpoint, method, data, success,hosttype) {
   var hostname = "";
   var port = "80";
+  var username = "test";
+  var password = "test@123";
   if (hosttype == 1) {
     //hostname = "vehicleinfo.policyboss.com";
     hostname = "qa-horizon.policyboss.com";
@@ -13,7 +15,10 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
 else if(hosttype == 2) {
     if(process.env.NODE_ENV == 'development'){
         
-        hostname = "qa.policyboss.com";
+        //hostname = "qa.policyboss.com";
+         hostname = "vehicleinfo.policyboss.com";
+          username = "Datacomp";
+         password = "dc@pb123";
     }
     else{
         hostname = "vehicleinfo.policyboss.com";
@@ -46,7 +51,8 @@ else if(hosttype == 8) {
     hostname = "demo.fundzmagiconline.com";
   }
   else if(hosttype == 9) {
-    hostname = "http://horizon.policyboss.com:5000";
+    hostname = "horizon.policyboss.com";
+    port = "5000";      
   }
   else if(hosttype == 10) {
     hostname = "zohowebapi.magicsales.in";
@@ -69,8 +75,8 @@ else if(hosttype == 11) {
     headers = {
       'Content-Type': 'application/json',
       'Content-Length': dataString.length,
-      'UserName': 'test',
-      'Password': 'test@123'
+      'UserName': username,
+      'Password': password
     };
   }
   var options = {
@@ -93,7 +99,7 @@ else if(hosttype == 11) {
 
     res.on('end', function() {
       // console.log(hostname);
-      // console.log(responseString);
+       console.log(responseString);
       var responseObject = JSON.parse(responseString);
       success(responseObject);
     });

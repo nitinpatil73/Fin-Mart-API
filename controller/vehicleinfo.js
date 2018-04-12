@@ -11,13 +11,14 @@ app('/quote/vehicle_info', 'POST', {
     client_key : "CLIENT-GLF2SRA5-CFIF-4X2T-HC1Z-CXV4ZWQTFQ3T",
 	secret_key : "SECRET-ODARQ6JP-9V2Q-7BIM-0NNM-DNRTXRWMRTAL"
   }, function(data) {
+    console.log(data);
   	if(data!=null){
 	  	base.send_response("success",data, res);
   	}
   	else{
   		base.send_response("failure",data, res);
   	}
-  },1);
+  },9);
 }
 
 // router.post('/vehicle-info', function(req, res, next) {

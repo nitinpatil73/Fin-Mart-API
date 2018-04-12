@@ -392,7 +392,7 @@ var ComparePremium = function (req, res, next) {
     console.log("***************************");
     console.log(response);
     if(response!=null){      
-wrapper('/quotes/api/SmartHealth', 'POST', {
+wrapper('/api/SmartHealth', 'POST', {
     CityID: response[0][0].CityID,
     PlanID: response[0][0].PBPlanID,
     HealthRequestId: req.body.HealthRequestId,
