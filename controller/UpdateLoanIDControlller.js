@@ -8,22 +8,12 @@ var updateloanid = function (req, res, next) {
 wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
    "fbaid" : req.body.fbaid
   }, function(data) {
-    console.log("***************************");
-   console.log(data);
-    if(data!=null && data.statusId==0){
-    	    console.log(data.loanId);
-			console.log(req.body.fbaid);
-
+    if(data!=null && data.loanId != 0){
     var loan = [];
 	loan.push(req.body.fbaid); //p_FBAID        INT,
 	loan.push(data.loanId); 
 	con.execute_proc('call UpdateLoanId(?,?)',loan,function(loandata) {
-		console.log(loandata);
-		 console.log("******############***********");
-		 console.log(loandata[0].SavedStatus);
 		if(loandata!=null && loandata[0][0].SavedStatus==0){
-
-		    console.log(loandata[0]);
 				base.send_response("Loan ID Updated Sucessfully",loandata[0],res);
 		}
 		else{
@@ -33,7 +23,7 @@ wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
     }
     else{
     	GetFBAData(req.body.fbaid,req, res, next);
-        base.send_response("failure",null, res);
+        //base.send_response("failure",null, res);
     }
   },3);
 
@@ -95,22 +85,17 @@ function GetFBAData(FBAID,req, res, next) {
 		            "Loan_BankCity": fbadata[0][0].Loan_BankCity  
 			}
 			var apiname = "/LoginDtls.svc/xmlservice/insFbaRegistration";
-			if(process.env.NODE_ENV == 'development'){
-				apiname = "/LoginDtls.svc/xmlservice/insFbaRegistrationForDC";
-			}
+			// if(process.env.NODE_ENV == 'development'){
+			// 	apiname = "/LoginDtls.svc/xmlservice/insFbaRegistrationForDC";
+			// }
 				wrapper(apiname, 'POST', 
 			    converteddata
 			  , function(data) {
-			  	console.log("************************");
-			  	console.log(data);
 			  	if(data.statusId == 0)
 			  	{
-			  		console.log("-------------if---------------");
 			  		var updatparameter = [];
 				 	updatparameter.push(req.body.fbaid);
 				 	updatparameter.push(data.result); 
-				 	console.log("-------------if console log---------------");
-				 	console.log(updatparameter);
 			  		con.execute_proc('call UpdateLoanId(?,?)',updatparameter,function(loandata) {
 						if(loandata!=null && loandata[0][0].SavedStatus==0){
 							base.send_response("Loan ID Updated Sucessfully",loandata[0],res);
@@ -123,7 +108,6 @@ function GetFBAData(FBAID,req, res, next) {
 			  	}
 			  	else
 			  	{
-			  		console.log("-------------else---------------");
 			  		base.send_response("failure",null, res);
 			  	}
 			},3);
