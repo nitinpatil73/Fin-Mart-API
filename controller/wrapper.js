@@ -20,6 +20,8 @@ else if(hosttype == 2) {
     } 
   }
    else if(hosttype == 3) {
+
+    
     if(process.env.NODE_ENV == 'development'){
         port = 8063;
         hostname = "erp.rupeeboss.com";
@@ -55,7 +57,7 @@ else if(hosttype == 11) {
     hostname = "qa.policyboss.com";
   }
   else if(hosttype == 12) {
-    //port="80";
+    port="80";
     hostname = "www.rupeeboss.com";
   }
   var dataString = JSON.stringify(data);

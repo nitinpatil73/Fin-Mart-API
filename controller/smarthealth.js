@@ -392,6 +392,25 @@ var ComparePremium = function (req, res, next) {
     console.log("***************************");
     console.log(response);
     if(response!=null){      
+
+      console.log({ CityID: response[0][0].CityID,
+    PlanID: response[0][0].PBPlanID,
+    HealthRequestId: req.body.HealthRequestId,
+    ContactEmail: response[0][0].ContactEmail,
+    ContactMobile: response[0][0].ContactMobile,
+    ContactName: response[0][0].ContactName,
+    DeductibleAmount: 0,
+    ExistingCustomerReferenceID: 0,
+    HealthType: "Health",
+    MaritalStatusID: response[0][0].MaritalStatusID,
+    MemberList: JSON.parse(response[0][0].MemberList),
+    PolicyFor: response[0][0].PolicyFor,
+    PolicyTermYear: 1,
+    ProductID: 2,
+    SessionID: "",
+    SourceType: "APP",
+    SumInsured: response[0][0].SumInsured,
+    SupportsAgentID: 2});
 wrapper('/quotes/api/SmartHealth', 'POST', {
     CityID: response[0][0].CityID,
     PlanID: response[0][0].PBPlanID,
