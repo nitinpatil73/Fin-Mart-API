@@ -4,7 +4,7 @@ var wrapper = require('./wrapper.js');
 
 var EarlySalary = function (req, res, next) {
 	//	var brokerid = new Buffer((req.body.brokerid)).toString('base64');
-	//	var response = { "{\"response\":\"SMS Sent to:9146609109\",\"status\":\"200\"}" }
+	//	var response = ( "{\"response\":\"SMS Sent to:9146609109\",\"status\":\"200\"}" );
 		// console.log("*******************************");
 		// console.log(brokerid);
 		wrapper('/BankAPIService.svc/createEarlySalaryReq', 'POST', {
@@ -24,9 +24,10 @@ var EarlySalary = function (req, res, next) {
 		    "source":req.body.source,
 		    "CampaignName":req.body.CampaignName
 		  }, function(response) {
-		  	console.log("---------------------------------------");
-		  	console.log(response);
-		     if(response != null){
+			 js=JSON.parse(response);
+		  	// console.log("---------------------------------------");
+		  	// console.log(js.status);
+		     if(js.status == 200){
 		     	var ExpressLoan = require('./ExpressLoan');
 		     	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
 		     		req.body.phoneNumber,
@@ -106,7 +107,7 @@ var EarlySalary = function (req, res, next) {
 			    "CoAppNMI": req.body.PersonalLoan.CoAppNMI,
 			    "CoAppEmiCurPay": req.body.PersonalLoan.CoAppEmiCurPay,
 			    "Version": req.body.PersonalLoan.Version,
-			    
+
 			    "brokerid": req.body.PersonalLoan.brokerid,
 			    "empid": req.body.PersonalLoan.empid,
 			    "source": req.body.PersonalLoan.source,
