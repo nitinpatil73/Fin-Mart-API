@@ -3,6 +3,10 @@ var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 
 var EarlySalary = function (req, res, next) {
+	//	var brokerid = new Buffer((req.body.brokerid)).toString('base64');
+	//	var response = { "{\"response\":\"SMS Sent to:9146609109\",\"status\":\"200\"}" }
+		// console.log("*******************************");
+		// console.log(brokerid);
 		wrapper('/BankAPIService.svc/createEarlySalaryReq', 'POST', {
 		    "FirstName" : req.body.FirstName,
 		    "LastName" : req.body.LastName,
@@ -14,13 +18,16 @@ var EarlySalary = function (req, res, next) {
 		    "Employment" : req.body.Employment,
 		    "MonthlySalary" : req.body.MonthlySalary,
 		    "LoanAmount" : req.body.LoanAmount,
+
 		    "empid":req.body.empid,
 		    "brokerid":req.body.brokerid,
 		    "source":req.body.source,
 		    "CampaignName":req.body.CampaignName
 		  }, function(response) {
+		  	console.log("---------------------------------------");
+		  	console.log(response);
 		     if(response != null){
-		     	// var ExpressLoan = require('./ExpressLoan');
+		     	var ExpressLoan = require('./ExpressLoan');
 		     	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
 		     		req.body.phoneNumber,
 		     		req.body.City,
@@ -99,6 +106,7 @@ var EarlySalary = function (req, res, next) {
 			    "CoAppNMI": req.body.PersonalLoan.CoAppNMI,
 			    "CoAppEmiCurPay": req.body.PersonalLoan.CoAppEmiCurPay,
 			    "Version": req.body.PersonalLoan.Version,
+			    
 			    "brokerid": req.body.PersonalLoan.brokerid,
 			    "empid": req.body.PersonalLoan.empid,
 			    "source": req.body.PersonalLoan.source,
@@ -113,7 +121,7 @@ var EarlySalary = function (req, res, next) {
 			 {
 			    SaveExpressKotakLoanParameter(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName,
 			    req.body.PersonalLoan.Mobile,
-			    req.body.PersonalLoan.OffCity,
+			    req.body.PersonalLoan.ResCity,
 			    req.body.PersonalLoan.LnAmt,
 			    req.body.PersonalLoan.BankId,
 			    req.body.PersonalLoan.LoanType,
@@ -150,6 +158,9 @@ var EarlySalary = function (req, res, next) {
 
 		var HDFCPLParameter = function (req, res, next) {
 		//	var HDFCResponse = ("{\"Status\":\"0\",\"Lead_Id\":\"796295\"}");
+		// var brokerid = new Buffer(req.body.brokerid).toString('base64');
+		// console.log("----------------------------------------------------------");
+		// console.log(brokerid);
 			wrapper('/BankAPIService.svc/createHDFCPLReq', 'POST', {
 			 	"branch_location": req.body.branch_location,
 						  "branch_code": req.body.branch_code,
@@ -172,7 +183,8 @@ var EarlySalary = function (req, res, next) {
 						  "current_add": req.body.current_add,
 						  "same": req.body.same,
 						  "per_add": req.body.per_add,
-						  "brokerid": req.body.brokerid,
+
+						  "brokerid":req.body.brokerid,
 						  "empid": req.body.empid,
 						  "source": req.body.source,
 						  "CampaignName": req.body.CampaignName
@@ -202,43 +214,44 @@ var EarlySalary = function (req, res, next) {
 		var RupeeBossParameter = function (req, res, next) {
 		//	var RBLData = ("{\"Status\":1,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
 			var PersonalLoan = {
-				"FirstName": req.body.PersonalLoan.FirstName,
-			    "MiddleName": req.body.PersonalLoan.MiddleName,
-			    "LastName": req.body.PersonalLoan.LastName,
-			    "Gender": req.body.PersonalLoan.Gender,
-			    "ResAddress1": req.body.PersonalLoan.ResAddress1,
-			    "ResAddress2": req.body.PersonalLoan.ResAddress2,
-			    "ResLand": req.body.PersonalLoan.ResLand,
-			    "DOB": req.body.PersonalLoan.DOB,
-			    "ResType": req.body.PersonalLoan.ResType,
-			    "CurResSince": req.body.PersonalLoan.CurResSince,
-			    "ResPIN": req.body.PersonalLoan.ResPIN,
-			    "Mobile": req.body.PersonalLoan.Mobile,
-			    "Email": req.body.PersonalLoan.Email,
-			    "EmpType": req.body.PersonalLoan.EmpType,
-			    "LnAmt": req.body.PersonalLoan.LnAmt,
-			    "TnrMths": req.body.PersonalLoan.TnrMths,
-			    "IRR": req.body.PersonalLoan.IRR,
-			    "ProcFee": req.body.PersonalLoan.ProcFee,
-			    "NMI": req.body.PersonalLoan.NMI,
-			    "EmiCurPay": req.body.PersonalLoan.EmiCurPay,
-			    "ResCity": req.body.PersonalLoan.ResCity,
-			    "CompanyName": req.body.PersonalLoan.CompanyName,
-			    "CurCmpnyJoinDt": req.body.PersonalLoan.CurCmpnyJoinDt,
-			    "TotWrkExp": req.body.PersonalLoan.TotWrkExp,
-			    "OffAddress1": req.body.PersonalLoan.OffAddress1,
-			    "OffAddress2": req.body.PersonalLoan.OffAddress2,
-			    "OrgCategory": req.body.PersonalLoan.OrgCategory,
-			    "OffCity": req.body.PersonalLoan.OffCity,
-			    "OffPIN": req.body.PersonalLoan.OffPIN,
-			    "OffPhone": req.body.PersonalLoan.OffPhone,
-			    "PAN": req.body.PersonalLoan.PAN,
-			    "Qualification": req.body.PersonalLoan.Qualification,
-			    "check": req.body.PersonalLoan.check,
-			    "brokerid": req.body.PersonalLoan.brokerid,
-			    "empid": req.body.PersonalLoan.empid,
-			    "source": req.body.PersonalLoan.source,
-			    "CampaignName": req.body.PersonalLoan.CampaignName
+				"FirstName": req.body.FirstName,
+			    "MiddleName": req.body.MiddleName,
+			    "LastName": req.body.LastName,
+			    "Gender": req.body.Gender,
+			    "ResAddress1": req.body.ResAddress1,
+			    "ResAddress2": req.body.ResAddress2,
+			    "ResLand": req.body.ResLand,
+			    "DOB": req.body.DOB,
+			    "ResType": req.body.ResType,
+			    "CurResSince": req.body.CurResSince,
+			    "ResPIN": req.body.ResPIN,
+			    "Mobile": req.body.Mobile,
+			    "Email": req.body.Email,
+			    "EmpType": req.body.EmpType,
+			    "LnAmt": req.body.LnAmt,
+			    "TnrMths": req.body.TnrMths,
+			    "IRR": req.body.IRR,
+			    "ProcFee": req.body.ProcFee,
+			    "NMI": req.body.NMI,
+			    "EmiCurPay": req.body.EmiCurPay,
+			    "ResCity": req.body.ResCity,
+			    "CompanyName": req.body.CompanyName,
+			    "CurCmpnyJoinDt": req.body.CurCmpnyJoinDt,
+			    "TotWrkExp": req.body.TotWrkExp,
+			    "OffAddress1": req.body.OffAddress1,
+			    "OffAddress2": req.body.OffAddress2,
+			    "OrgCategory": req.body.OrgCategory,
+			    "OffCity": req.body.OffCity,
+			    "OffPIN": req.body.OffPIN,
+			    "OffPhone": req.body.OffPhone,
+			    "PAN": req.body.PAN,
+			    "Qualification": req.body.Qualification,
+			    "check": req.body.check,
+
+			    "brokerid": req.body.brokerid,
+			    "empid": req.body.empid,
+			    "source": req.body.source,
+			    "CampaignName": req.body.CampaignName
 			}
 			wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
 			 	"PersonalLoan":PersonalLoan
@@ -246,13 +259,13 @@ var EarlySalary = function (req, res, next) {
 		 js=JSON.parse(RBLData);
 		 if(js.Status == 4){
 		 	  js=JSON.parse(RBLData);
-		    	  	SaveExpressKotakLoanParameter(req.body.PersonalLoan.FirstName + " " + req.body.PersonalLoan.LastName,
-		     		req.body.PersonalLoan.Mobile,
-		     		req.body.PersonalLoan.ResCity,
-		     		req.body.PersonalLoan.LnAmt,
-		     		req.body.PersonalLoan.BankId,
-		     		req.body.PersonalLoan.LoanType,
-		     		req.body.PersonalLoan.FBAID,
+		    	  	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+		     		req.body.Mobile,
+		     		req.body.ResCity,
+		     		req.body.LnAmt,
+		     		req.body.BankId,
+		     		req.body.LoanType,
+		     		req.body.FBAID,
 		     		js.ReferenceCode,
 		     		req, res, function(data){
 		     	 });

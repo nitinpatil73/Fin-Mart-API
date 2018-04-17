@@ -5,6 +5,12 @@ var GetConstantData = function(req, res, next){
 		var GetConstantData = [];
 		GetConstantData.push(req.body.FBAID);		
 		con.execute_proc('call Get_Constant_Data(?)',GetConstantData,function(data) {
+			// console.log(data[0][2].ConstantValue);
+			// console.log(data[0][3].ConstantValue);
+			// console.log(data[0][4].ConstantValue);
+			// console.log(data[0][5].ConstantValue);
+			// console.log(data[0][6].ConstantValue);
+			console.log(data[0]);
 		if(data!=null){
 			var response={
 			     "VersionCode":data[0][0].ConstantValue,
@@ -15,7 +21,8 @@ var GetConstantData = function(req, res, next){
 				 "ROIPLBL":data[0][5].ConstantValue,
 				 "ROILABL":data[0][6].ConstantValue,
 				 "POSPNo":data[0][7].ConstantValue,
-				 "POSPStat":data[0][8].ConstantValue,
+				 "POSPStat":"6",
+				 "POSPTraining":"1"
 			};
 			base.send_response("Success",response,res);
 		}
