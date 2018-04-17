@@ -40,4 +40,28 @@ var ShortURLParameter = function(req, res, next) {
     });
 
 }
-module.exports = {"shorturl" :shorturl,"ShortURLParameter":ShortURLParameter}
+
+var shorturlforrupeebosstofinmart = function(req, res, next) {
+
+var parameter = [];
+
+  if(req.body.longurl){
+    parameter.push(req.body.longurl);
+   
+
+      con.execute_proc('call CreateShortUrlForRupeebossToFinmart(?)',parameter,function(data) {
+      if(data[0][0].SavedStatus == 0){
+        // res.send("hjg");
+        base.send_response("Success", data[0],res);
+      }
+      else{
+            base.send_response("Failure", "",res);  
+      }
+});
+  
+  }
+  else{
+     base.send_response("Long url missing", "",res);  
+  }
+};
+module.exports = {"shorturl" :shorturl,"ShortURLParameter":ShortURLParameter,"shorturlforrupeebosstofinmart":shorturlforrupeebosstofinmart}

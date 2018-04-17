@@ -598,4 +598,9 @@ router.post('/get-url',function(req,res,next){
   var surl = require('../controller/ShortURLController');
   surl.ShortURLParameter(req,res);
 });
+
+router.post('/short-url-forall',function(req,res,next){
+  var surl = require('../controller/ShortURLController');
+  surl.shorturlforrupeebosstofinmart(req,res);
+});
 module.exports = router;
