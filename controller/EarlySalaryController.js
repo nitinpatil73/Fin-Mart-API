@@ -40,10 +40,10 @@ var EarlySalary = function (req, res, next) {
 		     		req, res, function(data){
 		     	 	console.log(data);
 		     	 });
-		        base.send_response("success",response,res);    
+		        base.send_response("Record saved successfully.",response,res);    
 		     }
 		     else{
-		        base.send_response("Failed to fetch", null,res);
+		        base.send_response("Please change mobile no.", null,res);
 		     }
 		  },6);
 	};
