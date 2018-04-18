@@ -32,7 +32,7 @@ wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
 
 function GetFBAData(FBAID,req, res, next) {
 	con.execute_proc('call GetLoanFBAData(?)',FBAID,function(fbadata) {
-		if(fbadata != null)
+		if(fbadata[0].length>0)
 		{
 			var converteddata = {
 					"FBAID": fbadata[0][0].FBAID ,
@@ -85,9 +85,6 @@ function GetFBAData(FBAID,req, res, next) {
 		            "Loan_BankCity": fbadata[0][0].Loan_BankCity  
 			}
 			var apiname = "/LoginDtls.svc/xmlservice/insFbaRegistration";
-			// if(process.env.NODE_ENV == 'development'){
-			// 	apiname = "/LoginDtls.svc/xmlservice/insFbaRegistrationForDC";
-			// }
 				wrapper(apiname, 'POST', 
 			    converteddata
 			  , function(data) {
@@ -115,7 +112,7 @@ function GetFBAData(FBAID,req, res, next) {
 		}
 		else
 		{
-			base.send_response("failure",null, res);
+			base.send_response("FBAID does not exist",null, res);
 		}
 
 	});
