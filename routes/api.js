@@ -605,6 +605,8 @@ router.post('/encode-broker-id',function(req,res,next){
   var encodeid = require('../controller/EarlySalaryController');
   encodeid.BrokerIdEncodeParameter(req,res);
 
+});
+
 router.post('/short-url-forall',function(req,res,next){
   var surl = require('../controller/ShortURLController');
   surl.shorturlforrupeebosstofinmart(req,res);
