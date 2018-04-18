@@ -24,6 +24,15 @@ var GetNotificationList = function(req, res, next){
 		console.log(GetNotificationList);
 		con.execute_proc('call GetNotificationList(?)',GetNotificationList,function(data) {
 		if(data!=null && data[0].length>0){
+			var url = "http://bo.magicfinmart.com/";
+		  	if(process.env.NODE_ENV == 'development'){		       
+		        url = "http://bo.mgfm.in/";
+		    }		    
+
+			for (var i = 0; i < data[0].length; i++) {
+				data[0][i].img_url = url + data[0][i].img_url;
+			}
+
 			base.send_response("Success", data[0],res);		
 		}
 		else{
