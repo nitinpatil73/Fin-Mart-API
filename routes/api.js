@@ -394,7 +394,7 @@ router.post('/get-quick-lead', function(req, res, next) {
 
 
 router.post('/send-sms', function (req, res, next) {
-  var SMS = require('../controller/SMSController');
+  var SMS = require('../controller/SmsController');
   SMS.send(req,res);
  
 });
