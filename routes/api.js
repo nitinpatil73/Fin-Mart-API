@@ -598,4 +598,10 @@ router.post('/get-url',function(req,res,next){
   var surl = require('../controller/ShortURLController');
   surl.ShortURLParameter(req,res);
 });
+
+
+router.post('/encode-broker-id',function(req,res,next){
+  var encodeid = require('../controller/EarlySalaryController');
+  encodeid.BrokerIdEncodeParameter(req,res);
+});
 module.exports = router;
