@@ -114,7 +114,9 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
     });
       var newdata= [];
       for(i = 0; i< data.length; i++) {
-
+        if (data[i].PlanID === 0) {
+            continue;
+        }
         var logo = data[i].InsuLogoName;
         console.log("......."+logo);
         var imagepath = "";
@@ -124,48 +126,46 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
             imagepath =   "http://" + req.headers.host + "/uploads/InsurerLogo/" + filename[0] + ".png";
             //console.log(filename.split('.'));
         }
-        var newresponse = {};
-         newresponse.CustomerReferenceID=0;
-         newresponse.QuoteId=0;
-         newresponse.PolicyTermYear=1;
-         newresponse.PlanName = data[i].Plantitl;
-         newresponse.InsurerName = data[i].InsuShorName;
-         newresponse.InsurerLogoName=imagepath;
-         newresponse.ProductName = data[i].ProdName;
-         newresponse.PlanID = data[i].PlanID;
-         newresponse.ZoneID = 0;
-         newresponse.OtherPlanID = "";
-         newresponse.ProdID = data[i].ProdID;
-         newresponse.InsurerId = data[i].InsuID;
-         newresponse.ServiceTax = 0;
-         newresponse.SumInsured = data[i].SumInsu;
-         newresponse.HMBValue = "";
-         newresponse.IsOnlinePayment = 0;
-         newresponse.KeyFeatures = "";
-         newresponse.BroucherDownloadLink = "";
-         newresponse.Discount = 0;
-         newresponse.Deductible_Amount = data[i].Deductible;
-         newresponse.NetPremium = data[i].FinalPremium;
-         //newresponse.GrossPremium = 0;
-         newresponse.GrossPremium = data[i].GrossPremiumStep;
-         newresponse.DiscountPercent ="";
-         newresponse.Premium = "";
-         newresponse.Group_name = "";
-         newresponse.QuoteStatus = "";
-         newresponse.ProposerPageUrl = "";
-         newresponse.pincode = data[i].pincode;
-         newresponse.FinalProductID = data[i].FinalProductID;
-         newresponse.servicetaxincl =data[i].servicetaxincl;
-         newresponse.BasicPremium = data[i].GrossPremium;
-         newresponse.GrossPremiumStep = data[i].GrossPremium;
-         newresponse.LstbenfitsFive =data[i].LstbenfitsAll;
-
-         
-         // console.log("..............................");
-         // console.log(data[i].LstbenfitsFive);
-         newdata.push(newresponse);
+              var newresponse = {};
+               newresponse.CustomerReferenceID=0;
+               newresponse.QuoteId=0;
+               newresponse.PolicyTermYear=1;
+               newresponse.PlanName = data[i].Plantitl;
+               newresponse.InsurerName = data[i].InsuShorName;
+               newresponse.InsurerLogoName=imagepath;
+               newresponse.ProductName = data[i].ProdName;
+               newresponse.PlanID = data[i].PlanID;
+               newresponse.ZoneID = 0;
+               newresponse.OtherPlanID = "";
+               newresponse.ProdID = data[i].ProdID;
+               newresponse.InsurerId = data[i].InsuID;
+               newresponse.ServiceTax = 0;
+               newresponse.SumInsured = data[i].SumInsu;
+               newresponse.HMBValue = "";
+               newresponse.IsOnlinePayment = 0;
+               newresponse.KeyFeatures = "";
+               newresponse.BroucherDownloadLink = "";
+               newresponse.Discount = 0;
+               newresponse.Deductible_Amount = data[i].Deductible;
+               newresponse.NetPremium = data[i].FinalPremium;
+               //newresponse.GrossPremium = 0;
+               newresponse.GrossPremium = data[i].GrossPremiumStep;
+               newresponse.DiscountPercent ="";
+               newresponse.Premium = "";
+               newresponse.Group_name = "";
+               newresponse.QuoteStatus = "";
+               newresponse.ProposerPageUrl = "";
+               newresponse.pincode = data[i].pincode;
+               newresponse.FinalProductID = data[i].FinalProductID;
+               newresponse.servicetaxincl =data[i].servicetaxincl;
+               newresponse.BasicPremium = data[i].GrossPremium;
+               newresponse.GrossPremiumStep = data[i].GrossPremium;
+               newresponse.LstbenfitsFive =data[i].LstbenfitsAll;
+               newdata.push(newresponse);
+               console.log("..............PlanID................");
+               console.log(data[i].PlanID); 
       }
-
+      
       console.log(newdata);
       //res.send(newdata);
       var uniqueInsurerId = [];
