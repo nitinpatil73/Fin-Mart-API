@@ -44,7 +44,12 @@ else if(hosttype == 2) {
     hostname = "finmartwebapi.magicsales.in";
   }
   else if(hosttype == 6) {
-    hostname = "api.rupeeboss.com";
+    if(process.env.NODE_ENV == 'development'){
+       hostname = "uat.api.rupeeboss.com";
+  }
+  else{
+       hostname = "api.rupeeboss.com";
+  }
   
   }else if(hosttype==7){
     hostname="http://vas.mobilogi.com";
@@ -88,6 +93,7 @@ else if(hosttype == 11) {
     method: method,
     headers: headers
   };
+  console.log("---------------------wrapper-----------------------------");
   console.log(options);
 
   var req = https.request(options, function(res) {
