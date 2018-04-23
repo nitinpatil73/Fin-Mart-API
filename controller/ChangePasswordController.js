@@ -12,7 +12,7 @@ var changepassword = function(req, res, next) {
 		base.send_response("Password change successfully.", data[0],res);
 	}
 	else{
-		base.send_response("Old password not match", null,res);
+		base.send_response("Failure", null,res);
 	}	
 });
 };
