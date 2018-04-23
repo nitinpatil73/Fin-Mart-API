@@ -612,4 +612,10 @@ router.post('/short-url-forall',function(req,res,next){
   surl.shorturlforrupeebosstofinmart(req,res);
 
 });
+
+
+router.post('/change-password',function(req,res,next){
+  var pass = require('../controller/ChangePasswordController');
+  pass.changepassword(req,res);
+});
 module.exports = router;
