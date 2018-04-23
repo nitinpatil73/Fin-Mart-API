@@ -8,13 +8,13 @@ var updateloanid = function (req, res, next) {
 wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
    "fbaid" : req.body.fbaid
   }, function(data) {
-    if(data!=null && data.loanId != 0){
+    if(data!=null && data.loanId != 0 && data.loanId != ''){
     var loan = [];
 	loan.push(req.body.fbaid); //p_FBAID        INT,
 	loan.push(data.loanId); 
 	con.execute_proc('call UpdateLoanId(?,?)',loan,function(loandata) {
 		if(loandata!=null && loandata[0][0].SavedStatus==0){
-				base.send_response("Loan ID Updated Sucessfully",loandata[0],res);
+				base.send_response("Loan Id updated successfully!",loandata[0],res);
 		}
 		else{
 			base.send_response(loandata[0][0].Message,null,res);
@@ -95,7 +95,7 @@ function GetFBAData(FBAID,req, res, next) {
 				 	updatparameter.push(data.result); 
 			  		con.execute_proc('call UpdateLoanId(?,?)',updatparameter,function(loandata) {
 						if(loandata!=null && loandata[0][0].SavedStatus==0){
-							base.send_response("Loan ID Updated Sucessfully",loandata[0],res);
+							base.send_response("Loan Id updated successfully!",loandata[0],res);
 						}
 						else{
 							base.send_response(loandata[0][0].Message,null,res);
@@ -112,7 +112,7 @@ function GetFBAData(FBAID,req, res, next) {
 		}
 		else
 		{
-			base.send_response("FBAID does not exist",null, res);
+			base.send_response("Given FBAId does not exists!",null, res);
 		}
 
 	});
