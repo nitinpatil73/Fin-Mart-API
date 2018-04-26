@@ -114,9 +114,9 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
     });
       var newdata= [];
       for(i = 0; i< data.length; i++) {
-        if (data[i].PlanID === 0) {
-            continue;
-        }
+        // if (data[i].PlanID === 0) {
+        //     continue;
+        // }
         var logo = data[i].InsuLogoName;
         console.log("......."+logo);
         var imagepath = "";
