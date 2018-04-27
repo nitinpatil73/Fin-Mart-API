@@ -8,7 +8,7 @@ var RBLog  = require('../model/RBUpdateLoanLog.js');
 var Mailer = require('../controller/MailController');
 var logger=require('../bin/Logger');
 var insertFBARegistration = function(req, res, next) {
-
+console.log("called");
 //res.send("success");
 
 // console.log(res.body);
@@ -44,7 +44,7 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 		});
 	
 		
-		var handler = require('../controller/SMSController');
+		var handler = require('../controller/SmsController');
 		var msg = "Dear " + req.body.FirstName + " " + req.body.LastName + " Welcome to Magic Finmart. Your Magic Finmart UserName is :" +req.body.EmailId +" and Password is :"+req.body.password;
 		//handler.sendMessage(req.body.Mobile_1,msg);
 				

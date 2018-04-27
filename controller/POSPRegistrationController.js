@@ -89,7 +89,7 @@ function SaveFBADetaPolicyBoss(req,res,next){
 
 	// };
 	// console.log(BasicDetails);
-		app('/quotes/api/pospregistration', 'POST', {
+		app('/api/pospregistration', 'POST', {
 		    FBAID : req.body.FBAID,
 			SM_POSP_ID : req.body.SMID,
 			SM_POSP_Name : req.body.SM_Name,
