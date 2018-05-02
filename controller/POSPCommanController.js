@@ -80,7 +80,7 @@ app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
 	  "ProdPASSWORD": null,
 	  "DebitCredit": 0,
 	  "PromCode": null,
-	  "DWTInvo": null,
+	  "DWTInvo": 1,
 	  "AppID": "171",
 	  "AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
   "AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
