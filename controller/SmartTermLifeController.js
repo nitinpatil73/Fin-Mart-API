@@ -97,8 +97,11 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.ContactMobile);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.SupportsAgentID);
 		  		 		SmartTermLifeParameter.push(response[0].CustomerReferenceID);
+		  		 		SmartTermLifeParameter.push(req.body.fba_id);
+		  		 		console.log("***********************************************");
+		  		 		console.log(SmartTermLifeParameter);
 
-		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
+		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
 					     		if(smartdata[0][0].SavedStatus == 0){
 					     			var SmartTermLifeResponce = {"LifeTermRequestID":smartdata[0][0].lifetermrequestid,"Response":response };
 					     			 base.send_response("Record saved successfully.",SmartTermLifeResponce,res);
@@ -121,7 +124,7 @@ var GetSmartTermLife = function(req, res, next) {
 	console.log("------------------------");
 	console.log(getsmartterm);
 	con.execute_proc('call GetSmartTermLife(?,?)',getsmartterm,function(getsmartdata) {
-		console.log("***************************");
+		console.log("*************getsmartdata**************");
 		console.log(getsmartdata);
 		if(getsmartdata != null){
 			var quoteresponse = [];
@@ -186,7 +189,7 @@ var GetSmartTermLife = function(req, res, next) {
     			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
     		}
 
-    			for (var i = 0; i < getsmartdata[0].length; i++) {
+    			for (var i = 0; i < getsmartdata[1].length; i++) {
     			var response_appli ={
 			            "PolicyTerm": getsmartdata[1][i].PolicyTerm,
 			            "InsuredGender": getsmartdata[1][i].InsuredGender,
