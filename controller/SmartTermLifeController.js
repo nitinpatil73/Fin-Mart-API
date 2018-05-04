@@ -48,7 +48,13 @@ var SmartTermLifeParameter = function(req, res, next) {
 		     "ContactName": req.body.termRequestEntity.ContactName,
 		     "ContactEmail": req.body.termRequestEntity.ContactEmail,
 		     "ContactMobile": req.body.termRequestEntity.ContactMobile,
-		     "SupportsAgentID": req.body.termRequestEntity.SupportsAgentID
+		     "SupportsAgentID": req.body.termRequestEntity.SupportsAgentID,
+
+
+		     "LumpsumPercentage": req.body.termRequestEntity.LumpsumPercentage,
+			"created_date": req.body.termRequestEntity.created_date,
+			"crn": req.body.termRequestEntity.crn,
+			"pincode": req.body.termRequestEntity.pincode,
 		  }, function(response) {
 		  		 if(response[0].CustomerReferenceID != 0){
 
