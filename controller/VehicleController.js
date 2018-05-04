@@ -126,16 +126,27 @@ if(req.body.first_name){
 else{
 	vehicleparameter.push(null);
 }
-console.log(req.body.product_id);
+
+if(req.body.count){
+	vehicleparameter.push(req.body.count);	
+}
+else{
+	vehicleparameter.push(0);
+}
+
+if(req.body.type){
+	vehicleparameter.push(req.body.type);	
+}
+else{
+	vehicleparameter.push(0);
+}
+
+console.log("**********************************");
 console.log(vehicleparameter);
-
-	con.execute_proc('call GetVehicleRequest(?,?,?,?,?)',vehicleparameter,function(data) {
-
-
-		
+if(req.body.type == 0){
+	con.execute_proc('call GetVehicleRequest(?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 		var quoteresponse = [];
 		var applicationquote = [];
-
 		for (var i = 0; i < data[0].length; i++) {
 			data[0][i].progress_image = "";
 			var response ={
@@ -151,7 +162,6 @@ console.log(vehicleparameter);
 			quoteresponse.push(response);
 		}
 
-
 		for (var i = 0; i < data[1].length; i++) {
 			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
 			var response ={
@@ -166,20 +176,61 @@ console.log(vehicleparameter);
 			};
 			applicationquote.push(response);
 		}
-
-
-// console.log(quoteresponse);
-// res.send(quoteresponse);
-
 		var responsedata = {"quote":quoteresponse,"application":applicationquote};
 		base.send_response("Success", responsedata,res);
-		// if(data[0].length>0){
-		// 	base.send_response("Success", data[0],res);
-		// }
-		// else{
-		// 	base.send_response("Failure",null,res);
-		// }
 	});
+}
+else if(req.body.type == 1)
+{
+	con.execute_proc('call GetVehicleRequest(?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+		var quoteresponse = [];
+		var applicationquote = [];
+		for (var i = 0; i < data[0].length; i++) {
+			data[0][i].progress_image = "";
+			var response ={
+				"SRN" : data[0][i].srn,
+				"VehicleRequestID" : data[0][i].VehicleRequestID,
+				"fba_id" : data[0][i].fba_id,
+				"isActive" : data[0][i].isActive,
+				"selectedPrevInsID" : data[0][i].selectedPrevInsID,
+				"insImage":data[0][i].insImage,
+				"motorRequestEntity" : data[0][i]
+				
+			};
+			quoteresponse.push(response);
+		}
+		var responsedata = {"quote":quoteresponse,"application":[]};
+		base.send_response("Success", responsedata,res);
+	});
+	//base.send_response("Failure type not pass",null,res);
+}
+else if(req.body.type == 2)
+{
+	con.execute_proc('call GetVehicleRequest(?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+		
+		var quoteresponse = [];
+		var applicationquote = [];
+		for (var i = 0; i < data[0].length; i++) {
+			data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+			var appresponse ={
+				"SRN" : data[0][i].srn,
+				"VehicleRequestID" : data[0][i].VehicleRequestID,
+				"fba_id" : data[0][i].fba_id,
+				"isActive" : data[0][i].isActive,
+				"selectedPrevInsID" : data[0][i].selectedPrevInsID,
+				"insImage":data[0][i].insImage,
+				"motorRequestEntity" : data[0][i]
+			};
+			applicationquote.push(appresponse);
+		}
+		var responsedata = {"quote":[],"application":applicationquote};
+		base.send_response("Success", responsedata,res);
+	});
+}
+else
+{
+	base.send_response("Failure type not pass",null,res);
+}
 };
 
 var quotetoapplicationvehicle = function(req, res, next) {
