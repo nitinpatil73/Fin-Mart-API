@@ -136,8 +136,11 @@ var EarlySalary = function (req, res, next) {
 				wrapper('/BankAPIService.svc/createKotakPersonalLoanReq', 'POST', {
 					 	"PersonalLoan":PersonalLoan
 				  }, function(kotakresponse) {
+
+				  	console.log("************************************");
+				  	console.log(kotakresponse);
 					 js=JSON.parse(kotakresponse);
-					 if(js.Response.Status == 3)
+					 if(js.Response.Status == 2)
 					 {
 					    SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
 					    req.body.Mobile,
