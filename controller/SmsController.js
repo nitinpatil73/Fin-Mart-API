@@ -41,7 +41,8 @@ function send_sms(data,cb){
     //console.log("sendsm")
    var request = require('request');
    message=encodeURIComponent(data.msg);
-   var url='http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]='+data.mobile+'&message[]='+data.msg ;
+   //var url='http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]='+data.mobile+'&message[]='+data.msg ;
+   var url='http://vas.mobilogi.com/api.php?username=finmrt&password=pass1234&route=5&sender=FINMRT&mobile[]='+data.mobile+'&message[]='+message ;
    console.log(url);
    request(url, function (error, response, body) {
   if (!error && response.statusCode == 200) {
