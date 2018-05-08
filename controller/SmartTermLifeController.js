@@ -191,7 +191,7 @@ var GetSmartTermLife = function(req, res, next) {
 		            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
+    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
     		}
 
     			for (var i = 0; i < getsmartdata[1].length; i++) {
@@ -249,7 +249,7 @@ var GetSmartTermLife = function(req, res, next) {
 			            "ApplDate": getsmartdata[1][i].ApplDate
 
     			};
-    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[1][i].insImage});
+    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid,"NetPremium": getsmartdata[1][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[1][i].insImage});
     		}
 
     		var getsmart = {"quote":quoteresponse,"application":applicationquote};
@@ -321,7 +321,7 @@ else if(req.body.type == 1)
 		            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
+    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
     		}
     		var getsmart = {"quote":quoteresponse,"application":[]};
 			base.send_response("Success",getsmart,res);
@@ -391,7 +391,7 @@ else if(req.body.type == 2)
 			            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage});
+    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage});
     		}
     		console.log("--------------------2------------------------");
     		console.log(applicationquote);
@@ -426,10 +426,10 @@ var setQuoteToApplicationSmartTerm = function(req, res, next) {
   var smarttermparameter = [];
       smarttermparameter.push(req.body.termRequestId); 
   	  smarttermparameter.push(req.body.InsurerId); 
-  	 // smarttermparameter.push(req.body.imgpath);
   	  smarttermparameter.push(req.body.fba_id); 
+  	  smarttermparameter.push(req.body.NetPremium);
  
-  con.execute_proc('call setQuoteToApplicationSmartTerm(?,?,?)',smarttermparameter,function(smarttermdata) {
+  con.execute_proc('call setQuoteToApplicationSmartTerm(?,?,?,?)',smarttermparameter,function(smarttermdata) {
       if(smarttermdata[0][0].SavedStatus=="0"){
         base.send_response("Record updated successfully.", smarttermdata[0],res);
       }
