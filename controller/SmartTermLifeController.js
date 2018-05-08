@@ -69,6 +69,7 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PolicyCommencementDate);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.CityName);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.State);
+		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.pincode);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PlanTaken);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.Frequency);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.DeathBenefitOption);
@@ -107,7 +108,7 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		console.log("***********************************************");
 		  		 		console.log(SmartTermLifeParameter);
 
-		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
+		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
 					     		if(smartdata[0][0].SavedStatus == 0){
 					     			var SmartTermLifeResponce = {"LifeTermRequestID":smartdata[0][0].lifetermrequestid,"Response":response };
 					     			 base.send_response("Record saved successfully.",SmartTermLifeResponce,res);
@@ -147,6 +148,7 @@ var GetSmartTermLife = function(req, res, next) {
 		            "PolicyCommencementDate": getsmartdata[0][i].PolicyCommencementDate,
 		            "CityName": getsmartdata[0][i].CityName,
 		            "State": getsmartdata[0][i].State,
+		            "pincode": getsmartdata[0][i].pincode,
 		            "PlanTaken": getsmartdata[0][i].PlanTaken,
 		            "Frequency": getsmartdata[0][i].Frequency,
 		            "DeathBenefitOption": getsmartdata[0][i].DeathBenefitOption,
@@ -206,6 +208,7 @@ var GetSmartTermLife = function(req, res, next) {
 			            "PolicyCommencementDate": getsmartdata[1][i].PolicyCommencementDate,
 			            "CityName": getsmartdata[1][i].CityName,
 			            "State": getsmartdata[1][i].State,
+			            "pincode": getsmartdata[1][i].pincode,
 			            "PlanTaken": getsmartdata[1][i].PlanTaken,
 			            "Frequency": getsmartdata[1][i].Frequency,
 			            "DeathBenefitOption": getsmartdata[1][i].DeathBenefitOption,
