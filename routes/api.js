@@ -569,6 +569,11 @@ router.post('/delete-smart-term-life',function(req,res,next){
   delsmart.DeleteSmartTerm(req,res);
 });
 
+router.post('/smart-term-quote-to-application',function(req,res,next){
+  var QtoAsmart = require('../controller/SmartTermLifeController');
+  QtoAsmart.setQuoteToApplicationSmartTerm(req,res);
+});
+
 router.post('/short-url',function(req,res,next){
   var shorturl = require('../controller/ShortURLController');
   shorturl.shorturl(req,res);

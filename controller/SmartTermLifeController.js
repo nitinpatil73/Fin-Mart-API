@@ -69,6 +69,7 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PolicyCommencementDate);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.CityName);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.State);
+		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.pincode);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PlanTaken);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.Frequency);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.DeathBenefitOption);
@@ -107,7 +108,7 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		console.log("***********************************************");
 		  		 		console.log(SmartTermLifeParameter);
 
-		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
+		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
 					     		if(smartdata[0][0].SavedStatus == 0){
 					     			var SmartTermLifeResponce = {"LifeTermRequestID":smartdata[0][0].lifetermrequestid,"Response":response };
 					     			 base.send_response("Record saved successfully.",SmartTermLifeResponce,res);
@@ -127,16 +128,15 @@ var GetSmartTermLife = function(req, res, next) {
 	var getsmartterm = [];
 	getsmartterm.push(req.body.InsurerId);
 	getsmartterm.push(req.body.fba_id);
-	console.log("------------------------");
-	console.log(getsmartterm);
-	con.execute_proc('call GetSmartTermLife(?,?)',getsmartterm,function(getsmartdata) {
-		console.log("*************getsmartdata**************");
-		console.log(getsmartdata);
+	getsmartterm.push(req.body.count);
+	getsmartterm.push(req.body.type);
+	if(req.body.type == 0)
+	{
+		con.execute_proc('call GetSmartTermLife(?,?,?,?)',getsmartterm,function(getsmartdata) {
 		if(getsmartdata != null){
 			var quoteresponse = [];
     		var applicationquote = [];
     		for (var i = 0; i < getsmartdata[0].length; i++) {
-    		//var response_lifetermrequestid = {"lifetermrequestid": getsmartdata[0][i].lifetermrequestid };
     		var response_quote ={
 		            "PolicyTerm": getsmartdata[0][i].PolicyTerm,
 		            "InsuredGender": getsmartdata[0][i].InsuredGender,
@@ -147,6 +147,7 @@ var GetSmartTermLife = function(req, res, next) {
 		            "PolicyCommencementDate": getsmartdata[0][i].PolicyCommencementDate,
 		            "CityName": getsmartdata[0][i].CityName,
 		            "State": getsmartdata[0][i].State,
+		            "pincode": getsmartdata[0][i].pincode,
 		            "PlanTaken": getsmartdata[0][i].PlanTaken,
 		            "Frequency": getsmartdata[0][i].Frequency,
 		            "DeathBenefitOption": getsmartdata[0][i].DeathBenefitOption,
@@ -190,8 +191,6 @@ var GetSmartTermLife = function(req, res, next) {
 		            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-
-    			//quoteresponse.push({"termRequestEntity":response_quote});
     			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
     		}
 
@@ -206,6 +205,7 @@ var GetSmartTermLife = function(req, res, next) {
 			            "PolicyCommencementDate": getsmartdata[1][i].PolicyCommencementDate,
 			            "CityName": getsmartdata[1][i].CityName,
 			            "State": getsmartdata[1][i].State,
+			            "pincode": getsmartdata[1][i].pincode,
 			            "PlanTaken": getsmartdata[1][i].PlanTaken,
 			            "Frequency": getsmartdata[1][i].Frequency,
 			            "DeathBenefitOption": getsmartdata[1][i].DeathBenefitOption,
@@ -249,8 +249,6 @@ var GetSmartTermLife = function(req, res, next) {
 			            "ApplDate": getsmartdata[1][i].ApplDate
 
     			};
-
-    			//applicationquote.push({"termRequestEntity":response_appli});
     			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[1][i].insImage});
     		}
 
@@ -261,7 +259,153 @@ var GetSmartTermLife = function(req, res, next) {
 		}
 
 	});
+}
+else if(req.body.type == 1)
+{
+	con.execute_proc('call Get_Smart_Term_Life_TWO(?,?,?,?)',getsmartterm,function(getsmartdata) {
+		if(getsmartdata != null){
+			var quoteresponse = [];
+    		var applicationquote = [];
+    		for (var i = 0; i < getsmartdata[0].length; i++) {
+    		var response_quote ={
+		            "PolicyTerm": getsmartdata[0][i].PolicyTerm,
+		            "InsuredGender": getsmartdata[0][i].InsuredGender,
+		            "Is_TabaccoUser": getsmartdata[0][i].Is_TabaccoUser,
+		            "SumAssured": getsmartdata[0][i].SumAssured,
+		            "InsuredDOB": getsmartdata[0][i].InsuredDOB,
+		            "PaymentModeValue": getsmartdata[0][i].PaymentModeValue,
+		            "PolicyCommencementDate": getsmartdata[0][i].PolicyCommencementDate,
+		            "CityName": getsmartdata[0][i].CityName,
+		            "State": getsmartdata[0][i].State,
+		            "pincode": getsmartdata[0][i].pincode,
+		            "PlanTaken": getsmartdata[0][i].PlanTaken,
+		            "Frequency": getsmartdata[0][i].Frequency,
+		            "DeathBenefitOption": getsmartdata[0][i].DeathBenefitOption,
+		            "PPT": getsmartdata[0][i].PPT,
+		            "IncomeTerm": getsmartdata[0][i].IncomeTerm,
+		            "MonthlyIncome": getsmartdata[0][i].MonthlyIncome,
+		            "LumpsumAmount": getsmartdata[0][i].LumpsumAmount,
+		            "IncreaseIncomePercentage": getsmartdata[0][i].IncreaseIncomePercentage,
+		            "IncreaseSAPercentage": getsmartdata[0][i].IncreaseSAPercentage,
+		            "ADBPercentage": getsmartdata[0][i].ADBPercentage,
+		            "CISA": getsmartdata[0][i].CISA,
+		            "LumpsumBSAProp": getsmartdata[0][i].LumpsumBSAProp,
+		            "ADBSA": getsmartdata[0][i].ADBSA,
+		            "TypeOfLife": getsmartdata[0][i].TypeOfLife,
+		            "ATPDSA": getsmartdata[0][i].ATPDSA,
+		            "HCBSA": getsmartdata[0][i].HCBSA,
+		            "WOP": getsmartdata[0][i].WOP,
+		            "PaymentOptn": getsmartdata[0][i].PaymentOptn,
+		            "MaritalStatus": getsmartdata[0][i].MaritalStatus,
+		            "PremiumPaymentOption": getsmartdata[0][i].PremiumPaymentOption,
+		            "ServiceTaxNotApplicable": getsmartdata[0][i].ServiceTaxNotApplicable,
+		            "CIBenefit": getsmartdata[0][i].CIBenefit,
+		            "ADHB": getsmartdata[0][i].ADHB,
+		            "InsurerId": getsmartdata[0][i].InsurerId,
+		            "SessionID": getsmartdata[0][i].SessionID,
+		            "Existing_ProductInsuranceMapping_Id": getsmartdata[0][i].Existing_ProductInsuranceMapping_Id,
+		            "ContactName": getsmartdata[0][i].ContactName,
+		            "ContactEmail": getsmartdata[0][i].ContactEmail,
+		            "ContactMobile": getsmartdata[0][i].ContactMobile,
+		            "SupportsAgentID": getsmartdata[0][i].SupportsAgentID,
+		            "crn": getsmartdata[0][i].crn,
+		            "fba_id": getsmartdata[0][i].fba_id,
+		            "Quote_Application_Status": getsmartdata[0][i].Quote_Application_Status,
+		            "conversion_date": getsmartdata[0][i].conversion_date,
+		            "created_date": getsmartdata[0][i].created_date,
+		            "updated_date": getsmartdata[0][i].updated_date,
+		            "isActive": getsmartdata[0][i].isActive,
+		            "PBStatus": getsmartdata[0][i].PBStatus,
+		            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
+		            "ApplNumb": getsmartdata[0][i].ApplNumb,
+		            "ApplDate": getsmartdata[0][i].ApplDate
 
+    			};
+    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
+    		}
+    		var getsmart = {"quote":quoteresponse,"application":[]};
+			base.send_response("Success",getsmart,res);
+			}else{
+				base.send_response("Failure","",res);
+			}
+		});
+}
+else if(req.body.type == 2)
+{
+		con.execute_proc('call Get_Smart_Term_Life_TWO(?,?,?,?)',getsmartterm,function(getsmartdata) {
+		if(getsmartdata != null){
+			var quoteresponse = [];
+    		var applicationquote = [];
+				for (var i = 0; i < getsmartdata[0].length; i++) {
+    			var response_appli ={
+			            "PolicyTerm": getsmartdata[0][i].PolicyTerm,
+			            "InsuredGender": getsmartdata[0][i].InsuredGender,
+			            "Is_TabaccoUser": getsmartdata[0][i].Is_TabaccoUser,
+			            "SumAssured": getsmartdata[0][i].SumAssured,
+			            "InsuredDOB": getsmartdata[0][i].InsuredDOB,
+			            "PaymentModeValue": getsmartdata[0][i].PaymentModeValue,
+			            "PolicyCommencementDate": getsmartdata[0][i].PolicyCommencementDate,
+			            "CityName": getsmartdata[0][i].CityName,
+			            "State": getsmartdata[0][i].State,
+			            "pincode": getsmartdata[0][i].pincode,
+			            "PlanTaken": getsmartdata[0][i].PlanTaken,
+			            "Frequency": getsmartdata[0][i].Frequency,
+			            "DeathBenefitOption": getsmartdata[0][i].DeathBenefitOption,
+			            "PPT": getsmartdata[0][i].PPT,
+			            "IncomeTerm": getsmartdata[0][i].IncomeTerm,
+			            "MonthlyIncome": getsmartdata[0][i].MonthlyIncome,
+			            "LumpsumAmount": getsmartdata[0][i].LumpsumAmount,
+			            "IncreaseIncomePercentage": getsmartdata[0][i].IncreaseIncomePercentage,
+			            "IncreaseSAPercentage": getsmartdata[0][i].IncreaseSAPercentage,
+			            "ADBPercentage": getsmartdata[0][i].ADBPercentage,
+			            "CISA": getsmartdata[0][i].CISA,
+			            "LumpsumBSAProp": getsmartdata[0][i].LumpsumBSAProp,
+			            "ADBSA": getsmartdata[0][i].ADBSA,
+			            "TypeOfLife": getsmartdata[0][i].TypeOfLife,
+			            "ATPDSA": getsmartdata[0][i].ATPDSA,
+			            "HCBSA": getsmartdata[0][i].HCBSA,
+			            "WOP": getsmartdata[0][i].WOP,
+			            "PaymentOptn": getsmartdata[0][i].PaymentOptn,
+			            "MaritalStatus": getsmartdata[0][i].MaritalStatus,
+			            "PremiumPaymentOption": getsmartdata[0][i].PremiumPaymentOption,
+			            "ServiceTaxNotApplicable": getsmartdata[0][i].ServiceTaxNotApplicable,
+			            "CIBenefit": getsmartdata[0][i].CIBenefit,
+			            "ADHB": getsmartdata[0][i].ADHB,
+			            "InsurerId": getsmartdata[0][i].InsurerId,
+			            "SessionID": getsmartdata[0][i].SessionID,
+			            "Existing_ProductInsuranceMapping_Id": getsmartdata[0][i].Existing_ProductInsuranceMapping_Id,
+			            "ContactName": getsmartdata[0][i].ContactName,
+			            "ContactEmail": getsmartdata[0][i].ContactEmail,
+			            "ContactMobile": getsmartdata[0][i].ContactMobile,
+			            "SupportsAgentID": getsmartdata[0][i].SupportsAgentID,
+			            "crn": getsmartdata[0][i].crn,
+			            "fba_id": getsmartdata[0][i].fba_id,
+			            "Quote_Application_Status": getsmartdata[0][i].Quote_Application_Status,
+			            "conversion_date": getsmartdata[0][i].conversion_date,
+			            "created_date": getsmartdata[0][i].created_date,
+			            "updated_date": getsmartdata[0][i].updated_date,
+			            "isActive": getsmartdata[0][i].isActive,
+			            "PBStatus": getsmartdata[0][i].PBStatus,
+			            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
+			            "ApplNumb": getsmartdata[0][i].ApplNumb,
+			            "ApplDate": getsmartdata[0][i].ApplDate
+
+    			};
+    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[0][i].lifetermrequestid,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage});
+    		}
+    		console.log("--------------------2------------------------");
+    		console.log(applicationquote);
+    		var getsmart = {"quote":[],"application":applicationquote};
+			base.send_response("Success",getsmart,res);
+		}else{
+			base.send_response("Failure","",res);
+		}
+
+	});
+}
+else{
+	base.send_response("Failure Type not match","",res);
+}
 }
 
 
@@ -278,5 +422,22 @@ var DeleteSmartTerm = function(req, res, next) {
   });
 };
 
+var setQuoteToApplicationSmartTerm = function(req, res, next) {
+  var smarttermparameter = [];
+      smarttermparameter.push(req.body.termRequestId); 
+  	  smarttermparameter.push(req.body.InsurerId); 
+  	 // smarttermparameter.push(req.body.imgpath);
+  	  smarttermparameter.push(req.body.fba_id); 
+ 
+  con.execute_proc('call setQuoteToApplicationSmartTerm(?,?,?)',smarttermparameter,function(smarttermdata) {
+      if(smarttermdata[0][0].SavedStatus=="0"){
+        base.send_response("Record updated successfully.", smarttermdata[0],res);
+      }
+      else{
+        base.send_response("Failure",null,res);
+      }
+  });
+};
 
-module.exports = {"SmartTermLifeParameter":SmartTermLifeParameter,"GetSmartTermLife":GetSmartTermLife,"DeleteSmartTerm":DeleteSmartTerm};
+
+module.exports = {"SmartTermLifeParameter":SmartTermLifeParameter,"GetSmartTermLife":GetSmartTermLife,"DeleteSmartTerm":DeleteSmartTerm,"setQuoteToApplicationSmartTerm":setQuoteToApplicationSmartTerm};
