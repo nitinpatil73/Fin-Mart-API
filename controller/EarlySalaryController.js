@@ -31,14 +31,16 @@ var EarlySalary = function (req, res, next) {
 				    "MonthlySalary" : req.body.MonthlySalary,
 				    "LoanAmount" : req.body.LoanAmount,
 
-				    "empid":req.body.empid,
+				    "empid":"MAA=",
 				    "brokerid":Encoderesponse,
-				    "source":req.body.source,
-				    "CampaignName":req.body.CampaignName
+				    "source":"MAA=",
+				    "CampaignName":"Finmart App"
 				  }, function(response) {
+				  	console.log("------------------Early salary response---------------------");
+				  	console.log(response);
 					 js=JSON.parse(response);
 				     if(js.status == 200){
-				     	var ExpressLoan = require('./ExpressLoan');
+				     	//var ExpressLoan = require('./ExpressLoan');
 				     	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
 				     		req.body.phoneNumber,
 				     		req.body.City,
@@ -250,6 +252,8 @@ var EarlySalary = function (req, res, next) {
 		//	var RBLData = ("{\"Status\":1,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
 		wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
 			},function(Encoderesponse) {
+				console.log("********************************************");
+				console.log(Encoderesponse);
 				if(Encoderesponse != null && Encoderesponse != ''){
 					var PersonalLoan = {
 				"FirstName": req.body.FirstName,
@@ -294,6 +298,8 @@ var EarlySalary = function (req, res, next) {
 			wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
 			 	"PersonalLoan":PersonalLoan
 				  }, function(RBLData) {
+				  	console.log("*********************RBLData***********************");
+				console.log(RBLData);
 				 js=JSON.parse(RBLData);
 				 if(js.Status == 4){
 				 	  js=JSON.parse(RBLData);

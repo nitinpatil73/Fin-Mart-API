@@ -6,12 +6,13 @@ var pendingCases = function(req, res, next) {
 
 var parameter = [];
 
-if(req.body.FBAID){
-parameter.push(req.body.FBAID);
+if(req.body.fba_id){
+parameter.push(req.body.fba_id);
+parameter.push(req.body.count);
 
 console.log(parameter);
 
-con.execute_proc('call getPendingcases(?)',parameter,function(data) {
+con.execute_proc('call getPendingcases(?,?)',parameter,function(data) {
 	console.log(data);
 	if(data != null){
 		base.send_response("Success", data[0],res);
