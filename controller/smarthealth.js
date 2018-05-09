@@ -255,34 +255,25 @@ console.log("...............2435.............");
 
 
 var getHealthRequest = function(req, res, next) {
-
 var parameter = [];
-
 if(req.body.fba_id){
   parameter.push(req.body.fba_id); 
 }
 else{
   parameter.push(null);
 }
-console.log(parameter);
+parameter.push(req.body.count);
+parameter.push(req.body.type);
 
-  con.execute_proc('call getHealthRequest(?)',parameter,function(data) {
-
-    console.log("*****************data**********************")
-    console.log(data);
-     console.log("*****************data**********************")
-    
+if(req.body.type == 0)
+{
+  con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
     var applicationquote = [];
- //console.log(data[0][0].MemberList);
-
     for (var i = 0; i < data[0].length; i++) {
       data[0][i].progress_image = null;
       var healthrequest = data[0][i];
-    //  console.log("***************************************")
-      console.log(data[0][i])
       var arr = JSON.parse(data[0][i].MemberList);
-           
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
       var response ={
         "fba_id" : data[0][i].fba_id,
@@ -294,7 +285,6 @@ console.log(parameter);
       };
       quoteresponse.push(response);
     }
-
 
     for (var i = 0; i < data[1].length; i++) {
       data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
@@ -312,14 +302,65 @@ console.log(parameter);
         "HealthRequest" :healthrequest
       };
       applicationquote.push(response);
-
-      console.log("------------------------");
-       console.log(applicationquote); 
-       console.log("------------------------");
     }
     var responsedata = {"quote":quoteresponse,"application":applicationquote};
     base.send_response("Success", responsedata,res);
   });
+}
+else if(req.body.type == 1)
+{
+    con.execute_proc('call get_Health_Request_two(?,?,?)',parameter,function(data) {
+    var quoteresponse = [];
+    var applicationquote = [];
+    for (var i = 0; i < data[0].length; i++) {
+      data[0][i].progress_image = null;
+      var healthrequest = data[0][i];
+      var arr = JSON.parse(data[0][i].MemberList);
+      healthrequest.MemberList =arr;// array(data[0][i].MemberList);
+      var response ={
+        "fba_id" : data[0][i].fba_id,
+        "HealthRequestId" : data[0][i].HealthRequestId,
+        "agent_source" : data[0][i].agent_source,
+        "crn" : data[0][i].crn,
+        "selectedPrevInsID" : data[0][i].selectedPrevInsID,
+        "HealthRequest" : healthrequest
+      };
+      quoteresponse.push(response);
+    }
+    var responsedata = {"quote":quoteresponse,"application":[]};
+    base.send_response("Success", responsedata,res);
+  });
+}
+else if(req.body.type == 2)
+{
+    con.execute_proc('call get_Health_Request_two(?,?,?)',parameter,function(data) {
+    var quoteresponse = [];
+    var applicationquote = [];
+    for (var i = 0; i < data[0].length; i++) {
+      data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+      var healthrequest = data[0][i];
+      var arr = JSON.parse(data[0][i].MemberList);
+      
+      healthrequest.MemberList =arr;
+      var response ={
+        "fba_id" : data[0][i].fba_id,
+        "HealthRequestId" : data[0][i].HealthRequestId,
+        "agent_source" : data[0][i].agent_source,
+        "crn" : data[0][i].crn,
+        "selectedPrevInsID"  : data[0][i].selectedPrevInsID,
+        "insImage" : data[0][i].insImage,
+        "HealthRequest" :healthrequest
+      };
+      applicationquote.push(response);
+    }
+    var responsedata = {"quote":[],"application":applicationquote};
+    base.send_response("Success", responsedata,res);
+  });
+}
+else
+{
+  base.send_response("Failure type not match",null,res);
+}
 };
 
 
