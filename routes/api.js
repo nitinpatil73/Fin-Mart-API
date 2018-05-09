@@ -490,7 +490,7 @@ router.post('/save-loan',function(req,res,next){
   });
 });
 
-router.post('/get-express-loan',function(req,res,next){
+router.post('/get-early-salary',function(req,res,next){
   var getloan = require('../controller/ExpressLoan');
   getloan.GetExpressLoanParameter(req,res);
 });
@@ -505,7 +505,7 @@ router.post('/rb-personal-loan',function(req,res,next){
   rb.RupeeBossParameter(req,res);
 });
 
-router.post('/early-salary',function(req,res,next){
+router.post('/save-early-salary',function(req,res,next){
   var esalary = require('../controller/EarlySalaryController');
   esalary.EarlySalary(req,res);
 });
