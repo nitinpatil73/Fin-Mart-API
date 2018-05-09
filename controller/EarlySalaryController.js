@@ -249,56 +249,56 @@ var EarlySalary = function (req, res, next) {
 		};
 
 		var RupeeBossParameter = function (req, res, next) {
-		//	var RBLData = ("{\"Status\":1,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
-		wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
-			},function(Encoderesponse) {
-				console.log("********************************************");
-				console.log(Encoderesponse);
-				if(Encoderesponse != null && Encoderesponse != ''){
-					var PersonalLoan = {
-				"FirstName": req.body.FirstName,
-			    "MiddleName": req.body.MiddleName,
-			    "LastName": req.body.LastName,
-			    "Gender": req.body.Gender,
-			    "ResAddress1": req.body.ResAddress1,
-			    "ResAddress2": req.body.ResAddress2,
-			    "ResLand": req.body.ResLand,
-			    "DOB": req.body.DOB,
-			    "ResType": req.body.ResType,
-			    "CurResSince": req.body.CurResSince,
-			    "ResPIN": req.body.ResPIN,
-			    "Mobile": req.body.Mobile,
-			    "Email": req.body.Email,
-			    "EmpType": req.body.EmpType,
-			    "LnAmt": req.body.LnAmt,
-			    "TnrMths": req.body.TnrMths,
-			    "IRR": req.body.IRR,
-			    "ProcFee": req.body.ProcFee,
-			    "NMI": req.body.NMI,
-			    "EmiCurPay": req.body.EmiCurPay,
-			    "ResCity": req.body.ResCity,
-			    "CompanyName": req.body.CompanyName,
-			    "CurCmpnyJoinDt": req.body.CurCmpnyJoinDt,
-			    "TotWrkExp": req.body.TotWrkExp,
-			    "OffAddress1": req.body.OffAddress1,
-			    "OffAddress2": req.body.OffAddress2,
-			    "OrgCategory": req.body.OrgCategory,
-			    "OffCity": req.body.OffCity,
-			    "OffPIN": req.body.OffPIN,
-			    "OffPhone": req.body.OffPhone,
-			    "PAN": req.body.PAN,
-			    "Qualification": req.body.Qualification,
-			    "check": req.body.check,
+		var RBLData = ("{\"Status\":4,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
+		// wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
+		// 	},function(Encoderesponse) {
+		// 		console.log("********************************************");
+		// 		console.log(Encoderesponse);
+		// 		if(Encoderesponse != null && Encoderesponse != ''){
+		// 			var PersonalLoan = {
+		// 		"FirstName": req.body.FirstName,
+		// 	    "MiddleName": req.body.MiddleName,
+		// 	    "LastName": req.body.LastName,
+		// 	    "Gender": req.body.Gender,
+		// 	    "ResAddress1": req.body.ResAddress1,
+		// 	    "ResAddress2": req.body.ResAddress2,
+		// 	    "ResLand": req.body.ResLand,
+		// 	    "DOB": req.body.DOB,
+		// 	    "ResType": req.body.ResType,
+		// 	    "CurResSince": req.body.CurResSince,
+		// 	    "ResPIN": req.body.ResPIN,
+		// 	    "Mobile": req.body.Mobile,
+		// 	    "Email": req.body.Email,
+		// 	    "EmpType": req.body.EmpType,
+		// 	    "LnAmt": req.body.LnAmt,
+		// 	    "TnrMths": req.body.TnrMths,
+		// 	    "IRR": req.body.IRR,
+		// 	    "ProcFee": req.body.ProcFee,
+		// 	    "NMI": req.body.NMI,
+		// 	    "EmiCurPay": req.body.EmiCurPay,
+		// 	    "ResCity": req.body.ResCity,
+		// 	    "CompanyName": req.body.CompanyName,
+		// 	    "CurCmpnyJoinDt": req.body.CurCmpnyJoinDt,
+		// 	    "TotWrkExp": req.body.TotWrkExp,
+		// 	    "OffAddress1": req.body.OffAddress1,
+		// 	    "OffAddress2": req.body.OffAddress2,
+		// 	    "OrgCategory": req.body.OrgCategory,
+		// 	    "OffCity": req.body.OffCity,
+		// 	    "OffPIN": req.body.OffPIN,
+		// 	    "OffPhone": req.body.OffPhone,
+		// 	    "PAN": req.body.PAN,
+		// 	    "Qualification": req.body.Qualification,
+		// 	    "check": req.body.check,
 
-			    "brokerid": Encoderesponse,
-			    "empid": req.body.empid,
-			    "source": req.body.source,
-			    "CampaignName": req.body.CampaignName
-			}
-			wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
-			 	"PersonalLoan":PersonalLoan
-				  }, function(RBLData) {
-				  	console.log("*********************RBLData***********************");
+		// 	    "brokerid": Encoderesponse,
+		// 	    "empid": req.body.empid,
+		// 	    "source": req.body.source,
+		// 	    "CampaignName": req.body.CampaignName
+		// 	}
+		// 	wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
+		// 	 	"PersonalLoan":PersonalLoan
+		// 		  }, function(RBLData) {
+				console.log("*********************RBLData***********************");
 				console.log(RBLData);
 				 js=JSON.parse(RBLData);
 				 if(js.Status == 4){
@@ -319,11 +319,11 @@ var EarlySalary = function (req, res, next) {
 				     else{
 				        base.send_response("Please change PAN or Mobile No.", null,res);
 				     }
-				   },6);
-				}else{
-					base.send_response("Broker Id does not exist","",res);
-				}
-		    },6);
+				   //},6);
+				// }else{
+				// 	base.send_response("Broker Id does not exist","",res);
+				// }
+		   // },6);
 			
 		};
 
