@@ -1,5 +1,6 @@
 var con=require('../bin/dbconnection.js');
 var base = require('./baseController');
+var handler = require('./HandlerController');
 
 var BalanceTransfer = function(req, res, next) {
 
@@ -79,9 +80,35 @@ con.execute_proc('call deletebalancetransfer(?)',DeleteBalanceTransferparameter,
 
 var getbalancetransferrequest = function(req, res, next){
 		var getbalancetransferrequest = [];
-		getbalancetransferrequest.push(req.body.FBA_id);	//
-		console.log(getbalancetransferrequest);
-		con.execute_proc('call GetBalanceTransferRequest(?)',getbalancetransferrequest,function(data) {
+		if(req.body.FBA_id){
+	    	getbalancetransferrequest.push(req.body.FBA_id);
+		}
+		else{
+		    getbalancetransferrequest.push(null); 
+		}
+
+		if(req.body.count){
+	    	getbalancetransferrequest.push(req.body.count);
+		}
+		else{
+		    getbalancetransferrequest.push(0); 
+		    req.body.count=0;
+		}
+
+		if(req.body.type){
+	    	getbalancetransferrequest.push(req.body.type);
+		}
+		else{
+		    getbalancetransferrequest.push(0); 
+		 	req.body.type=0;
+		}
+		// getbalancetransferrequest.push(req.body.FBA_id);
+		// getbalancetransferrequest.push(req.body.count);
+		// getbalancetransferrequest.push(req.body.type);
+
+	if(req.body.type == 0)
+	{	//
+		con.execute_proc('call GetBalanceTransferRequest(?,?,?)',getbalancetransferrequest,function(data) {
 		console.log(data);
 		var quoteresponse = [];
 		var applicationquote = [];
@@ -95,7 +122,6 @@ var getbalancetransferrequest = function(req, res, next){
 			};
 			quoteresponse.push(response);
 		}
-
 		for (var i = 0; i < data[1].length; i++) {
 			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
 			var response ={
@@ -108,8 +134,52 @@ var getbalancetransferrequest = function(req, res, next){
 		}
 			var responsedata = {"quote":quoteresponse,"application":applicationquote};
 			 base.send_response("Success", responsedata,res);
-		
-   	});
+   		});
+	}
+	else if(req.body.type == 1)
+	{
+		con.execute_proc('call GetBalanceTransferRequest(?,?,?)',getbalancetransferrequest,function(data) {
+		console.log(data);
+		var quoteresponse = [];
+		for (var i = 0; i < data[0].length; i++) {
+			data[0][i].progress_image = null;
+			var response ={				
+				"BalanceTransferId" : data[0][i].BalanceTransferId,
+				"FBA_id" : data[0][i].fbaid,
+				"BLLoanRequest" : data[0][i]
+			};
+			quoteresponse.push(response);
+		}
+		var responsedata = {"quote":quoteresponse,"application":[]};
+		base.send_response("Success", responsedata,res);
+   		});
+	}
+
+	else if(req.body.type == 2)
+	{
+		con.execute_proc('call GetBalanceTransferRequest(?,?,?)',getbalancetransferrequest,function(data) {
+		console.log(data);
+		var applicationquote = [];
+		for (var i = 0; i < data[0].length; i++) {
+			data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+			var response ={
+				
+				"BalanceTransferId" : data[0][i].BalanceTransferId,
+				"FBA_id" : data[0][i].fbaid,
+				"BLLoanRequest" : data[0][i]
+			};
+			applicationquote.push(response);
+		}
+			var responsedata = {"quote":[],"application":applicationquote};
+			 base.send_response("Success", responsedata,res);
+   		});
+	}
+
+	else
+	{
+		base.send_response("Failure type not match", "",res);
+	}
+
 }
 
 module.exports = {"BalanceTransfer" :BalanceTransfer , "SetQuoteApplicationBalanceTransfer" :SetQuoteApplicationBalanceTransfer , "DeleteBalanceTransfer" :DeleteBalanceTransfer , "getbalancetransferrequest" :getbalancetransferrequest};
