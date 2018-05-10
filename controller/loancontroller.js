@@ -176,13 +176,16 @@ function getAllLoanData(fbaid,type,count,QandAType,res,req){
   }
   else{
    parameters.push(0); 
+   count=0;
   }
 
   if(QandAType){
     parameters.push(QandAType);
+
   }
   else{
    parameters.push(0); 
+    QandAType=0;
   }
 
 
