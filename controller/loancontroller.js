@@ -138,7 +138,7 @@ var setQuoteToApplication = function(req, res, next) {
 }
 
 var getLoanData = function(req, res, next) {
-  getAllLoanData(req.body.fbaid,req.body.type,res,req);
+  getAllLoanData(req.body.fbaid,req.body.type,req.body.count,req.body.QandAType,res,req);
 }
 
 var deleteLoanRequestById = function(req, res, next) {
@@ -155,7 +155,7 @@ var deleteLoanRequestById = function(req, res, next) {
   });
 }
 
-function getAllLoanData(fbaid,type,res,req){
+function getAllLoanData(fbaid,type,count,QandAType,res,req){
   var parameters = [];
   if(fbaid){
     parameters.push(fbaid);
@@ -170,14 +170,30 @@ function getAllLoanData(fbaid,type,res,req){
   else{
    parameters.push(null); 
   }
+
+  if(count){
+    parameters.push(count);
+  }
+  else{
+   parameters.push(0); 
+  }
+
+  if(QandAType){
+    parameters.push(QandAType);
+  }
+  else{
+   parameters.push(0); 
+  }
+
+
   console.log(parameters);
   // parameters.push(type);
-   con.execute_proc('call getLoanRequest(?,?)',parameters,function(data) {
-  
 
+if(QandAType == 0)
+{
+   con.execute_proc('call getLoanRequest(?,?,?,?)',parameters,function(data) {
     var quoteresponse = [];
     var applicationresponse = [];
-    
     for (var i = 0; i < data[0].length; i++) {
       data[0][i].progress_image = null;
       var response = {
@@ -197,11 +213,52 @@ function getAllLoanData(fbaid,type,res,req){
       };
       applicationresponse.push(response);
     }
-
-
   var responsedata = {"quote":quoteresponse,"application":applicationresponse};
     base.send_response("Success", responsedata,res);
 });
+}
+
+else if(QandAType == 1)
+{
+    con.execute_proc('call getLoanRequest(?,?,?,?)',parameters,function(data) {
+    var quoteresponse = [];
+    for (var i = 0; i < data[0].length; i++) {
+      data[0][i].progress_image = null;
+      var response = {
+        "loan_requestID" : data[0][i].loan_requestID,
+        "FBA_id" : data[0][i].FBA_id,        
+        "HomeLoanRequest" : data[0][i]
+      };
+      quoteresponse.push(response);
+    }
+    var responsedata = {"quote":quoteresponse,"application":[]};
+    base.send_response("Success", responsedata,res);
+  });
+}
+
+else if(QandAType == 2)
+{
+    con.execute_proc('call getLoanRequest(?,?,?,?)',parameters,function(data) {
+    var applicationresponse = [];
+    for (var i = 0; i < data[0].length; i++) {
+      console.log(data[0][i].StatusPercent);
+      data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+      var response = {
+        "loan_requestID" : data[0][i].loan_requestID,
+        "FBA_id" : data[0][i].FBA_id,
+        "HomeLoanRequest" : data[0][i]
+      };
+      applicationresponse.push(response);
+    }
+  var responsedata = {"quote":[],"application":applicationresponse};
+    base.send_response("Success", responsedata,res);
+  });
+}
+
+else
+{
+   base.send_response("Failure type not match",null,res);
+}
 }
 
 module.exports = {"saveLoanData" :saveLoanData , "getLoanData": getLoanData , "deleteLoanRequestById" : deleteLoanRequestById, "setQuoteToApplication" : setQuoteToApplication};
