@@ -46,7 +46,7 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata
 		
 		var handler = require('../controller/SmsController');
 		var msg = "Dear " + req.body.FirstName + " " + req.body.LastName + " Welcome to Magic Finmart. Your Magic Finmart UserName is :" +req.body.EmailId +" and Password is :"+req.body.password;
-		//handler.sendMessage(req.body.Mobile_1,msg);
+		handler.sendMessage(req.body.Mobile_1,msg);
 				
 		   base.send_response(data[0][0].Message, data[0][0] ,res);
 	}
