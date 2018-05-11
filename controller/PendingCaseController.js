@@ -6,9 +6,14 @@ var pendingCases = function(req, res, next) {
 
 var parameter = [];
 
-if(req.body.fba_id){
-parameter.push(req.body.fba_id);
-parameter.push(req.body.count);
+if(req.body.FBAID){
+	parameter.push(req.body.FBAID);
+if(req.body.count){
+	parameter.push(req.body.count);
+}
+else{
+	parameter.push(0);
+}
 
 console.log(parameter);
 
@@ -58,7 +63,7 @@ parameter.push(req.body.quotetype);
 	      {
 	         base.send_response("Failure", null,res); 
 	      }
-	      base.send_response("Success",delrespose,res); 
+	      //base.send_response("Success",delrespose,res); 
 	    }
 	    else{
 	      base.send_response("Failure", null,res);    
