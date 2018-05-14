@@ -13,6 +13,7 @@ if(req.body.count){
 }
 else{
 	parameter.push(0);
+	req.body.count=0;
 }
 
 console.log(parameter);
