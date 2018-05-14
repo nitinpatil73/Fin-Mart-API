@@ -256,16 +256,29 @@ console.log("...............2435.............");
 
 var getHealthRequest = function(req, res, next) {
 var parameter = [];
+var reqtype = 0;
 if(req.body.fba_id){
   parameter.push(req.body.fba_id); 
 }
 else{
   parameter.push(null);
 }
-parameter.push(req.body.count);
-parameter.push(req.body.type);
+if(req.body.count){
+  parameter.push(req.body.count);
+}
+else{
+  parameter.push(0);
+}
+if(req.body.type){
+  parameter.push(req.body.type);
+  reqtype=req.body.type;
+}
+else{
+  parameter.push(0);
+  reqtype=0;
+}
 
-if(req.body.type == 0)
+if(reqtype == 0)
 {
   con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
@@ -307,7 +320,7 @@ if(req.body.type == 0)
     base.send_response("Success", responsedata,res);
   });
 }
-else if(req.body.type == 1)
+else if(reqtype == 1)
 {
     con.execute_proc('call get_Health_Request_two(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
@@ -331,7 +344,7 @@ else if(req.body.type == 1)
     base.send_response("Success", responsedata,res);
   });
 }
-else if(req.body.type == 2)
+else if(reqtype == 2)
 {
     con.execute_proc('call get_Health_Request_two(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
