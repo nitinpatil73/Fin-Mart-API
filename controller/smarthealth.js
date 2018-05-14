@@ -256,7 +256,6 @@ console.log("...............2435.............");
 
 var getHealthRequest = function(req, res, next) {
 var parameter = [];
-var reqtype = 0;
 if(req.body.fba_id){
   parameter.push(req.body.fba_id); 
 }
@@ -268,17 +267,18 @@ if(req.body.count){
 }
 else{
   parameter.push(0);
+  req.body.count=0;
 }
 if(req.body.type){
   parameter.push(req.body.type);
-  reqtype=req.body.type;
+  
 }
 else{
   parameter.push(0);
-  reqtype=0;
+  req.body.type=0;
 }
 
-if(reqtype == 0)
+if(req.body.type == 0)
 {
   con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
@@ -320,9 +320,9 @@ if(reqtype == 0)
     base.send_response("Success", responsedata,res);
   });
 }
-else if(reqtype == 1)
+else if(req.body.type == 1)
 {
-    con.execute_proc('call get_Health_Request_two(?,?,?)',parameter,function(data) {
+    con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
     var applicationquote = [];
     for (var i = 0; i < data[0].length; i++) {
@@ -344,9 +344,9 @@ else if(reqtype == 1)
     base.send_response("Success", responsedata,res);
   });
 }
-else if(reqtype == 2)
+else if(req.body.type == 2)
 {
-    con.execute_proc('call get_Health_Request_two(?,?,?)',parameter,function(data) {
+    con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
     var applicationquote = [];
     for (var i = 0; i < data[0].length; i++) {
