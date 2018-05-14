@@ -126,10 +126,36 @@ var SmartTermLifeParameter = function(req, res, next) {
 
 var GetSmartTermLife = function(req, res, next) {
 	var getsmartterm = [];
-	getsmartterm.push(req.body.InsurerId);
-	getsmartterm.push(req.body.fba_id);
-	getsmartterm.push(req.body.count);
-	getsmartterm.push(req.body.type);
+	if(req.body.InsurerId){
+		getsmartterm.push(req.body.InsurerId);
+	}
+	else
+	{
+		getsmartterm.push(null);
+	}
+	if(req.body.fba_id){
+		getsmartterm.push(req.body.fba_id);
+	}
+	else
+	{
+		getsmartterm.push(null);
+	}
+	if(req.body.count){
+		getsmartterm.push(req.body.count);
+	}
+	else
+	{
+		getsmartterm.push(0);
+		req.body.count=0;
+	}
+	if(req.body.type){
+		getsmartterm.push(req.body.type);
+	}
+	else
+	{
+		getsmartterm.push(0);
+		req.body.type=0;
+	}
 	if(req.body.type == 0)
 	{
 		con.execute_proc('call GetSmartTermLife(?,?,?,?)',getsmartterm,function(getsmartdata) {
@@ -262,7 +288,7 @@ var GetSmartTermLife = function(req, res, next) {
 }
 else if(req.body.type == 1)
 {
-	con.execute_proc('call Get_Smart_Term_Life_TWO(?,?,?,?)',getsmartterm,function(getsmartdata) {
+	con.execute_proc('call GetSmartTermLife(?,?,?,?)',getsmartterm,function(getsmartdata) {
 		if(getsmartdata != null){
 			var quoteresponse = [];
     		var applicationquote = [];
@@ -332,7 +358,7 @@ else if(req.body.type == 1)
 }
 else if(req.body.type == 2)
 {
-		con.execute_proc('call Get_Smart_Term_Life_TWO(?,?,?,?)',getsmartterm,function(getsmartdata) {
+		con.execute_proc('call GetSmartTermLife(?,?,?,?)',getsmartterm,function(getsmartdata) {
 		if(getsmartdata != null){
 			var quoteresponse = [];
     		var applicationquote = [];

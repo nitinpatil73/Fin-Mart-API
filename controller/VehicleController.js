@@ -132,6 +132,7 @@ if(req.body.count){
 }
 else{
 	vehicleparameter.push(0);
+	req.body.count=0;
 }
 
 if(req.body.type){
@@ -139,6 +140,7 @@ if(req.body.type){
 }
 else{
 	vehicleparameter.push(0);
+	req.body.type=0;
 }
 
 console.log("**********************************");
