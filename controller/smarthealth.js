@@ -470,6 +470,22 @@ wrapper('/api/SmartHealth', 'POST', {
     "SupportsAgentID": 2
   }, function(data) {
     if(data!=null && data.length>0){
+       var memberlistparameter = []; 
+       var memberlist = "";
+       for (var i = 0; i < req.body.MemberList.length; i++) {
+            memberlist += req.body.MemberList[i].MemberDOB +","+req.body.MemberList[i].MemberGender +","+req.body.MemberList[i].MemberNumber +","+req.body.MemberList[i].MemberType +","+req.body.MemberList[i].MemberTypeID +"|";
+        } 
+        memberlistparameter.push(memberlist); 
+        memberlistparameter.push(req.body.HealthRequestId);
+        con.execute_proc('call saved_member_list(?,?)',memberlistparameter,function(data) {
+        // if(data[0][0].SavedStatus == 0){
+        //   base.send_response("Record saved successfully",data[0][0],res);
+        // }
+        // else{
+        //   base.send_response("Failure", "",res);        
+        // }
+      });
+
       var compare_premium_parameter = [];
       compare_premium_parameter.push(req.body.HealthRequestId);
       compare_premium_parameter.push(data[0].CustomerReferenceID);
