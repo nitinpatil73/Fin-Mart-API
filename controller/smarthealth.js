@@ -446,58 +446,29 @@ var ComparePremium = function (req, res, next) {
     else{
       helth_req_id.push(null);
     }
-    console.log(helth_req_id);
     var getcomparedata;
-
   con.execute_proc('call get_compare_premium(?,?,?)',helth_req_id,function(response) {
-    console.log("***************************");
-    console.log(response);
-
     if(response!=null){      
-
-console.log({CityID: response[0][0].CityID,
-    PlanID: response[0][0].PBPlanID,
-    HealthRequestId: req.body.HealthRequestId,
-    ContactEmail: response[0][0].ContactEmail,
-    ContactMobile: response[0][0].ContactMobile,
-    ContactName: response[0][0].ContactName,
-    DeductibleAmount: 0,
-    ExistingCustomerReferenceID: 0,
-    HealthType: "Health",
-    MaritalStatusID: response[0][0].MaritalStatusID,
-    MemberList: JSON.parse(response[0][0].MemberList),
-    PolicyFor: response[0][0].PolicyFor,
-    PolicyTermYear: 1,
-    ProductID: 2,
-    SessionID: "",
-    SourceType: "APP",
-    SumInsured: response[0][0].SumInsured,
-    SupportsAgentID: 2});
-
 wrapper('/api/SmartHealth', 'POST', {
-    CityID: response[0][0].CityID,
-    PlanID: response[0][0].PBPlanID,
-    HealthRequestId: req.body.HealthRequestId,
-    ContactEmail: response[0][0].ContactEmail,
-    ContactMobile: response[0][0].ContactMobile,
-    ContactName: response[0][0].ContactName,
-    DeductibleAmount: 0,
-    ExistingCustomerReferenceID: 0,
-    HealthType: "Health",
-    MaritalStatusID: response[0][0].MaritalStatusID,
-    MemberList: JSON.parse(response[0][0].MemberList),
-    PolicyFor: response[0][0].PolicyFor,
-    PolicyTermYear: 1,
-    ProductID: 2,
-    SessionID: "",
-    SourceType: "APP",
-    SumInsured: response[0][0].SumInsured,
-    SupportsAgentID: 2
-
-
+    "CityID": response[0][0].CityID,
+    "PlanID": response[0][0].PBPlanID,
+    "HealthRequestId": req.body.HealthRequestId,
+    "ContactEmail": response[0][0].ContactEmail,
+    "ContactMobile": response[0][0].ContactMobile,
+    "ContactName": response[0][0].ContactName,
+    "DeductibleAmount": 0,
+    "ExistingCustomerReferenceID": 0,
+    "HealthType": "Health",
+    "MaritalStatusID": response[0][0].MaritalStatusID,
+    "MemberList": req.body.MemberList,
+    "PolicyFor": response[0][0].PolicyFor,
+    "PolicyTermYear": 1,
+    "ProductID": 2,
+    "SessionID": "",
+    "SourceType": "APP",
+    "SumInsured": response[0][0].SumInsured,
+    "SupportsAgentID": 2
   }, function(data) {
-    console.log("***************************");
-   console.log(data);
     if(data!=null && data.length>0){
       var compare_premium_parameter = [];
       compare_premium_parameter.push(req.body.HealthRequestId);
@@ -505,7 +476,6 @@ wrapper('/api/SmartHealth', 'POST', {
       con.execute_proc('call compare_premium(?,?)',compare_premium_parameter,function(responsedata) {
         if(responsedata[0][0].SavedStatus == "0"){
           if(data[0].QuoteStatus == "Success"){
-
               var parameterCompare = [];
               parameterCompare.push(req.body.HealthRequestId); 
               parameterCompare.push(req.body.selectedPrevInsID); 
@@ -522,8 +492,6 @@ wrapper('/api/SmartHealth', 'POST', {
                     base.send_response("Failure",null,res);
                   }
               });
-
-        
         }
         else{
           base.send_response("Failure", null,res);        
