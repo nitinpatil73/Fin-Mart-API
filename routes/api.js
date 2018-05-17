@@ -230,6 +230,12 @@ router.post('/update-bank-id', function(req, res, next) {
    transaction.UpdateBankId(req,res,next);
 });
 
+router.post('/update-erp-id', function(req, res, next) {
+  var erp = require('../controller/TransactionController');
+   erp.UpdateERPID(req,res,next);
+});
+
+
 router.post('/quote-to-application-status', function(req, res, next) {
   var transaction = require('../controller/TransactionController');
   transaction.UpdateQuoteToApplicationStatus(req,res,next);

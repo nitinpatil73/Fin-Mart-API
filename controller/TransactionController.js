@@ -244,7 +244,7 @@ var UpdateERPID = function(req, res, next) {
 	    	base.send_response("ERPID updated successfully.", data[0],res);
 	  }
 	  else{
-	    	base.send_response("Failure",null,res);
+	    	base.send_response("FBAID does not exits.",null,res);
 	  }
 	});
 	}

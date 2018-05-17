@@ -112,9 +112,9 @@ var getbalancetransferrequest = function(req, res, next){
 		console.log(data);
 		var quoteresponse = [];
 		var applicationquote = [];
-
 		for (var i = 0; i < data[0].length; i++) {
-			data[0][i].progress_image = null;
+		var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			data[0][i].progress_image = zeroimage;
 			var response ={				
 				"BalanceTransferId" : data[0][i].BalanceTransferId,
 				"FBA_id" : data[0][i].fbaid,
@@ -123,7 +123,9 @@ var getbalancetransferrequest = function(req, res, next){
 			quoteresponse.push(response);
 		}
 		for (var i = 0; i < data[1].length; i++) {
-			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
+			//data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
+			var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			data[1][i].progress_image = zeroimage;
 			var response ={
 				
 				"BalanceTransferId" : data[1][i].BalanceTransferId,
@@ -142,7 +144,8 @@ var getbalancetransferrequest = function(req, res, next){
 		console.log(data);
 		var quoteresponse = [];
 		for (var i = 0; i < data[0].length; i++) {
-			data[0][i].progress_image = null;
+			var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			data[0][i].progress_image = zeroimage;
 			var response ={				
 				"BalanceTransferId" : data[0][i].BalanceTransferId,
 				"FBA_id" : data[0][i].fbaid,
@@ -161,7 +164,9 @@ var getbalancetransferrequest = function(req, res, next){
 		console.log(data);
 		var applicationquote = [];
 		for (var i = 0; i < data[0].length; i++) {
-			data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+			var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			data[0][i].progress_image = zeroimage;
+			//data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
 			var response ={
 				
 				"BalanceTransferId" : data[0][i].BalanceTransferId,
