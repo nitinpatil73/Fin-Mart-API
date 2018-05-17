@@ -23,7 +23,7 @@ var GetConstantData = function(req, res, next){
 				 "POSPNo":data[0][7].ConstantValue,
 				 "POSPStat":"6",
 				 "POSPTraining":"1",
-				 "PaymStat":data[0][9].ConstantValue,
+				 "MPSStatus":data[0][9].ConstantValue,
 			};
 			base.send_response("Success",response,res);
 		}
