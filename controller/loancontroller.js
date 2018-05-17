@@ -198,7 +198,8 @@ if(QandAType == 0)
     var quoteresponse = [];
     var applicationresponse = [];
     for (var i = 0; i < data[0].length; i++) {
-      data[0][i].progress_image = null;
+      var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+      data[0][i].progress_image = zeroimage;
       var response = {
         "loan_requestID" : data[0][i].loan_requestID,
         "FBA_id" : data[0][i].FBA_id,        
@@ -208,7 +209,9 @@ if(QandAType == 0)
     }
     for (var i = 0; i < data[1].length; i++) {
       console.log(data[1][i].StatusPercent);
-      data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
+      var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+      data[1][i].progress_image = zeroimage;
+     // data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
       var response = {
         "loan_requestID" : data[1][i].loan_requestID,
         "FBA_id" : data[1][i].FBA_id,
@@ -226,7 +229,8 @@ else if(QandAType == 1)
     con.execute_proc('call getLoanRequest(?,?,?,?)',parameters,function(data) {
     var quoteresponse = [];
     for (var i = 0; i < data[0].length; i++) {
-      data[0][i].progress_image = null;
+      var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+      data[0][i].progress_image = zeroimage;
       var response = {
         "loan_requestID" : data[0][i].loan_requestID,
         "FBA_id" : data[0][i].FBA_id,        
@@ -245,7 +249,9 @@ else if(QandAType == 2)
     var applicationresponse = [];
     for (var i = 0; i < data[0].length; i++) {
       console.log(data[0][i].StatusPercent);
-      data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+      //data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+      var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+      data[0][i].progress_image = zeroimage;
       var response = {
         "loan_requestID" : data[0][i].loan_requestID,
         "FBA_id" : data[0][i].FBA_id,
