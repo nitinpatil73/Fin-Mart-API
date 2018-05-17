@@ -86,7 +86,7 @@ var MPSControllerParameter = function (req, res, next, pospno) {
                     message.ServTaxAmt = 90,
                     message.VATAmt = 0,
                     message.TotalAmt = 1150,
-                    message.BalanceAmt 0,
+                    message.BalanceAmt = 0,
                     base.send_response("Success", message,res);
                   }
                   else{
