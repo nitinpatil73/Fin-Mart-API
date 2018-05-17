@@ -76,8 +76,6 @@ else{
 
 
 var UpdateBankId = function(req, res, next) {
-
-
 	var parameter = [];
 	parameter.push(req.body.loan_requestID);
 	parameter.push(req.body.bank_id);	
@@ -234,4 +232,24 @@ var insertPaymentLink = function(req, res, next){
 		}	
 	});
 }
-module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode,"insertPaymentLink":insertPaymentLink};
+
+
+var UpdateERPID = function(req, res, next) {
+	if(req.body.fbaid && req.body.erpid ){
+	var ERPIDParameter = [];
+	ERPIDParameter.push(req.body.fbaid);
+	ERPIDParameter.push(req.body.erpid);			
+	con.execute_proc('call Update_erp_id(?,?)',ERPIDParameter,function(data) {
+	  if(data[0][0].SavedStatus=="0"){
+	    	base.send_response("ERPID updated successfully.", data[0],res);
+	  }
+	  else{
+	    	base.send_response("Failure",null,res);
+	  }
+	});
+	}
+	else{
+		base.send_response("Some Data Missing", "",res);
+	}
+};
+module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode,"insertPaymentLink":insertPaymentLink,"UpdateERPID":UpdateERPID};
