@@ -10,7 +10,15 @@ var MPSControllerParameter = function (req, res, next, pospno) {
     if(response!=null && response[0].length>0){
       if(response[0][0].Link){
         var resdata={
-          "PaymentURL": response[0][0].Link
+           "PaymentURL": response[0][0].Link,
+            "Amount": 1150,
+            "ProdID": 512,
+            "MRP": 500,
+            "Discount": 0,
+            "ServTaxAmt": 90,
+            "VATAmt": 0,
+            "TotalAmt": 1150,
+            "BalanceAmt": 0
         };
             base.send_response("success",resdata,res);
       }else{
@@ -71,6 +79,14 @@ var MPSControllerParameter = function (req, res, next, pospno) {
                     console.log(respdata);
                   if(respdata[0][0].SavedStatus == 0){
                     message.POSPNo = pospno;
+                    message.Amount = 1150,
+                    message.ProdID = 512,
+                    message.MRP = 500,
+                    message.Discount = 0,
+                    message.ServTaxAmt = 90,
+                    message.VATAmt = 0,
+                    message.TotalAmt = 1150,
+                    message.BalanceAmt 0,
                     base.send_response("Success", message,res);
                   }
                   else{
