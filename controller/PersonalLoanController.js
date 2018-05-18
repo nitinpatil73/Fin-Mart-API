@@ -68,8 +68,8 @@ if(req.body.type == 0)
 		var quoteresponse = [];
 		var applicationquote = [];
 		for (var i = 0; i < data[0].length; i++) {
-			var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
-			data[0][i].progress_image = zeroimage;
+			//var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			data[0][i].progress_image = null;
 			var response ={				
 				"loan_requestID" : data[0][i].loan_requestID,
 				"FBA_id" : data[0][i].FBA_id,
@@ -79,9 +79,9 @@ if(req.body.type == 0)
 		}
 
 		for (var i = 0; i < data[1].length; i++) {
-			var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
-			data[1][i].progress_image = zeroimage;
-			//data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
+			// var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			// data[1][i].progress_image = zeroimage;
+			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
 			var response ={
 				"loan_requestID" : data[1][i].loan_requestID,
 				"FBA_id" : data[1][i].FBA_id,
@@ -99,8 +99,8 @@ else if(req.body.type == 1)
 		var quoteresponse = [];
 		var applicationquote = [];
 		for (var i = 0; i < data[0].length; i++) {
-			var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
-			data[0][i].progress_image = zeroimage;
+			//var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			data[0][i].progress_image = null;
 			var response ={				
 				"loan_requestID" : data[0][i].loan_requestID,
 				"FBA_id" : data[0][i].FBA_id,
@@ -118,9 +118,9 @@ else if(req.body.type == 2)
 		var quoteresponse = [];
 		var applicationquote = [];
 		for (var i = 0; i < data[0].length; i++) {
-			var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
-			data[0][i].progress_image = zeroimage;
-			//data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
+			//var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			//data[0][i].progress_image = zeroimage;
+			data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
 			var response ={
 				"loan_requestID" : data[0][i].loan_requestID,
 				"FBA_id" : data[0][i].FBA_id,
