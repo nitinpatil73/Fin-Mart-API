@@ -2,7 +2,7 @@ class HandelerController{};
 
 HandelerController.validateimage = function (req, percent) {	
 	console.log(percent);
-	if(percent==0 || percent ==null){
+	if(percent ==null){
 		return null;
 	}
 	else{

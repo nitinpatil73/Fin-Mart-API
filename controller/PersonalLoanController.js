@@ -41,15 +41,34 @@ con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',para
 
 var getPersonalLoan = function(req, res, next) {
 var parameter = [];
-parameter.push(req.body.FBA_id);	
-con.execute_proc('call getPersonalLoanRequest(?)',parameter,function(data) {
-
-
-		
+if(req.body.FBA_id){
+	parameter.push(req.body.FBA_id);
+}
+else{
+    parameter.push(null); 
+}
+if(req.body.count){
+	parameter.push(req.body.count);
+}
+else{
+	parameter.push(0); 
+    req.body.count=0;
+}
+if(req.body.type){
+	parameter.push(req.body.type);
+}
+else{
+    parameter.push(0); 
+	req.body.type=0;
+}
+//parameter.push(req.body.FBA_id);	
+if(req.body.type == 0)
+{
+    con.execute_proc('call getPersonalLoanRequest(?,?,?)',parameter,function(data) {
 		var quoteresponse = [];
 		var applicationquote = [];
-
 		for (var i = 0; i < data[0].length; i++) {
+			//var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
 			data[0][i].progress_image = null;
 			var response ={				
 				"loan_requestID" : data[0][i].loan_requestID,
@@ -59,11 +78,11 @@ con.execute_proc('call getPersonalLoanRequest(?)',parameter,function(data) {
 			quoteresponse.push(response);
 		}
 
-
 		for (var i = 0; i < data[1].length; i++) {
+			// var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			// data[1][i].progress_image = zeroimage;
 			data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
 			var response ={
-				
 				"loan_requestID" : data[1][i].loan_requestID,
 				"FBA_id" : data[1][i].FBA_id,
 				"PersonalLoanRequest" : data[1][i]
@@ -73,6 +92,50 @@ con.execute_proc('call getPersonalLoanRequest(?)',parameter,function(data) {
 		var responsedata = {"quote":quoteresponse,"application":applicationquote};
 		base.send_response("Success", responsedata,res);
 	});
+}
+else if(req.body.type == 1)
+{
+	 con.execute_proc('call getPersonalLoanRequest(?,?,?)',parameter,function(data) {
+		var quoteresponse = [];
+		var applicationquote = [];
+		for (var i = 0; i < data[0].length; i++) {
+			//var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			data[0][i].progress_image = null;
+			var response ={				
+				"loan_requestID" : data[0][i].loan_requestID,
+				"FBA_id" : data[0][i].FBA_id,
+				"PersonalLoanRequest" : data[0][i]
+			};
+			quoteresponse.push(response);
+		}
+		var responsedata = {"quote":quoteresponse,"application":[]};
+		base.send_response("Success", responsedata,res);
+	});
+}
+else if(req.body.type == 2)
+{
+	 con.execute_proc('call getPersonalLoanRequest(?,?,?)',parameter,function(data) {
+		var quoteresponse = [];
+		var applicationquote = [];
+		for (var i = 0; i < data[0].length; i++) {
+			//var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
+			//data[0][i].progress_image = zeroimage;
+			data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
+			var response ={
+				"loan_requestID" : data[0][i].loan_requestID,
+				"FBA_id" : data[0][i].FBA_id,
+				"PersonalLoanRequest" : data[0][i]
+			};
+			applicationquote.push(response);
+		}
+		var responsedata = {"quote":[],"application":applicationquote};
+		base.send_response("Success", responsedata,res);
+	});
+}
+else
+{
+	base.send_response("Failure type not match", "",res);
+}
 };
 
 var quoteApplicationPersonalLoan = function(req, res, next) {
