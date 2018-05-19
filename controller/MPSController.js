@@ -9,6 +9,7 @@ var MPSControllerParameter = function (req, res, next, pospno) {
     console.log(response);
     if(response!=null && response[0].length>0){
       if(response[0][0].Link){
+       //if(false){
         var resdata={
            "PaymentURL": response[0][0].Link,
             "Amount": 1150,
@@ -25,14 +26,28 @@ var MPSControllerParameter = function (req, res, next, pospno) {
           if(response[0][0].CustID=='0'){
              base.send_response("Customer ID not found.",null,res);
           }else{
+            app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
+                  "ProdID":"513",
+                  "CustID":response[0][0].CustID,
+                  "PartID":"4444444",
+                  "UserID":"0",
+                  "IsScheme":"0",
+                  "FBAId":0,
+                  "ResponseJson":null,
+                  "AppID":"171",
+                  "AppUSERID":"3OK92Dl/LwA0HqfC5+fCxw==",
+                  "AppPASSWORD":"BjLfd1dqTCyH1DQLhylKRQ=="
+              }, function(propridata) {
+                var messageproductprice =JSON.parse(propridata.message);
+               if(messageproductprice.Status=="1"){
              app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
-            "Amount": 1150,
-            "ProdID": 512,
-            "MRP": 500,
+            "Amount": messageproductprice.TotalAmt,
+            "ProdID": messageproductprice.ProdID,
+            "MRP": messageproductprice.MRP,                    //500,
             "Discount": 0,
-            "ServTaxAmt": 90,
-            "VATAmt": 0,
-            "TotalAmt": 1150,
+            "ServTaxAmt": messageproductprice.GSTAmt,           //90,
+            "VATAmt": messageproductprice.GSTVal,                //0,
+            "TotalAmt": messageproductprice.TotalAmt,             //1150,
             "BalanceAmt": 0,
             "DatacompCustomerID" : response[0][0].CustID,
             "CustomerMobileNumber" : response[0][0].MobiNumb1,
@@ -65,8 +80,6 @@ var MPSControllerParameter = function (req, res, next, pospno) {
               if(data.type == "Success"){
                 console.log(message);
                 var message = JSON.parse(data.message);
-                console.log("-------------------------------");
-                console.log(message);
                 if(message.Status == "1"){
                   var parameter = [];
                   parameter.push(req.body.FBAID);
@@ -79,13 +92,20 @@ var MPSControllerParameter = function (req, res, next, pospno) {
                     console.log(respdata);
                   if(respdata[0][0].SavedStatus == 0){
                     message.POSPNo = pospno;
-                    message.Amount = 1150,
-                    message.ProdID = 512,
-                    message.MRP = 500,
+                    //message.Amount = 1150,
+                    message.Amount = messageproductprice.TotalAmt,
+                    //message.ProdID = 512,
+                    message.ProdID = messageproductprice.ProdID,
+                    //message.MRP = 500,
+                    message.MRP = messageproductprice.MRP,
                     message.Discount = 0,
-                    message.ServTaxAmt = 90,
-                    message.VATAmt = 0,
-                    message.TotalAmt = 1150,
+
+                    //message.ServTaxAmt = 90,
+                    message.ServTaxAmt = messageproductprice.GSTAmt,
+                    // message.VATAmt = 0,
+                    message.VATAmt = messageproductprice.GSTVal,
+                    //message.TotalAmt = 1150,
+                    message.TotalAmt=messageproductprice.TotalAmt
                     message.BalanceAmt = 0,
                     base.send_response("Success", message,res);
                   }
@@ -103,6 +123,11 @@ var MPSControllerParameter = function (req, res, next, pospno) {
                 base.send_response("Invalid response", null,res);
               }
               
+            },5);
+            }
+            else{
+              base.send_response("Invalid response in GetProdPriceDeta", null,res);
+            }
             },5);
           }
     }

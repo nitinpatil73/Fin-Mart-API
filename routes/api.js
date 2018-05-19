@@ -235,6 +235,11 @@ router.post('/update-erp-id', function(req, res, next) {
    erp.UpdateERPID(req,res,next);
 });
 
+router.post('/update-csnopstatus-id', function(req, res, next) {
+  var csnopstatus = require('../controller/TransactionController');
+   csnopstatus.UpdateCSNoPaymentStatus(req,res,next);
+});
+
 
 router.post('/quote-to-application-status', function(req, res, next) {
   var transaction = require('../controller/TransactionController');

@@ -235,16 +235,16 @@ var insertPaymentLink = function(req, res, next){
 
 
 var UpdateERPID = function(req, res, next) {
-	if(req.body.fbaid && req.body.erpid ){
+	if(req.body.pospno && req.body.erpid ){
 	var ERPIDParameter = [];
-	ERPIDParameter.push(req.body.fbaid);
+	ERPIDParameter.push(req.body.pospno);
 	ERPIDParameter.push(req.body.erpid);			
 	con.execute_proc('call Update_erp_id(?,?)',ERPIDParameter,function(data) {
 	  if(data[0][0].SavedStatus=="0"){
 	    	base.send_response("ERPID updated successfully.", data[0],res);
 	  }
 	  else{
-	    	base.send_response("FBAID does not exits.",null,res);
+	    	base.send_response("POSPNo does not exits.",null,res);
 	  }
 	});
 	}
@@ -252,4 +252,24 @@ var UpdateERPID = function(req, res, next) {
 		base.send_response("Some Data Missing", "",res);
 	}
 };
-module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode,"insertPaymentLink":insertPaymentLink,"UpdateERPID":UpdateERPID};
+
+var UpdateCSNoPaymentStatus = function(req, res, next) {
+	if(req.body.crn){
+	var CSNoPaymentStatusParameter = [];
+	CSNoPaymentStatusParameter.push(req.body.crn);
+	CSNoPaymentStatusParameter.push(req.body.csno);
+	CSNoPaymentStatusParameter.push(req.body.paymentstatus);			
+	con.execute_proc('call Update_CSNoPaymentStatus_Id(?,?,?)',CSNoPaymentStatusParameter,function(data) {
+	  if(data[0][0].SavedStatus=="0"){
+	    	base.send_response("Record updated successfully.", data[0],res);
+	  }
+	  else{
+	    	base.send_response("CRNNo does not exits.",null,res);
+	  }
+	});
+	}
+	else{
+		base.send_response("Some Data Missing", "",res);
+	}
+};
+module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode,"insertPaymentLink":insertPaymentLink,"UpdateERPID":UpdateERPID,"UpdateCSNoPaymentStatus":UpdateCSNoPaymentStatus};
