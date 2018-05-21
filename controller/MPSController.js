@@ -9,19 +9,37 @@ var MPSControllerParameter = function (req, res, next, pospno) {
     console.log(response);
     if(response!=null && response[0].length>0){
       if(response[0][0].Link){
-       //if(false){
+        app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
+              "ProdID":"513",
+              "CustID":response[0][0].CustID,
+              "PartID":"4444444",
+              "UserID":"0",
+              "IsScheme":"0",
+              "FBAId":0,
+              "ResponseJson":null,
+              "AppID":"171",
+              "AppUSERID":"3OK92Dl/LwA0HqfC5+fCxw==",
+              "AppPASSWORD":"BjLfd1dqTCyH1DQLhylKRQ=="
+          }, function(responcepropridata) {
+              var messageprice =JSON.parse(responcepropridata.message);
+              if(messageprice.Status=="1"){
         var resdata={
            "PaymentURL": response[0][0].Link,
-            "Amount": 1150,
-            "ProdID": 512,
-            "MRP": 500,
+            "Amount": messageprice.TotalAmt,
+            "ProdID": messageprice.ProdID,
+            "MRP": messageprice.MRP,
             "Discount": 0,
-            "ServTaxAmt": 90,
-            "VATAmt": 0,
-            "TotalAmt": 1150,
+            "ServTaxAmt": messageprice.GSTAmt,
+            "VATAmt": messageprice.GSTVal,
+            "TotalAmt": messageprice.TotalAmt,
             "BalanceAmt": 0
         };
             base.send_response("success",resdata,res);
+        }
+        else{
+          base.send_response("Invalid response in GetProdPriceDeta", null,res);
+          }
+        },5);
       }else{
           if(response[0][0].CustID=='0'){
              base.send_response("Customer ID not found.",null,res);
