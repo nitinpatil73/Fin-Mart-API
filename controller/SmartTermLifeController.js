@@ -56,7 +56,9 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
 		  }, function(response) {
-		  		 if(response[0].CustomerReferenceID != 0){
+		  	// console.log("------------------------response-----------------------------");
+		  	// console.log(response[0].QuoteStatus);
+		  		 if(response[0].QuoteStatus == 'Success'){
 
 		  		 	var SmartTermLifeParameter = [];
 		  		 		SmartTermLifeParameter.push(req.body.termRequestId);
@@ -119,7 +121,7 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 	//  base.send_response("Success",response,res);
 				}
 		     	else{
-		        	base.send_response("Failed to fetch", null,res);
+		        	base.send_response(response[0].QuoteStatus, null,res);
 		     	}
 		  },11);
 }
