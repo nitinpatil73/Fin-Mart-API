@@ -117,6 +117,7 @@ var MPSControllerParameter = function (req, res, next, pospno) {
                     //message.MRP = 500,
                     message.MRP = messageproductprice.MRP,
                     message.Discount = 0,
+
                     //message.ServTaxAmt = 90,
                     message.ServTaxAmt = messageproductprice.GSTAmt,
                     // message.VATAmt = 0,
