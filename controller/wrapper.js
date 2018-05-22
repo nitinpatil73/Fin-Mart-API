@@ -1,5 +1,5 @@
 "use strict";
-var https = require('http');
+var https =require('follow-redirects').http;
 //1->vehicleinfo.policyboss.com
 //2->qa.policyboss.com
 var wrapper = function(endpoint, method, data, success,hosttype) {
@@ -68,7 +68,7 @@ else if(hosttype == 11) {
     hostname = "qa.policyboss.com";
   }
   else if(hosttype == 12) {
-    port="80";
+    // port="80";
     hostname = "www.rupeeboss.com";
   }
   var dataString = JSON.stringify(data);
@@ -93,7 +93,7 @@ else if(hosttype == 11) {
     method: method,
     headers: headers
   };
-  console.log("---------------------wrapper-----------------------------");
+  console.log("---------*******------------wrapper--------------**********---------------");
   console.log(options);
 
   var req = https.request(options, function(res) {
