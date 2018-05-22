@@ -3,7 +3,13 @@ var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 
 var SmartTermLifeParameter = function(req, res, next) {
-		wrapper('/quotes/api/SmartTermLife', 'POST', {
+	var pincodeparameter = [];
+	pincodeparameter.push(req.body.termRequestEntity.pincode);
+	if(pincodeparameter != '' && pincodeparameter != null)
+	{
+		con.execute_proc('call smart_term_get_city_state(?)',pincodeparameter,function(pincoderesponse) {
+	    if(pincoderesponse!=null){
+			wrapper('/quotes/api/SmartTermLife', 'POST', {
 		   	 "PolicyTerm": req.body.termRequestEntity.PolicyTerm,
 		     "InsuredGender": req.body.termRequestEntity.InsuredGender,
 		     "Is_TabaccoUser": req.body.termRequestEntity.Is_TabaccoUser,
@@ -11,8 +17,8 @@ var SmartTermLifeParameter = function(req, res, next) {
 		     "InsuredDOB": req.body.termRequestEntity.InsuredDOB,
 		     "PaymentModeValue": req.body.termRequestEntity.PaymentModeValue,
 		     "PolicyCommencementDate": req.body.termRequestEntity.PolicyCommencementDate,
-		     "CityName": req.body.termRequestEntity.CityName,
-		     "State": req.body.termRequestEntity.State,
+		     "CityName": pincoderesponse[0][0].cityname,
+		     "State": pincoderesponse[0][0].state_name,
 		     "PlanTaken": req.body.termRequestEntity.PlanTaken,
 		     "Frequency": req.body.termRequestEntity.Frequency,
 		     "DeathBenefitOption": req.body.termRequestEntity.DeathBenefitOption,
@@ -69,8 +75,8 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.InsuredDOB);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PaymentModeValue);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PolicyCommencementDate);
-		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.CityName);
-		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.State);
+		  		 		SmartTermLifeParameter.push(pincoderesponse[0][0].cityname);
+		  		 		SmartTermLifeParameter.push(pincoderesponse[0][0].state_name);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.pincode);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PlanTaken);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.Frequency);
@@ -124,6 +130,13 @@ var SmartTermLifeParameter = function(req, res, next) {
 		        	base.send_response(response[0].QuoteStatus, null,res);
 		     	}
 		  },11);
+		}else{
+		    base.send_response("failure",null,res);
+		}
+	});
+	}else{
+		base.send_response("Please enter pincode",null,res);
+	}
 }
 
 var GetSmartTermLife = function(req, res, next) {
