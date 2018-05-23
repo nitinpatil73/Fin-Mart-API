@@ -62,8 +62,8 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
 		  }, function(response) {
-		  	// console.log("------------------------response-----------------------------");
-		  	// console.log(response[0].QuoteStatus);
+		  	 console.log("------------------------response-----------------------------");
+		  	 console.log(response[0].QuoteStatus);
 		  		 if(response[0].QuoteStatus == 'Success'){
 
 		  		 	var SmartTermLifeParameter = [];
@@ -220,7 +220,6 @@ var GetSmartTermLife = function(req, res, next) {
 		            "ContactMobile": getsmartdata[0][i].ContactMobile,
 		            "SupportsAgentID": getsmartdata[0][i].SupportsAgentID,
 		            "crn": getsmartdata[0][i].crn,
-		            "fba_id": getsmartdata[0][i].fba_id,
 		            "Quote_Application_Status": getsmartdata[0][i].Quote_Application_Status,
 		            "conversion_date": getsmartdata[0][i].conversion_date,
 		            "created_date": getsmartdata[0][i].created_date,
@@ -232,7 +231,7 @@ var GetSmartTermLife = function(req, res, next) {
 		            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
+    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id});
     		}
 
     			for (var i = 0; i < getsmartdata[1].length; i++) {
@@ -278,7 +277,6 @@ var GetSmartTermLife = function(req, res, next) {
 			            "ContactMobile": getsmartdata[1][i].ContactMobile,
 			            "SupportsAgentID": getsmartdata[1][i].SupportsAgentID,
 			            "crn": getsmartdata[1][i].crn,
-			            "fba_id": getsmartdata[1][i].fba_id,
 			            "Quote_Application_Status": getsmartdata[1][i].Quote_Application_Status,
 			            "conversion_date": getsmartdata[1][i].conversion_date,
 			            "created_date": getsmartdata[1][i].created_date,
@@ -290,7 +288,7 @@ var GetSmartTermLife = function(req, res, next) {
 			            "ApplDate": getsmartdata[1][i].ApplDate
 
     			};
-    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid,"NetPremium": getsmartdata[1][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[1][i].insImage});
+    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[1][i].lifetermrequestid,"NetPremium": getsmartdata[1][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[1][i].insImage,"fba_id": getsmartdata[1][i].fba_id});
     		}
 
     		var getsmart = {"quote":quoteresponse,"application":applicationquote};
@@ -350,7 +348,6 @@ else if(req.body.type == 1)
 		            "ContactMobile": getsmartdata[0][i].ContactMobile,
 		            "SupportsAgentID": getsmartdata[0][i].SupportsAgentID,
 		            "crn": getsmartdata[0][i].crn,
-		            "fba_id": getsmartdata[0][i].fba_id,
 		            "Quote_Application_Status": getsmartdata[0][i].Quote_Application_Status,
 		            "conversion_date": getsmartdata[0][i].conversion_date,
 		            "created_date": getsmartdata[0][i].created_date,
@@ -362,7 +359,7 @@ else if(req.body.type == 1)
 		            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage });
+    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id});
     		}
     		var getsmart = {"quote":quoteresponse,"application":[]};
 			base.send_response("Success",getsmart,res);
@@ -420,7 +417,6 @@ else if(req.body.type == 2)
 			            "ContactMobile": getsmartdata[0][i].ContactMobile,
 			            "SupportsAgentID": getsmartdata[0][i].SupportsAgentID,
 			            "crn": getsmartdata[0][i].crn,
-			            "fba_id": getsmartdata[0][i].fba_id,
 			            "Quote_Application_Status": getsmartdata[0][i].Quote_Application_Status,
 			            "conversion_date": getsmartdata[0][i].conversion_date,
 			            "created_date": getsmartdata[0][i].created_date,
@@ -432,7 +428,7 @@ else if(req.body.type == 2)
 			            "ApplDate": getsmartdata[0][i].ApplDate
 
     			};
-    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage});
+    			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id});
     		}
     		console.log("--------------------2------------------------");
     		console.log(applicationquote);
