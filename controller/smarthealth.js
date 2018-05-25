@@ -76,7 +76,7 @@ var floterIndividualRequest = {
 
 console.log(floterIndividualRequest);
 // console.log(apitype);
-wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
+wrapper('/api/HealthInsurance/'+apitype, 'POST', {
   "Sum": req.body.HealthRequest.SumInsured,
   "strAge": age,
   "IsTopUp": 0,
@@ -93,7 +93,7 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Para4": "0_0_0_0_0",
   "Para5": "0_0_0_0_0",
   "Para6": "0_0_0_0_0",
-  "IFAID": "27bgc7eiR5RoCV5xXvTcTQ=="
+  "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
   }, function(datax) {
     console.log("--------------------------------------");
     console.log(datax);
