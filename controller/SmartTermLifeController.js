@@ -2,6 +2,7 @@ var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 
+
 var SmartTermLifeParameter = function(req, res, next) {
 	var pincodeparameter = [];
 	pincodeparameter.push(req.body.termRequestEntity.pincode);
@@ -62,10 +63,8 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
 		  }, function(response) {
-		  	 console.log("------------------------response-----------------------------");
-		  	 console.log(response[0].QuoteStatus);
-		  		 if(response[0].QuoteStatus == 'Success'){
-
+				 // if(response == 'Success')
+				 // {
 		  		 	var SmartTermLifeParameter = [];
 		  		 		SmartTermLifeParameter.push(req.body.termRequestId);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PolicyTerm);
@@ -113,22 +112,19 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.SupportsAgentID);
 		  		 		SmartTermLifeParameter.push(response[0].CustomerReferenceID);
 		  		 		SmartTermLifeParameter.push(req.body.fba_id);
-		  		 		console.log("***********************************************");
-		  		 		console.log(SmartTermLifeParameter);
-
+		  		 	
 		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
-					     		if(smartdata[0][0].SavedStatus == 0){
-					     			var SmartTermLifeResponce = {"LifeTermRequestID":smartdata[0][0].lifetermrequestid,"Response":response };
-					     			 base.send_response("Record saved successfully.",SmartTermLifeResponce,res);
+					      		if(smartdata[0][0].SavedStatus == 0){
+					     			var SmartTermLifeResponce = {"LifeTermRequestID":smartdata[0][0].lifetermrequestid,"Response":response};
+					     			base.send_response("Record saved successfully.",SmartTermLifeResponce,res);
 					     		}else{
 					     			 base.send_response("Record not saved.","",res);	
 					     		}
 					     	 });
-		  		 	//  base.send_response("Success",response,res);
-				}
-		     	else{
-		        	base.send_response(response[0].QuoteStatus, null,res);
-		     	}
+				// }
+		  //    	else{
+		  //    		base.send_response(response[0].QuoteStatus, null,res);	
+		  //    	}
 		  },11);
 		}else{
 		    base.send_response("failure",null,res);
