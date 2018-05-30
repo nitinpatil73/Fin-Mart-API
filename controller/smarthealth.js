@@ -49,9 +49,9 @@ for (var i = 0; i < memeberlength; i++) {
   }
 }
 age = age.replace(/,\s*$/, "");
-console.log(age);
-console.log(adultcounter);
-console.log(childcounter);
+//console.log(age);
+//console.log(adultcounter);
+//console.log(childcounter);
 
 var floterIndividualRequest = {
   "Sum": req.body.HealthRequest.SumInsured,
@@ -70,13 +70,13 @@ var floterIndividualRequest = {
   "Para4": "0_0_0_0_0",
   "Para5": "0_0_0_0_0",
   "Para6": "0_0_0_0_0",
-  "IFAID": "27bgc7eiR5RoCV5xXvTcTQ=="
+  "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
 };
 
 
 console.log(floterIndividualRequest);
 // console.log(apitype);
-wrapper('/api/HealthInsurance/'+apitype, 'POST', {
+wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Sum": req.body.HealthRequest.SumInsured,
   "strAge": age,
   "IsTopUp": 0,
@@ -96,7 +96,7 @@ wrapper('/api/HealthInsurance/'+apitype, 'POST', {
   "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
   }, function(datax) {
     console.log("--------------------------------------");
-    console.log(datax);
+   // console.log(datax);
     console.log("--------------------------------------");
     var CustomerReferenceID = "";
     if(datax!=null){     
@@ -118,7 +118,7 @@ wrapper('/api/HealthInsurance/'+apitype, 'POST', {
         //     continue;
         // }
         var logo = data[i].InsuLogoName;
-        console.log("......."+logo);
+       // console.log("......."+logo);
         var imagepath = "";
         if(logo!=""){
             var filename = data[i].InsuLogoName.split('.');
@@ -166,21 +166,24 @@ wrapper('/api/HealthInsurance/'+apitype, 'POST', {
                console.log(data[i].PlanID); 
       }
       
-      console.log(newdata);
+      //console.log(newdata);
       //res.send(newdata);
+       console.log("******************************************************************************************");
       var uniqueInsurerId = [];
       var uniqueData = [];
       var remainingData = [];
       for(i = 0; i< newdata.length; i++){
         CustomerReferenceID =0;// data[0].CustomerReferenceID;
-          if(uniqueInsurerId.indexOf(newdata[i].InsurerId) === -1){
-                uniqueInsurerId.push(newdata[i].InsurerId);
+        var insIDProdName = newdata[i].InsurerId + "|" + newdata[i].ProductName;
+        console.log(insIDProdName);
+          if(uniqueInsurerId.indexOf(insIDProdName) === -1){
+                uniqueInsurerId.push(insIDProdName);
                 uniqueData.push(newdata[i]);
           }else{            
                 remainingData.push(newdata[i]);              
           }
       }
-
+console.log(uniqueInsurerId);
       var final = {"header" :uniqueData , "child" : remainingData};
       console.log(".............");
       console.log(final);
@@ -255,6 +258,7 @@ console.log("...............2435.............");
 
 
 var getHealthRequest = function(req, res, next) {
+  console.log("test");
 var parameter = [];
 if(req.body.fba_id){
   parameter.push(req.body.fba_id); 
@@ -277,16 +281,24 @@ else{
   parameter.push(0);
   req.body.type=0;
 }
-
+console.log(parameter);
 if(req.body.type == 0)
 {
   con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
+   // console.log(data);
     var quoteresponse = [];
     var applicationquote = [];
+    console.log(data[0].length);
     for (var i = 0; i < data[0].length; i++) {
+    
       data[0][i].progress_image = null;
       var healthrequest = data[0][i];
+            console.log("*********************");
+        console.log(i);
+      console.log(data[0][i].MemberList);
+      console.log("*********************");
       var arr = JSON.parse(data[0][i].MemberList);
+
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
 
       // var today = new Date();
@@ -309,8 +321,11 @@ if(req.body.type == 0)
         "selectedPrevInsID" : data[0][i].selectedPrevInsID,
         "HealthRequest" : healthrequest
       };
+      
+      //console.log(response);
       quoteresponse.push(response);
     }
+    console.log(quoteresponse);
 
     for (var i = 0; i < data[1].length; i++) {
       data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
@@ -331,6 +346,7 @@ if(req.body.type == 0)
       };
       applicationquote.push(response);
     }
+    console.log("******************************");
     var responsedata = {"quote":quoteresponse,"application":applicationquote};
     base.send_response("Success", responsedata,res);
   });
