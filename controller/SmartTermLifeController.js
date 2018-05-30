@@ -63,6 +63,8 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
 		  }, function(response) {
+		  	console.log("---------------------------------Response------------------------------------");
+		  	console.log(response);
 				 // if(response == 'Success')
 				 // {
 		  		 	var SmartTermLifeParameter = [];
@@ -112,8 +114,8 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.SupportsAgentID);
 		  		 		SmartTermLifeParameter.push(response[0].CustomerReferenceID);
 		  		 		SmartTermLifeParameter.push(req.body.fba_id);
-		  		 	
-		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
+		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.LumpsumPercentage);
+		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
 					      		if(smartdata[0][0].SavedStatus == 0){
 					     			var SmartTermLifeResponce = {"LifeTermRequestID":smartdata[0][0].lifetermrequestid,"Response":response};
 					     			base.send_response("Record saved successfully.",SmartTermLifeResponce,res);
@@ -192,6 +194,10 @@ var GetSmartTermLife = function(req, res, next) {
 		            "IncomeTerm": getsmartdata[0][i].IncomeTerm,
 		            "MonthlyIncome": getsmartdata[0][i].MonthlyIncome,
 		            "LumpsumAmount": getsmartdata[0][i].LumpsumAmount,
+
+		            "LumpsumPercentage": getsmartdata[0][i].LumpsumPercentage,
+
+
 		            "IncreaseIncomePercentage": getsmartdata[0][i].IncreaseIncomePercentage,
 		            "IncreaseSAPercentage": getsmartdata[0][i].IncreaseSAPercentage,
 		            "ADBPercentage": getsmartdata[0][i].ADBPercentage,
@@ -249,6 +255,9 @@ var GetSmartTermLife = function(req, res, next) {
 			            "IncomeTerm": getsmartdata[1][i].IncomeTerm,
 			            "MonthlyIncome": getsmartdata[1][i].MonthlyIncome,
 			            "LumpsumAmount": getsmartdata[1][i].LumpsumAmount,
+
+			            "LumpsumPercentage": getsmartdata[1][i].LumpsumPercentage,
+
 			            "IncreaseIncomePercentage": getsmartdata[1][i].IncreaseIncomePercentage,
 			            "IncreaseSAPercentage": getsmartdata[1][i].IncreaseSAPercentage,
 			            "ADBPercentage": getsmartdata[1][i].ADBPercentage,
@@ -320,6 +329,9 @@ else if(req.body.type == 1)
 		            "IncomeTerm": getsmartdata[0][i].IncomeTerm,
 		            "MonthlyIncome": getsmartdata[0][i].MonthlyIncome,
 		            "LumpsumAmount": getsmartdata[0][i].LumpsumAmount,
+
+		            "LumpsumPercentage": getsmartdata[0][i].LumpsumPercentage,
+
 		            "IncreaseIncomePercentage": getsmartdata[0][i].IncreaseIncomePercentage,
 		            "IncreaseSAPercentage": getsmartdata[0][i].IncreaseSAPercentage,
 		            "ADBPercentage": getsmartdata[0][i].ADBPercentage,
@@ -389,6 +401,9 @@ else if(req.body.type == 2)
 			            "IncomeTerm": getsmartdata[0][i].IncomeTerm,
 			            "MonthlyIncome": getsmartdata[0][i].MonthlyIncome,
 			            "LumpsumAmount": getsmartdata[0][i].LumpsumAmount,
+
+			            "LumpsumPercentage": getsmartdata[0][i].LumpsumPercentage,
+
 			            "IncreaseIncomePercentage": getsmartdata[0][i].IncreaseIncomePercentage,
 			            "IncreaseSAPercentage": getsmartdata[0][i].IncreaseSAPercentage,
 			            "ADBPercentage": getsmartdata[0][i].ADBPercentage,
