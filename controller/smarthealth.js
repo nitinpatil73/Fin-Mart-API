@@ -288,6 +288,19 @@ if(req.body.type == 0)
       var healthrequest = data[0][i];
       var arr = JSON.parse(data[0][i].MemberList);
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
+
+      // var today = new Date();
+      // for (var i in arr){
+      //   console.log("--------------------------forloop----------------------");
+      //   console.log(arr[i]);
+      //   console.log("------------------------------------------------");
+      //   dob = new Date(arr[i].MemberDOB);
+      //   console.log(dob);
+      //   calc=(today-dob)/(365.25 * 24 * 60 * 60 * 1000);
+      //   var age = Math.floor(calc);
+      //   console.log("--------------------------age----------------------");
+      //   console.log(age)
+      // }
       var response ={
         "fba_id" : data[0][i].fba_id,
         "HealthRequestId" : data[0][i].HealthRequestId,
@@ -303,6 +316,8 @@ if(req.body.type == 0)
       data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
       var healthrequest = data[1][i];
       var arr = JSON.parse(data[1][i].MemberList);
+
+
       
       healthrequest.MemberList =arr;
       var response ={
