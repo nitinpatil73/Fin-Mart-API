@@ -232,8 +232,10 @@ parameter.push(req.body.agent_source);
 //console.log("Length:"+req.body.HealthRequest.MemberList.length);
 var memberlist = "";
 for (var i = 0; i < req.body.HealthRequest.MemberList.length; i++) {
-   memberlist += req.body.HealthRequest.MemberList[i].MemberDOB +","+req.body.HealthRequest.MemberList[i].MemberGender +","+req.body.HealthRequest.MemberList[i].MemberNumber +","+req.body.HealthRequest.MemberList[i].MemberType +","+req.body.HealthRequest.MemberList[i].MemberTypeID +"|";
+   memberlist += req.body.HealthRequest.MemberList[i].MemberDOB +","+req.body.HealthRequest.MemberList[i].MemberGender +","+req.body.HealthRequest.MemberList[i].MemberNumber +","+req.body.HealthRequest.MemberList[i].MemberType +","+req.body.HealthRequest.MemberList[i].MemberTypeID +","+req.body.HealthRequest.MemberList[i].Age +"|";
  } 
+ console.log("=========================memberlist============================");
+ console.log(memberlist);
  parameter.push(memberlist);
  parameter.push(req.body.HealthRequest.pincode);
 //console.log(parameter);
@@ -285,7 +287,6 @@ console.log(parameter);
 if(req.body.type == 0)
 {
   con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
-   // console.log(data);
     var quoteresponse = [];
     var applicationquote = [];
     console.log(data[0].length);
@@ -293,26 +294,9 @@ if(req.body.type == 0)
     
       data[0][i].progress_image = null;
       var healthrequest = data[0][i];
-            console.log("*********************");
-        console.log(i);
-      console.log(data[0][i].MemberList);
-      console.log("*********************");
       var arr = JSON.parse(data[0][i].MemberList);
 
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
-
-      // var today = new Date();
-      // for (var i in arr){
-      //   console.log("--------------------------forloop----------------------");
-      //   console.log(arr[i]);
-      //   console.log("------------------------------------------------");
-      //   dob = new Date(arr[i].MemberDOB);
-      //   console.log(dob);
-      //   calc=(today-dob)/(365.25 * 24 * 60 * 60 * 1000);
-      //   var age = Math.floor(calc);
-      //   console.log("--------------------------age----------------------");
-      //   console.log(age)
-      // }
       var response ={
         "fba_id" : data[0][i].fba_id,
         "HealthRequestId" : data[0][i].HealthRequestId,
@@ -321,8 +305,7 @@ if(req.body.type == 0)
         "selectedPrevInsID" : data[0][i].selectedPrevInsID,
         "HealthRequest" : healthrequest
       };
-      
-      //console.log(response);
+    
       quoteresponse.push(response);
     }
     console.log(quoteresponse);
