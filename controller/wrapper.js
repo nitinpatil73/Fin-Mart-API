@@ -55,8 +55,8 @@ else if(hosttype == 2) {
     hostname="http://vas.mobilogi.com";
   }
 else if(hosttype == 8) {
-    //hostname = "demo.fundzmagiconline.com";
-    hostname = "http://wmdataservice.wealthmagicuat.in";
+    hostname = "demo.fundzmagiconline.com";
+    //hostname = "http://wmdataservice.wealthmagicuat.in";
   }
   else if(hosttype == 9) {
     hostname = "horizon.policyboss.com";
