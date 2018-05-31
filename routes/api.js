@@ -634,4 +634,9 @@ router.post('/change-password',function(req,res,next){
   var pass = require('../controller/ChangePasswordController');
   pass.changepassword(req,res);
 });
+
+router.post('/backoffice-posp-registration',function(req,res,next){
+  var bopospreg = require('../controller/BackOfficePOSPRegistrationController');
+  bopospreg.BackOfficepospregistration(req,res);
+});
 module.exports = router;
