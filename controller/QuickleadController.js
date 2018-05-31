@@ -62,33 +62,34 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
 };
 
 
-// var DeleteOtherLoanLeadReqParameter = function (req, res, next) {
-//     wrapper('/BankAPIService.svc/DeleteOtherLoanLeadReq', 'POST', {
-//       "Lead_Id":req.body.Lead_Id,
-//     }, function(data) {
-//     if(data!=null){
-//       var delrespose = JSON.parse(data);
-//       if(delrespose.Status=='1')
-//       {
-//           var delparameter = [];
-//           delparameter.push(req.body.Lead_Id);
-//            con.execute_proc('call Update_quick_lead_request(?)',delparameter,function(delrespdata) {
-//             if(delrespdata[0][0].SavedStatus == 0){
-//               base.send_response("Success", delrespdata,res);
-//             }else{
-//               base.send_response(delrespdata[0][0].Status, null,res);       
-//             } 
-//           });
-//       }
-//       else
-//       {
-//          base.send_response("Failure", null,res); 
-//       }
-//       base.send_response("Success",delrespose,res); 
-//     }
-//     else{
-//       base.send_response("Failure", null,res);    
-//     } 
-//   },6);
-// };
-module.exports = {"QuickLead":QuickLead};
+var quikleadfromrupeeboss = function (req, res, next) {
+          var parameter = [];
+          parameter.push(req.body.Broker_Id);
+          parameter.push(req.body.Email);
+          parameter.push(req.body.FBA_Id);
+          parameter.push(req.body.Lead_Date);          
+          parameter.push(req.body.Lead_Status_Id);
+          parameter.push(req.body.Lead_id);
+          parameter.push(req.body.Loan_Amt);
+          parameter.push(req.body.Mobile);
+          parameter.push(req.body.MonthlyIncome);
+          parameter.push(req.body.Name);
+          parameter.push(req.body.Product_Id);
+          parameter.push(req.body.Remark);
+          parameter.push(req.body.Followup_Date);     
+
+          base.send_response("Success", parameter,res);
+          // console.log("**********************************************************");
+          // console.log(parameter);
+          // con.execute_proc('call insert_quick_lead(?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(respdata) {
+          // // console.log("**********************************************************");
+          // // console.log(respdata);
+          //   if(respdata[0][0].SavedStatus == 0){
+          //     base.send_response("Success", respose,res);
+          //   }else{
+          //     base.send_response(respdata[0][0].respose, null,res);       
+          //   } 
+          // });
+};
+
+module.exports = {"QuickLead":QuickLead,"quikleadfromrupeeboss":quikleadfromrupeeboss};

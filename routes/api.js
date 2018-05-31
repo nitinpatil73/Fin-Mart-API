@@ -634,4 +634,10 @@ router.post('/change-password',function(req,res,next){
   var pass = require('../controller/ChangePasswordController');
   pass.changepassword(req,res);
 });
+
+router.post('/quicklead-from-rb', function(req, res, next) {
+  var ql=require('../controller/QuickleadController');
+    ql.quikleadfromrupeeboss(req,res,next);
+
+});
 module.exports = router;
