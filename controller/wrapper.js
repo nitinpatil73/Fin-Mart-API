@@ -72,6 +72,11 @@ else if(hosttype == 11) {
     // port="80";
     hostname = "www.rupeeboss.com";
   }
+
+   else if(hosttype == 13) {
+    // port="80";
+    hostname = "apiservices.magicfinmart.com";
+  }
   var dataString = JSON.stringify(data);
   var headers = {};
   

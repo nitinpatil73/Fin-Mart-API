@@ -76,7 +76,7 @@ var quikleadfromrupeeboss = function (req, res, next) {
           parameter.push(req.body.Name);
           parameter.push(req.body.Product_Id);
           parameter.push(req.body.Remark);
-          parameter.push(req.body.Followup_Date);     
+          parameter.push(req.body.FollowUp_Date);     
 
           base.send_response("Success", parameter,res);
           // console.log("**********************************************************");
