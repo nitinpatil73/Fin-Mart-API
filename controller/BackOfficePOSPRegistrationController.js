@@ -6,7 +6,7 @@ var BackOfficepospregistration = function(req, res, next) {
 	var backofficeparameter = [];
 	backofficeparameter.push(req.body.FBAID)
 	con.execute_proc('call BackOffice_POSP_Registration(?)',backofficeparameter,function(respdata) {
-		if(respdata != null){
+		if(respdata[0][0].Posp_PAN != null && respdata[0][0].Posp_PAN != '' && respdata[0][0].Other_PAN != null && respdata[0][0].Other_PAN != ''){
 			var basicDetails = {
 				"FirstName" : respdata[0][0].FirsName,
 			    "LastName" : respdata[0][0].LastName,
@@ -105,7 +105,7 @@ var BackOfficepospregistration = function(req, res, next) {
 		  },2);		
 		}
 		else{
-			base.send_response("failed", null,res);				
+			base.send_response("Failure invalid request", null,res);				
 		}	
 	});
 };
