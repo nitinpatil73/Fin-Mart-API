@@ -635,6 +635,11 @@ router.post('/change-password',function(req,res,next){
   pass.changepassword(req,res);
 });
 
+router.post('/quicklead-from-rb', function(req, res, next) {
+  var ql=require('../controller/QuickleadController');
+    ql.quikleadfromrupeeboss(req,res,next);
+});
+
 router.post('/backoffice-posp-registration',function(req,res,next){
   var bopospreg = require('../controller/BackOfficePOSPRegistrationController');
   bopospreg.BackOfficepospregistration(req,res);
