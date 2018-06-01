@@ -44,7 +44,7 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
           // console.log("**********************************************************");
           // console.log(respdata);
             if(respdata[0][0].SavedStatus == 0){
-              base.send_response("Success", respose,res);
+              base.send_response("Lead Submitted Successfully", respose,res);
             }else{
               base.send_response(respdata[0][0].respose, null,res);       
             } 

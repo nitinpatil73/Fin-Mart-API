@@ -644,4 +644,14 @@ router.post('/backoffice-posp-registration',function(req,res,next){
   var bopospreg = require('../controller/BackOfficePOSPRegistrationController');
   bopospreg.BackOfficepospregistration(req,res);
 });
+
+router.post('/dump-data',function(req,res,next){
+  var dumpdata = require('../controller/DumpDataController');
+  dumpdata.dumpdatacontroller(req,res);
+});
+
+router.post('/product-insurance-mappingId-update',function(req,res,next){
+  var updatedatapro = require('../controller/ProInMappingIdUpdateController');
+  updatedatapro.ProInMapping_Id(req,res);
+});
 module.exports = router;
