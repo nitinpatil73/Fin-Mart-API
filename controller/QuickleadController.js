@@ -64,13 +64,12 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
 
 var quikleadfromrupeeboss = function (req, res, next) {
           var parameter = [];        
-          var Lead_Date_Format = new Date(req.body.Lead_Date);
-          var FollowUp_Date_Format = new Date(req.body.FollowUp_Date);          
+                
           parameter.push(req.body.Broker_Id);
           parameter.push(req.body.Email);
           parameter.push(req.body.FBA_Id);
-          parameter.push(formatDate(FollowUp_Date_Format));
-          parameter.push(formatDate(Lead_Date_Format));
+          parameter.push(req.body.FollowUp_Date);
+          parameter.push(req.body.Lead_Date);
           parameter.push(req.body.Lead_Status_Id);
           parameter.push(req.body.Lead_id);
           parameter.push(req.body.Loan_Amt);
@@ -85,22 +84,22 @@ var quikleadfromrupeeboss = function (req, res, next) {
           // console.log("**********************************************************");
           // console.log(respdata);
             if(respdata[0][0].SavedStatus == 0){
-              base.send_response("Success", respose,res);
+              base.send_response("Success", respdata,res);
             }else{
               base.send_response("Failed to save data", null,res);       
             } 
           });
 };
 
-function formatDate(date) {
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  var second = date.getSeconds();
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  minutes = minutes < 10 ? '0'+minutes : minutes;
-  var strTime = hours + ':' + minutes +':'+ second;
-  return date.getFullYear()+1 + "-" + date.getMonth() + "-" + date.getDate() + "  " + strTime;
-}
+// function formatDate(date) {
+//   var hours = date.getHours();
+//   var minutes = date.getMinutes();
+//   var second = date.getSeconds();
+//   hours = hours % 12;
+//   hours = hours ? hours : 12; // the hour '0' should be '12'
+//   minutes = minutes < 10 ? '0'+minutes : minutes;
+//   var strTime = hours + ':' + minutes +':'+ second;
+//   return date.getFullYear()+1 + "-" + date.getMonth() + "-" + date.getDate() + "  " + strTime;
+// }
 
 module.exports = {"QuickLead":QuickLead,"quikleadfromrupeeboss":quikleadfromrupeeboss};
