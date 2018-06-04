@@ -6,6 +6,9 @@ var BackOfficepospregistration = function(req, res, next) {
 	var backofficeparameter = [];
 	backofficeparameter.push(req.body.FBAID)
 	con.execute_proc('call BackOffice_POSP_Registration(?)',backofficeparameter,function(respdata) {
+		console.log("====================================================");
+		console.log(respdata);
+		if(respdata[0] != null && respdata[0] != ''){
 		if(respdata[0][0].Posp_PAN != null && respdata[0][0].Posp_PAN != '' && respdata[0][0].Other_PAN != null && respdata[0][0].Other_PAN != ''){
 			var basicDetails = {
 				"FirstName" : respdata[0][0].FirsName,
@@ -107,6 +110,10 @@ var BackOfficepospregistration = function(req, res, next) {
 		else{
 			base.send_response("Failure invalid request", null,res);				
 		}	
+		}
+		else{
+			base.send_response("Failure FBAID does not exists", null,res);				
+		}
 	});
 };
 
