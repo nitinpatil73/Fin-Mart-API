@@ -203,8 +203,8 @@ var manageHealthRequest = function(req, res, next,responsedata,CustomerReference
 
 var parameter = [];
 
-if(req.body.HealthRequestId){
-  parameter.push(req.body.HealthRequestId); 
+if(req.body.HealthRequest.HealthRequestId){
+  parameter.push(req.body.HealthRequest.HealthRequestId); 
 }
 else{
   parameter.push(0);
@@ -228,6 +228,7 @@ parameter.push(req.body.HealthRequest.SumInsured);
 parameter.push(req.body.HealthRequest.SupportsAgentID);
 parameter.push(req.body.fba_id);
 parameter.push(req.body.agent_source);
+parameter.push(req.body.HealthRequest.Quote_Application_Status);
 
 //console.log("Length:"+req.body.HealthRequest.MemberList.length);
 var memberlist = "";
@@ -240,7 +241,7 @@ for (var i = 0; i < req.body.HealthRequest.MemberList.length; i++) {
  parameter.push(req.body.HealthRequest.pincode);
 //console.log(parameter);
 console.log("...............2435.............");
-  con.execute_proc('call ManageHealthRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+  con.execute_proc('call ManageHealthRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
     console.log("............................");
     console.log(data[0][0]);
     if(data[0][0].SavedStatus=="0"){
@@ -297,6 +298,8 @@ if(req.body.type == 0)
       var arr = JSON.parse(data[0][i].MemberList);
 
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
+      console.log("---------------------healthrequest---------------------");
+      console.log(healthrequest);
       var response ={
         "fba_id" : data[0][i].fba_id,
         "HealthRequestId" : data[0][i].HealthRequestId,
