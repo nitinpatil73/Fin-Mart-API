@@ -125,7 +125,7 @@ function SaveFBADetaPolicyBoss(req,res,next){
 			  						base.send_response(pay_data, null,res);	
 				  				}else{
 				  					console.log("Success.......................")
-				  					base.send_response("Success", pay_data,res);	
+				  					base.send_response("Posp registered successfully.", pay_data,res);	
 				  				}
 
 				  				
