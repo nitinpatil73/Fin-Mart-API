@@ -201,7 +201,7 @@ var ValidateCuponCode = function (req, res, next) {
                             "TotalAmt": messageprice.TotalAmt,
                             "BalanceAmt": 0
                         };
-                            base.send_response("success",resdata,res);
+                            base.send_response("Verifyed successfully",resdata,res);
                         }
                         else{
                           base.send_response("Invalid response in GetProdPriceDeta", null,res);
