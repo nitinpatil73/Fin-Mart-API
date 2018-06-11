@@ -420,6 +420,11 @@ router.post('/get-mps-data', function (req, res, next) {
   MPSdata.MPSControllerParameter(req,res,next);
 });
 
+router.post('/validated-cupon-code', function (req, res, next) {
+  var ccode = require('../controller/MPSController');
+  ccode.ValidateCuponCode(req,res,next);
+});
+
 
 router.post('/send-notification', function (req, res, next) {
   var sendnoti = require('../controller/SendNotificationController');

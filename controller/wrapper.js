@@ -45,7 +45,7 @@ else if(hosttype == 2) {
   }
   else if(hosttype == 6) {
     if(process.env.NODE_ENV == 'development'){
-       hostname = "uat.api.rupeeboss.com";
+       hostname = "api.rupeeboss.com";
   }
   else{
        hostname = "api.rupeeboss.com";
@@ -77,7 +77,21 @@ else if(hosttype == 11) {
     // port="80";
     hostname = "apiservices.magicfinmart.com";
   }
+
+  else if(hosttype == 14) {
+    // port="80";
+    hostname = "api.magicfinmart.com";
+  }
+  else if(hosttype == 15) {
+    hostname = "finmartwebapi.magicsales.in";
+  }
   var dataString = JSON.stringify(data);
+  console.log("*******************************");
+  if(hosttype == 15){
+     dataString =encodeURIComponent(dataString); 
+     console.log(encodeURIComponent(dataString));
+}
+  //console.log(encodeURIComponent(dataString));
   var headers = {};
   
   if (method == 'GET') {
@@ -89,7 +103,8 @@ else if(hosttype == 11) {
       'Content-Type': 'application/json',
       'Content-Length': dataString.length,
       'UserName': username,
-      'Password': password
+      'Password': password,
+      'token': '1234567890'
     };
   }
   var options = {
