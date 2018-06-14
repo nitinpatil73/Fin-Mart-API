@@ -172,7 +172,7 @@ var ValidateCuponCode = function (req, res, next) {
           }, function(data) {
                var message = JSON.parse(data.message);
                if(message!=null && message.Status =="1"){
-                  con.execute_proc('call get_user_details_for_mps(?)',req.body.FBAID,function(response) {
+                  con.execute_proc('call get_user_details_for_mps_prom_code(?)',req.body.FBAID,function(response) {
                     console.log(response);
                     if(response!=null && response[0].length>0){
                       if(response[0][0].Link){

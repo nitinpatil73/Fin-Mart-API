@@ -300,7 +300,7 @@ if(req.body.type == 0)
       console.log("---------------------healthrequest---------------------");
       console.log(healthrequest);
       var response ={
-        "fba_id" : data[0][i].fba_id,
+        "fba_id" : data[0][i].FBAID,
         "HealthRequestId" : data[0][i].HealthRequestId,
         "agent_source" : data[0][i].agent_source,
         "crn" : data[0][i].crn,
@@ -321,7 +321,7 @@ if(req.body.type == 0)
       
       healthrequest.MemberList =arr;
       var response ={
-        "fba_id" : data[1][i].fba_id,
+        "fba_id" : data[1][i].FBAID,
         "HealthRequestId" : data[1][i].HealthRequestId,
         "agent_source" : data[1][i].agent_source,
         "crn" : data[1][i].crn,
@@ -347,7 +347,7 @@ else if(req.body.type == 1)
       var arr = JSON.parse(data[0][i].MemberList);
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
       var response ={
-        "fba_id" : data[0][i].fba_id,
+        "fba_id" : data[0][i].FBAID,
         "HealthRequestId" : data[0][i].HealthRequestId,
         "agent_source" : data[0][i].agent_source,
         "crn" : data[0][i].crn,
@@ -372,7 +372,7 @@ else if(req.body.type == 2)
       
       healthrequest.MemberList =arr;
       var response ={
-        "fba_id" : data[0][i].fba_id,
+        "fba_id" : data[0][i].FBAID,
         "HealthRequestId" : data[0][i].HealthRequestId,
         "agent_source" : data[0][i].agent_source,
         "crn" : data[0][i].crn,
@@ -469,6 +469,7 @@ wrapper('/api/SmartHealth', 'POST', {
     "CityID": response[0][0].CityID,
     "PlanID": response[0][0].PBPlanID,
     "HealthRequestId": req.body.HealthRequestId,
+    "FBAID": req.body.FBAID,
     "ContactEmail": response[0][0].ContactEmail,
     "ContactMobile": response[0][0].ContactMobile,
     "ContactName": response[0][0].ContactName,
