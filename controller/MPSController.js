@@ -6,6 +6,7 @@ var MPSControllerParameter = function (req, res, next, pospno) {
    var fba_req_id = [];
    fba_req_id.push(req.body.FBAID);
   con.execute_proc('call get_user_details_for_mps(?)',fba_req_id,function(response) {
+    console.log("---------------------------------------------------------------------------");
     console.log(response);
     if(response!=null && response[0].length>0){
       if(response[0][0].Link){
@@ -93,8 +94,6 @@ var MPSControllerParameter = function (req, res, next, pospno) {
             "AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
           "AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
             }, function(data) {
-        console.log("---PaymentDataRequest----");
-        console.log(data);
               if(data.type == "Success"){
                 console.log(message);
                 var message = JSON.parse(data.message);
@@ -150,15 +149,14 @@ var MPSControllerParameter = function (req, res, next, pospno) {
           }
     }
   }else{
+
          base.send_response("Payment link not available",null,res);
     }
 
   });
 };
 
-
-var ValidateCuponCode = function (req, res, next) {
-
+var ValidateCuponCode = function (req, res, next, pospno) {
   con.execute_proc('call validate_cupon_id(?)',req.body.FBAID,function(cuponrespdata) {
      if(cuponrespdata!=null && cuponrespdata[0].length>0 && cuponrespdata != ''){
       app('/api/MPS/VALDFinMartMPSPromoCode', 'POST', { 
@@ -175,39 +173,6 @@ var ValidateCuponCode = function (req, res, next) {
                   con.execute_proc('call get_user_details_for_mps_prom_code(?)',req.body.FBAID,function(response) {
                     console.log(response);
                     if(response!=null && response[0].length>0){
-                      if(response[0][0].Link){
-                        app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
-                              "ProdID":"512",
-                              "CustID":response[0][0].CustID,
-                              "PartID":"4444444",
-                              "UserID":"0",
-                              "IsScheme":"0",
-                              "FBAId":0,
-                              "ResponseJson":null,
-                              "AppID":"171",
-                              "AppUSERID":"3OK92Dl/LwA0HqfC5+fCxw==",
-                              "AppPASSWORD":"BjLfd1dqTCyH1DQLhylKRQ=="
-                          }, function(responcepropridata) {
-                              var messageprice =JSON.parse(responcepropridata.message);
-                              if(messageprice.Status=="1"){
-                        var resdata={
-                           "PaymentURL": response[0][0].Link,
-                            "Amount": messageprice.TotalAmt,
-                            "ProdID": messageprice.ProdID,
-                            "MRP": messageprice.MRP,
-                            "Discount": 0,
-                            "ServTaxAmt": messageprice.GSTAmt,
-                            "VATAmt": messageprice.GSTVal,
-                            "TotalAmt": messageprice.TotalAmt,
-                            "BalanceAmt": 0
-                        };
-                            base.send_response("Verifyed successfully",resdata,res);
-                        }
-                        else{
-                          base.send_response("Invalid response in GetProdPriceDeta", null,res);
-                          }
-                        },5);
-                      }else{
                           if(response[0][0].CustID=='0'){
                              base.send_response("Customer ID not found.",null,res);
                           }else{
@@ -260,8 +225,6 @@ var ValidateCuponCode = function (req, res, next) {
                             "AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
                           "AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
                             }, function(data) {
-                        console.log("---PaymentDataRequest----");
-                        console.log(data);
                               if(data.type == "Success"){
                                 console.log(message);
                                 var message = JSON.parse(data.message);
@@ -295,6 +258,7 @@ var ValidateCuponCode = function (req, res, next) {
                                     base.send_response("Success", message,res);
                                   }
                                   else{
+                                    /////////////////////////////////////////////////////////////////
                                     base.send_response(respdata[0][0].Message, null,res);       
                                   } 
                                 });
@@ -314,7 +278,7 @@ var ValidateCuponCode = function (req, res, next) {
                               base.send_response("Invalid response in GetProdPriceDeta", null,res);
                             }
                             },5);
-                          }
+                          
                     }
                   }else{
                          base.send_response("Payment link not available",null,res);
@@ -333,7 +297,7 @@ var ValidateCuponCode = function (req, res, next) {
     {
         base.send_response("Failure FBAID does not exists.",null,res);
     }
-  });        
+  });       
 };
 
 module.exports = {
