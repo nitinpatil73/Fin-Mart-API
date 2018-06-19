@@ -3,10 +3,8 @@ var base = require('./baseController');
 
 var ExpressLoanParameter = function(req, res, next) {
  con.execute_proc('call Express_Loan()',null,function(data) {
- var applicationquote = [];
- var ShortTermPersonalLoan = [];
   if(data != null){
-  	var responsedata = {"PersonalLoan":data[0],"ShortTermPersonalLoan":data[1]};
+  	var responsedata = {"PersonalLoan":data[0],"HomeLoan":data[1],"BusinessLoan":data[2]};
     base.send_response("Success",responsedata,res);
   }
   else{
@@ -43,7 +41,7 @@ var GetExpressLoanParameter = function(req, res, next) {
     	base.send_response("Success",getdata[0],res);
   	}
   	else{
-      base.send_response("Record not found",[],res);        
+      base.send_response("Record not found",null,res);        
   	}
 });
 

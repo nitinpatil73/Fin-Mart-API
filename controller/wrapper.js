@@ -45,7 +45,7 @@ else if(hosttype == 2) {
   }
   else if(hosttype == 6) {
     if(process.env.NODE_ENV == 'development'){
-       hostname = "api.rupeeboss.com";
+       hostname = "uat.api.rupeeboss.com";
   }
   else{
        hostname = "api.rupeeboss.com";
@@ -84,6 +84,10 @@ else if(hosttype == 11) {
   }
   else if(hosttype == 15) {
     hostname = "finmartwebapi.magicsales.in";
+  }
+
+  else if(hosttype == 17) {
+    hostname = "api.rupeeboss.com";
   }
   var dataString = JSON.stringify(data);
   console.log("*******************************");

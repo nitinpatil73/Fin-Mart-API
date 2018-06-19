@@ -24,11 +24,12 @@ var GetConstantData = function(req, res, next){
 				 "POSPStat":"6",
 				 "POSPTraining":"1",
 				 "MPSStatus":data[0][9].ConstantValue,
+				 "UpdateMaster":"2"
 			};
 			base.send_response("Success",response,res);
 		}
 		else{
-			base.send_response("No data found",null,res);
+			base.send_response("FBAID does not exits.",null,res);
 		}
    	});
 

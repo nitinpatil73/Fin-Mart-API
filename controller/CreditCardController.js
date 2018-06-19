@@ -5,19 +5,18 @@ var randomstring = require("randomstring");
 
 
 var creditCardRBL = function (req, res, next) {
-//saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email, req.body.Mobile,req.body.fba_id,"1","897",req.body.CardType,req.body.CreditCardDetailId);
-
-var brokerid = new Buffer(req.body.brokerid).toString('base64');
-console.log(brokerid);
 var ConUniqRefCode = randomstring.generate(13);
-console.log(ConUniqRefCode);
-var parameter={
+wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
+},function(dataresponse) {
+if(dataresponse != null && dataresponse != ''){
+var CreditCard={
 		"Title": req.body.Title,
 		"DOB": req.body.DOB,
 		"FirstName": req.body.FirstName,
 		"MiddleName": req.body.MiddleName,
 		"LastName": req.body.LastName,
 		"FatherName": req.body.FatherName,
+    "email_id": req.body.email_id,
 		"Gender": req.body.Gender,
 		"HadLoanOrCreditCardFromAnyBank": req.body.HadLoanOrCreditCardFromAnyBank,
 		"ResAddress1": req.body.ResAddress1,
@@ -35,17 +34,20 @@ var parameter={
 		"CreditCardApplied": req.body.CreditCardApplied,
 		"CardType": req.body.CardType,
 		"ProcessingFee": req.body.ProcessingFee,
-		"brokerid": brokerid,
+		"brokerid": dataresponse,
+    "fba_id":req.body.fba_id,
 		"empid": "MAA=",
-		"source": "MAA="
+		"source": "RABDAA=="
     };
 wrapper('/BankAPIService.svc/createRBLCreditCardReq', 'POST', {
-		CreditCard: parameter
+		"CreditCard": CreditCard
   }, function(data) {
-  	 
-  		if(data!=null){
+  	 console.log("--------------------------------createRBLCreditCardReq-------------------------------------")
+  	 console.log(data);
+    	if(data!=null){
   			var message = JSON.parse(data);
-        if(message.Errorcode){
+        console.log(message.Errorcode);
+      //  if(message.Errorcode){
   			if(message.Errorcode==0){
     				var ApplnNo = message.ReferenceCode;	  			
   	  			console.log(ApplnNo);
@@ -58,18 +60,20 @@ wrapper('/BankAPIService.svc/createRBLCreditCardReq', 'POST', {
     			else{
     				base.send_response("Error: Technical issue , Kindly try after some time.", null,res);	
     			}
-      }
-      else{
-        base.send_response("Credential expired. Please contact customer support team.", null,res); 
-      }  			
+      // }
+      // else{
+      //   base.send_response("Credential expired. Please contact customer support team.", null,res); 
+      // }  			
   				
   		}
   		else{
 				base.send_response("Failure", null,res);		
   		}
-   
-
-  },6); 
+  },17); 
+  }else{
+    base.send_response("Broker Id does not exist","",res);
+  }
+},17);
 };
 
 var getCreditCardData = function(req, res, next){
@@ -102,7 +106,6 @@ function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,credi
 		parameter.push(ApplnNo);
     parameter.push(CreditCardDetailId);
 		con.execute_proc('call ManageCreditCardRequest(?,?,?,?,?,?,?,?)',parameter,function(data) {
-			console.log(data);
    		});
 }
 
@@ -129,76 +132,14 @@ var getSavedCreditCardInfo = function(req, res, next){
 }
 
 var creditCardICICI = function (req, res, next) {
-var brokerid = new Buffer(req.body.brokerid).toString('base64');
-console.log(brokerid);
-var parameter={
-  "_token": "NQmw3jBZbZREEStAkGVZTby7eZqeWJEj4tf5UUET",
-  "empid": "MAA=",
-  "brokerid": brokerid,
-  "source": "MAA=",
-  "prod": req.body.prod,
-  "amount": req.body.amount,
-  "interest": req.body.interest,
-  "ApplicantFirstName": req.body.ApplicantFirstName,
-  "ApplicantMiddleName": req.body.ApplicantMiddleName,
-  "ApplicantLastName": req.body.ApplicantLastName,
-  "DateOfBirth": req.body.DateOfBirth,
-  "NameOnCard": req.body.NameOnCard,
-  "MotherName": req.body.MotherName,
-  "no_of_dependents": req.body.no_of_dependents,
-  "Gender": req.body.Gender,
-  "marital_status": req.body.marital_status,
-  "preferred_address": req.body.preferred_address,
-  "resident_status": req.body.resident_status,
-  "CustomerProfile": req.body.CustomerProfile,
-  "supplementary_card":req.body.supplementary_card,
-  "CompanyName": req.body.CompanyName,
-  "Income": req.body.Income,
-  "designation": req.body.designation,
-  "work_email": req.body.work_email,
-  "work_STDCode": req.body.work_STDCode,
-  "work_number": req.body.work_number,
-  "type_of_company": req.body.type_of_company,
-  "highest_education": req.body.highest_education,
-  "ICICIBankRelationship": req.body.ICICIBankRelationship,
-  "Total_Exp": req.body.Total_Exp,
-  "SalaryAccountWithOtherBank": req.body.SalaryAccountWithOtherBank,
-  "ResidenceAddress1": req.body.ResidenceAddress1,
-  "ResidenceAddress2": req.body.ResidenceAddress2,
-  "ResidenceAddress3": req.body.ResidenceAddress3,
-  "City": req.body.City,
-  "ResidencePincode": req.body.ResidencePincode,
-  "ResidenceState": req.body.ResidenceState,
-  "type_current": req.body.type_current,
-  "same": req.body.same,
-  "PerResidenceAddress1": req.body.PerResidenceAddress1,
-  "PerResidenceAddress2": req.body.PerResidenceAddress2,
-  "PerResidenceAddress3": req.body.PerResidenceAddress3,
-  "PerCity": req.body.PerCity,
-  "PerResidencePincode": req.body.PerResidencePincode,
-  "PerResidenceState": req.body.PerResidenceState,
-  "per_res_type": req.body.per_res_type,
-  "ResidencePhoneNumber": req.body.ResidencePhoneNumber,
-  "ResidenceMobileNo": req.body.ResidenceMobileNo,
-  "STDCode": req.body.STDCode,
-  "have_credit_card": req.body.have_credit_card,
-  "previous_bank": "",
-  "credit_date": "",
-  "credit_limit": "",
-  "PanNo": req.body.PanNo,
-  "SalaryAccountOpened": req.body.SalaryAccountOpened,
-  "terms": req.body.terms,
-  "type": "DC",
-  "ChannelType": "RupeeBoss",
-  "CampaignName": "Rupeeboss Online",
-  "ICICIRelationshipNumber":req.body.ICICIRelationshipNumber
-    };   
-    console.log(parameter);
+wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
+},function(Encoderesponse) {
+if(Encoderesponse != null && Encoderesponse != ''){
     wrapper('/BankAPIService.svc/PostIciciBank', 'POST', {
 		 "_token": "NQmw3jBZbZREEStAkGVZTby7eZqeWJEj4tf5UUET",
   "empid": "MAA=",
-  "brokerid": brokerid,
-  "source": "MAA=",
+  "brokerid":Encoderesponse,
+  "source":"RABDAA==",
   "prod": req.body.prod,
   "amount": req.body.amount,
   "interest": req.body.interest,
@@ -206,6 +147,7 @@ var parameter={
   "ApplicantMiddleName": req.body.ApplicantMiddleName,
   "ApplicantLastName": req.body.ApplicantLastName,
   "DateOfBirth": req.body.DateOfBirth,
+  "email_id": req.body.email_id,
   "NameOnCard": req.body.NameOnCard,
   "MotherName": req.body.MotherName,
   "no_of_dependents": req.body.no_of_dependents,
@@ -256,7 +198,6 @@ var parameter={
   "CampaignName": "Rupeeboss Online",
   "ICICIRelationshipNumber":req.body.ICICIRelationshipNumber
   }, function(data) {
-  	 console.log(data);
   		if(data!=null){
   			var message = JSON.parse(data);
   			var ApplnNo = message.ApplicationId;
@@ -267,14 +208,15 @@ var parameter={
         else{
               base.send_response(message.ErrorMessage, null,res);  
         }
-  		
   		}
   		else{
 				base.send_response("Failure", null,res);		
   		}
-   
-
-  },6); 
+  },17);
+  }else{
+    base.send_response("Broker Id does not exist","",res);
+  }
+},17); 
 };
 
 //////////

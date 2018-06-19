@@ -73,7 +73,7 @@ var floterIndividualRequest = {
   "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
 };
 
-
+console.log("===============================floterIndividualRequest================================");
 console.log(floterIndividualRequest);
 // console.log(apitype);
 wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
@@ -95,8 +95,8 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Para6": "0_0_0_0_0",
   "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
   }, function(datax) {
-    console.log("--------------------------------------");
-   // console.log(datax);
+    console.log("++++++++++++++++++++++++++++++++++++datax+++++++++++++++++++++++++++++++++++++++");
+    console.log(datax);
     console.log("--------------------------------------");
     var CustomerReferenceID = "";
     if(datax!=null){     
