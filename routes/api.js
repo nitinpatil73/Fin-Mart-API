@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var con=require('../bin/dbconnection.js');
 var User = require('../model/user.js');
-var getvehicalcity = require('../controller/getvehiclecity');
+
 var getVehicleInfo = require('../controller/vehicleinfo');
 var smarthealth = require('../controller/smarthealth');
 var getVehicleDetail=require('../controller/getvehicledetail');
@@ -53,9 +53,7 @@ User.find({ username: email,password:pwd }, function(err, user) {
 });
 }
 
-router.get('/get-city-vehicle', function(req, res, next) {
-    getvehicalcity(req,res,next);
-});
+
 
 router.post('/vehicle-info', function(req, res, next) {
     getVehicleInfo(req,res,next);
@@ -658,5 +656,15 @@ router.post('/dump-data',function(req,res,next){
 router.post('/product-insurance-mappingId-update',function(req,res,next){
   var updatedatapro = require('../controller/ProInMappingIdUpdateController');
   updatedatapro.ProInMapping_Id(req,res);
+});
+
+router.get('/get-city-vehicle-old', function(req, res, next) {
+  var getvehicalcity_old = require('../controller/getvehiclecity');
+    getvehicalcity_old.Get_Vechicle_city_Old(req,res,next);
+});
+
+router.post('/get-city-vehicle', function(req, res, next) {
+  var getvehicalcity = require('../controller/getvehiclecity');
+    getvehicalcity.Get_Vechical_City(req,res,next);
 });
 module.exports = router;

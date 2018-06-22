@@ -51,7 +51,7 @@ wrapper('/BankAPIService.svc/createRBLCreditCardReq', 'POST', {
   			if(message.Errorcode==0){
     				var ApplnNo = message.ReferenceCode;	  			
   	  			console.log(ApplnNo);
-  	  			saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email, req.body.Mobile,req.body.fba_id,"1",ApplnNo,req.body.CardType,req.body.CreditCardDetailId);
+  	  			saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email,req.body.Mobile,req.body.fba_id,"1",ApplnNo,req.body.CardType,req.body.CreditCardDetailId);
   				  base.send_response("Thank you for choosing RBL Credit card. A has been sent to your registered Email id. Click on the link to upload your supporting documents.", message,res);	
     			 }
            else if(message.Errorcode==6){
@@ -102,8 +102,8 @@ function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,credi
 		parameter.push(Mobile);
 		parameter.push(fba_id);
 		parameter.push(CardType);
+    parameter.push(ApplnNo);
 		parameter.push(creditcardname);
-		parameter.push(ApplnNo);
     parameter.push(CreditCardDetailId);
 		con.execute_proc('call ManageCreditCardRequest(?,?,?,?,?,?,?,?)',parameter,function(data) {
    		});
@@ -198,6 +198,8 @@ if(Encoderesponse != null && Encoderesponse != ''){
   "CampaignName": "Rupeeboss Online",
   "ICICIRelationshipNumber":req.body.ICICIRelationshipNumber
   }, function(data) {
+    console.log("====================            icic             ==========================");
+    console.log(data);
   		if(data!=null){
   			var message = JSON.parse(data);
   			var ApplnNo = message.ApplicationId;
