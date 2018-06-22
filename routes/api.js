@@ -5,7 +5,7 @@ var User = require('../model/user.js');
 
 var getVehicleInfo = require('../controller/vehicleinfo');
 var smarthealth = require('../controller/smarthealth');
-var getVehicleDetail=require('../controller/getvehicledetail');
+
 var insertFBARegistration =require('../controller/fbaregistration');
 var loan=require('../controller/loancontroller');
 var otp=require('../controller/OTPController');
@@ -62,9 +62,15 @@ router.post('/vehicle-info', function(req, res, next) {
 router.post('/smart-health', function(req, res, next) {
     smarthealth.smarthealth(req,res,next);
 });
-router.post('/vehicle-details', function(req, res, next) {
-    getVehicleDetail(req,res,next);
+router.post('/vehicle-details_old', function(req, res, next) {
+  var VDetail=require('../controller/getvehicledetail');
+    VDetail.getVehicleDetail_Old(req,res,next);
 });
+
+router.post('/vehicle-details',function(req,res,next){
+  var getvehicle=require('../controller/getvehicledetail');
+  getvehicle.getVehicleDetail(req,res,next);
+})
 
 router.post('/save-loan-request', function(req, res, next) {
     loan.saveLoanData(req,res,next);

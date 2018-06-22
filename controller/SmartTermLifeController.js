@@ -10,7 +10,11 @@ var SmartTermLifeParameter = function(req, res, next) {
 	{
 		con.execute_proc('call smart_term_get_city_state(?)',pincodeparameter,function(pincoderesponse) {
 	    if(pincoderesponse!=null){
-			wrapper('/quotes/api/SmartTermLife', 'POST', {
+			var apiname = "/api/SmartTermLife";
+		   if(process.env.NODE_ENV == 'development'){
+		        apiname = "/quotes/api/SmartTermLife";		     
+		    }
+			wrapper(apiname, 'POST', {
 		   	 "PolicyTerm": req.body.termRequestEntity.PolicyTerm,
 		     "InsuredGender": req.body.termRequestEntity.InsuredGender,
 		     "Is_TabaccoUser": req.body.termRequestEntity.Is_TabaccoUser,
