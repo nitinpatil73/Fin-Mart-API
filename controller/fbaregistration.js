@@ -26,13 +26,14 @@ fbadata.push(req.body.City);//`City`,
 fbadata.push(req.body.StateID);//`StatID`,
 fbadata.push("R");//`FBAStat`,
 fbadata.push(req.body.SMID);//`SMID`,
-fbadata.push(req.body.CustID);//`CustID`,
+fbadata.push(req.body.CustID);
+fbadata.push(req.body.referedby_code);//`CustID`,
 console.log(fbadata);
 //res.send(fbadata);
 
 //InsertUpdateFBARepresentation(10,req,res,next);
 
-con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
+con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	if(data[0][0].SavedStatus == 0){
 		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);

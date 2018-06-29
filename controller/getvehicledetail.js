@@ -19,6 +19,8 @@ var getVehicleDetail_Old = function (req, res, next) {
                 client.GET_Vehicle_Details_Mobile(args, function (err, result) {
                     
                     data = result.GET_Vehicle_Details_MobileResult?result.GET_Vehicle_Details_MobileResult['diffgram']:null;
+                    console.log("--------------------------------------------");
+                    console.log(data);
                     if (data  && result.GET_Vehicle_Details_MobileResult['diffgram'].hasOwnProperty('NewDataSet')) {
                         refine_data = result.GET_Vehicle_Details_MobileResult['diffgram']['NewDataSet']['Table'];
                         //saving data in db
@@ -54,10 +56,10 @@ var getVehicleDetail_Old = function (req, res, next) {
 
 
 var getVehicleDetail=function(req,res,next){
-    con.execute_proc('call vehicle_details(?)',req.body.Product_Id,function(data){
+    con.execute_proc('call vehicle_details(?)',req.body.ProductId,function(data){
         if(data != null && data != '')
         {
-            base.send_response("Success",data,res);
+            base.send_response("Success",data[0],res);
         }
         else
         {

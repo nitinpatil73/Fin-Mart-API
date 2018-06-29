@@ -46,30 +46,38 @@ wrapper('/BankAPIService.svc/createRBLCreditCardReq', 'POST', {
   	 console.log(data);
     	if(data!=null){
   			var message = JSON.parse(data);
-        console.log(message.Errorcode);
-      //  if(message.Errorcode){
-  			if(message.Errorcode==0){
+        if(message.Status != 0){
+          var status = [];
+          if(message.Status == 1)
+          {
+              status.push("Successful");
+              message.Status="Successful";
+          }
+          if(message.Status == 2)
+          {
+              status.push("Successful Refered");
+              message.Status="Successful Refered";
+          }
+          if(message.Status == 3)
+          {
+              status.push("Reject");
+              message.Status="Reject";
+          }
+          console.log("-----------------------------status-------------------------------------");
+          console.log(status);
     				var ApplnNo = message.ReferenceCode;	  			
-  	  			console.log(ApplnNo);
-  	  			saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email,req.body.Mobile,req.body.fba_id,"1",ApplnNo,req.body.CardType,req.body.CreditCardDetailId);
+  	  			saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email,req.body.Mobile,req.body.fba_id,"1",ApplnNo,req.body.CardType,req.body.CreditCardDetailId,status);
   				  base.send_response("Thank you for choosing RBL Credit card. A has been sent to your registered Email id. Click on the link to upload your supporting documents.", message,res);	
-    			 }
-           else if(message.Errorcode==6){
-              base.send_response("Duplicate : an application with the given details already exist , kindly try with another details.", null,res);  
-           }        
-    			else{
-    				base.send_response("Error: Technical issue , Kindly try after some time.", null,res);	
-    			}
-      // }
-      // else{
-      //   base.send_response("Credential expired. Please contact customer support team.", null,res); 
-      // }  			
-  				
-  		}
-  		else{
-				base.send_response("Failure", null,res);		
-  		}
-  },17); 
+        }
+        else{
+          base.send_response(message.Errorinfo,null,res); 
+        }  			
+    				
+    		}
+    		else{
+  				base.send_response("Failure", null,res);		
+    		}
+    },17); 
   }else{
     base.send_response("Broker Id does not exist","",res);
   }
@@ -95,7 +103,7 @@ var getCreditCardData = function(req, res, next){
    	});
 }
 
-function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,creditcardname,CreditCardDetailId){
+function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,creditcardname,CreditCardDetailId,status){
 		var parameter = [];
 		parameter.push(Name);		
 		parameter.push(Email);
@@ -105,7 +113,8 @@ function saveCreditCardRequest(Name, Email, Mobile,fba_id,CardType,ApplnNo,credi
     parameter.push(ApplnNo);
 		parameter.push(creditcardname);
     parameter.push(CreditCardDetailId);
-		con.execute_proc('call ManageCreditCardRequest(?,?,?,?,?,?,?,?)',parameter,function(data) {
+    parameter.push(status);
+		con.execute_proc('call ManageCreditCardRequest(?,?,?,?,?,?,?,?,?)',parameter,function(data) {
    		});
 }
 
@@ -203,8 +212,9 @@ if(Encoderesponse != null && Encoderesponse != ''){
   		if(data!=null){
   			var message = JSON.parse(data);
   			var ApplnNo = message.ApplicationId;
+        var status = message.Decision;
         if(ApplnNo){
-              saveCreditCardRequest(req.body.ApplicantFirstName + " " + req.body.ApplicantMiddleName + " " +req.body.ApplicantLastName, req.body.work_email, req.body.ResidenceMobileNo,req.body.fba_id,"2",ApplnNo,req.body.CardType,req.body.CreditCardDetailId)
+              saveCreditCardRequest(req.body.ApplicantFirstName + " " + req.body.ApplicantMiddleName + " " +req.body.ApplicantLastName, req.body.work_email, req.body.ResidenceMobileNo,req.body.fba_id,"2",ApplnNo,req.body.CardType,req.body.CreditCardDetailId,status)
               base.send_response(message.Reason, message,res);
         }
         else{
