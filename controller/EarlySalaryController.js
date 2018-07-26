@@ -36,8 +36,6 @@ var EarlySalary = function (req, res, next) {
 				    "source":"MAA=",
 				    "CampaignName":"Finmart App"
 				  }, function(response) {
-				  	console.log("------------------Early salary response---------------------");
-				  	console.log(response);
 					 js=JSON.parse(response);
 				     if(js.status == 200){
 				     	//var ExpressLoan = require('./ExpressLoan');
@@ -50,7 +48,7 @@ var EarlySalary = function (req, res, next) {
 				     		req.body.FBAID,
 				     		req.body.ApplicationID,
 				     		req, res, function(data){
-				     	 	console.log(data);
+				     	 //	console.log(data);
 				     	 });
 				        base.send_response("Record saved successfully.",response,res);    
 				     }
@@ -128,22 +126,22 @@ var EarlySalary = function (req, res, next) {
 				    "CoAppNMI": req.body.CoAppNMI,
 				    "CoAppEmiCurPay": req.body.CoAppEmiCurPay,
 				    "Version": req.body.Version,
-
 				    "brokerid": Encoderesponse,
-				    "empid": req.body.empid,
-				    "source": req.body.source,
+				    "empid": "MAA=",
+  					"source": "MAA=",
 				    "CampaignName": req.body.CampaignName
 				 };
-
+				// console.log(PersonalLoan);
 				wrapper('/BankAPIService.svc/createKotakPersonalLoanReq', 'POST', {
 					 	"PersonalLoan":PersonalLoan
 				  }, function(kotakresponse) {
-
-				  	console.log("************************************");
-				  	console.log(kotakresponse);
 					 js=JSON.parse(kotakresponse);
-					 if(js.Response.Status == 2)
-					 {
+					  if(js.Response.Status == 0)
+					  {
+					  	  base.send_response(js.Response.ErrorInfo,null,res);
+					  }
+					  else if(js.Response.Status == 1)
+					  {
 					    SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
 					    req.body.Mobile,
 					    req.body.ResCity,
@@ -157,11 +155,63 @@ var EarlySalary = function (req, res, next) {
 					    });
 
 					   var successresponse = {"ReferenceCode":js.Response.ReferenceCode};
-					    base.send_response("Record saved successfully.",successresponse,res);    
+					   base.send_response("Your Kotak Personal Loan Lead Id is Reference Code.",successresponse,res);    
 					}
-					 else{
-					        base.send_response("Please change PAN or Mobile No.",null,res);
+					else if(js.Response.Status == 2)
+					{
+						SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+					    req.body.Mobile,
+					    req.body.ResCity,
+					    req.body.LnAmt,
+					    req.body.BankId,
+					    req.body.LoanType,
+					    req.body.FBAID,
+					    js.Response.ReferenceCode,
+					    req, res, function(savedata){
+					     	next(savedata);
+					    });
+
+					   var successresponse = {"ReferenceCode":js.Response.ReferenceCode};
+					   base.send_response("Your Kotak Personal Loan Lead Id is Reference Code You Are Eligible For LoanAmount kotak_pl_eligLnAmt And Eligible ROI is kotak_pl_roi.",successresponse,res);
 					}
+					else if(js.Response.Status == 3)
+					{
+						SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+					    req.body.Mobile,
+					    req.body.ResCity,
+					    req.body.LnAmt,
+					    req.body.BankId,
+					    req.body.LoanType,
+					    req.body.FBAID,
+					    js.Response.ReferenceCode,
+					    req, res, function(savedata){
+					     	next(savedata);
+					    });
+
+					   var successresponse = {"ReferenceCode":js.Response.ReferenceCode};
+					   base.send_response("Thank You For Banking With Kotak Bank Personal Loan. We are sorry to say, you have been kotak_pl_errcode Lead Id is kotak_pll.",successresponse,res);
+					}
+					else if(js.Response.Status == 4)
+					{
+						SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+					    req.body.Mobile,
+					    req.body.ResCity,
+					    req.body.LnAmt,
+					    req.body.BankId,
+					    req.body.LoanType,
+					    req.body.FBAID,
+					    js.Response.ReferenceCode,
+					    req, res, function(savedata){
+					     	next(savedata);
+					    });
+
+					   var successresponse = {"ReferenceCode":js.Response.ReferenceCode};
+					   base.send_response("hank You for your interest in Kotak Bank Personal Loan kotak_pl_status.",successresponse,res);
+					}
+					else{
+					       base.send_response(js.Response.ErrorInfo,null,res);
+					}
+					
 				  },6);
 			}else{
 				base.send_response("Broker Id does not exist","",res);
@@ -216,8 +266,8 @@ var EarlySalary = function (req, res, next) {
 						  "per_add": req.body.per_add,
 
 						  "brokerid":Encoderesponse,
-						  "empid": req.body.empid,
-						  "source": req.body.source,
+						  "empid": "MAA=",
+  						  "source": "MAA=",
 						  "CampaignName": req.body.CampaignName
 						  }, function(HDFCResponse) {
 						 js=JSON.parse(HDFCResponse);
@@ -231,13 +281,13 @@ var EarlySalary = function (req, res, next) {
 						     		req.body.FBAID,
 						     		js.Lead_Id,
 						     		req, res, function(data){
-						     	 	console.log(data);
+						     	 //	console.log(data);
 						     	 });
 						    	  var successresponse = {"Lead_Id":js.Lead_Id};
 						        base.send_response("Record saved successfully.",successresponse,res);    
 						     }
 						     else{
-						        base.send_response("Please change PAN or Mobile No.", null,res);
+						        base.send_response(js.Errorinfo, null,res);
 						     }
 						   },6);
 					}else{
@@ -249,61 +299,63 @@ var EarlySalary = function (req, res, next) {
 		};
 
 		var RupeeBossParameter = function (req, res, next) {
-		var RBLData = ("{\"Status\":4,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
-		// wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
-		// 	},function(Encoderesponse) {
-		// 		console.log("********************************************");
-		// 		console.log(Encoderesponse);
-		// 		if(Encoderesponse != null && Encoderesponse != ''){
-		// 			var PersonalLoan = {
-		// 		"FirstName": req.body.FirstName,
-		// 	    "MiddleName": req.body.MiddleName,
-		// 	    "LastName": req.body.LastName,
-		// 	    "Gender": req.body.Gender,
-		// 	    "ResAddress1": req.body.ResAddress1,
-		// 	    "ResAddress2": req.body.ResAddress2,
-		// 	    "ResLand": req.body.ResLand,
-		// 	    "DOB": req.body.DOB,
-		// 	    "ResType": req.body.ResType,
-		// 	    "CurResSince": req.body.CurResSince,
-		// 	    "ResPIN": req.body.ResPIN,
-		// 	    "Mobile": req.body.Mobile,
-		// 	    "Email": req.body.Email,
-		// 	    "EmpType": req.body.EmpType,
-		// 	    "LnAmt": req.body.LnAmt,
-		// 	    "TnrMths": req.body.TnrMths,
-		// 	    "IRR": req.body.IRR,
-		// 	    "ProcFee": req.body.ProcFee,
-		// 	    "NMI": req.body.NMI,
-		// 	    "EmiCurPay": req.body.EmiCurPay,
-		// 	    "ResCity": req.body.ResCity,
-		// 	    "CompanyName": req.body.CompanyName,
-		// 	    "CurCmpnyJoinDt": req.body.CurCmpnyJoinDt,
-		// 	    "TotWrkExp": req.body.TotWrkExp,
-		// 	    "OffAddress1": req.body.OffAddress1,
-		// 	    "OffAddress2": req.body.OffAddress2,
-		// 	    "OrgCategory": req.body.OrgCategory,
-		// 	    "OffCity": req.body.OffCity,
-		// 	    "OffPIN": req.body.OffPIN,
-		// 	    "OffPhone": req.body.OffPhone,
-		// 	    "PAN": req.body.PAN,
-		// 	    "Qualification": req.body.Qualification,
-		// 	    "check": req.body.check,
+		//var RBLData = ("{\"Status\":4,\"ReferenceCode\":\"#PLQER293F\",\"EligibilityDesc\":\"0\",\"Errorcode\":0,\"Errorinfo\":\"\",\"RequestIP\":\"49.50.95.141\"}");
+		wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
+			},function(Encoderesponse) {
+				if(Encoderesponse != null && Encoderesponse != ''){
+					var PersonalLoan = {
+				"FirstName": req.body.FirstName,
+			    "MiddleName": req.body.MiddleName,
+			    "LastName": req.body.LastName,
+			    "Gender": req.body.Gender,
+			    "ResAddress1": req.body.ResAddress1,
+			    "ResAddress2": req.body.ResAddress2,
+			    "ResLand": req.body.ResLand,
+			    "DOB": req.body.DOB,
+			    "ResType": req.body.ResType,
+			    "CurResSince": req.body.CurResSince,
+			    "ResPIN": req.body.ResPIN,
+			    "Mobile": req.body.Mobile,
+			    "Email": req.body.Email,
+			    "EmpType": req.body.EmpType,
+			    "LnAmt": req.body.LnAmt,
+			    "TnrMths": req.body.TnrMths,
+			    "IRR": req.body.IRR,
+			    "ProcFee": Math.round( req.body.ProcFee ),
+			    "NMI": req.body.NMI,
+			    "EmiCurPay": req.body.EmiCurPay,
+			    "ResCity": req.body.ResCity,
+			    "CompanyName": req.body.CompanyName,
+			    "CurCmpnyJoinDt": req.body.CurCmpnyJoinDt,
+			    "TotWrkExp": req.body.TotWrkExp,
+			    "OffAddress1": req.body.OffAddress1,
+			    "OffAddress2": req.body.OffAddress2,
+			    "OrgCategory": req.body.OrgCategory,
+			    "OffCity": req.body.OffCity,
+			    "OffPIN": req.body.OffPIN,
+			    "OffPhone": req.body.OffPhone,
+			    "PAN": req.body.PAN,
+			    "Qualification": req.body.Qualification,
+			    "check": req.body.check,
 
-		// 	    "brokerid": Encoderesponse,
-		// 	    "empid": req.body.empid,
-		// 	    "source": req.body.source,
-		// 	    "CampaignName": req.body.CampaignName
-		// 	}
-		// 	wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
-		// 	 	"PersonalLoan":PersonalLoan
-		// 		  }, function(RBLData) {
-				console.log("*********************RBLData***********************");
-				console.log(RBLData);
+			    "brokerid": Encoderesponse,
+			    "empid": "MAA=",
+   				"source": "MAA=",
+			    "CampaignName": req.body.CampaignName
+			}
+		//	console.log("--------------------log------------------------------");
+		//	console.log(PersonalLoan);
+			wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
+			 	"PersonalLoan":PersonalLoan
+				  }, function(RBLData) {
+				//  	console.log("------------------------RBLData-------------------------------");
+				 // 	console.log(RBLData);
 				 js=JSON.parse(RBLData);
-				 if(js.Status == 4){
-				 	  js=JSON.parse(RBLData);
-				    	  	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+				    if(js.Status == 0){
+				     	base.send_response(js.Errorinfo,null,res);
+				     }
+				     else if(js.Status == 1){
+				     	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
 				     		req.body.Mobile,
 				     		req.body.ResCity,
 				     		req.body.LnAmt,
@@ -312,18 +364,46 @@ var EarlySalary = function (req, res, next) {
 				     		req.body.FBAID,
 				     		js.ReferenceCode,
 				     		req, res, function(data){
-				     	 });
-				    	  var successresponse = { "ReferenceCode":js.ReferenceCode }
-				        base.send_response("Record saved successfully.",successresponse,res);    
+				     	});
+				    	var successresponse = { "ReferenceCode":js.ReferenceCode }
+				     	base.send_response("Thank You for your interest in RBL Bank Personal Loan.Your application has been Approved in Principle. We request you to kindly note your Application reference no. Reference Code",successresponse,res);
+				     }
+				     else if(js.Status == 2){
+				     	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+				     		req.body.Mobile,
+				     		req.body.ResCity,
+				     		req.body.LnAmt,
+				     		req.body.BankId,
+				     		req.body.LoanType,
+				     		req.body.FBAID,
+				     		js.ReferenceCode,
+				     		req, res, function(data){
+				     	});
+				    	var successresponse = { "ReferenceCode":js.ReferenceCode }
+				     	base.send_response("Thank You for your interest in RBL Bank Personal Loan.Your application has been submitted successfully. We request you to kindly note your Application reference no Reference Code",successresponse,res);
+				     }
+				     else if(js.Status == 3){
+				     	SaveExpressKotakLoanParameter(req.body.FirstName + " " + req.body.LastName,
+				     		req.body.Mobile,
+				     		req.body.ResCity,
+				     		req.body.LnAmt,
+				     		req.body.BankId,
+				     		req.body.LoanType,
+				     		req.body.FBAID,
+				     		js.ReferenceCode,
+				     		req, res, function(data){
+				     	});
+				    	var successresponse = { "ReferenceCode":js.ReferenceCode }
+				     	base.send_response("Thank You for your interest in RBL Bank Personal Loan.We are sorry to say you have been Rejected and your Application reference no Reference Code.",successresponse,res);
 				     }
 				     else{
-				        base.send_response("Please change PAN or Mobile No.", null,res);
+				        base.send_response(js.Errorinfo,null,res);
 				     }
-				   //},6);
-				// }else{
-				// 	base.send_response("Broker Id does not exist","",res);
-				// }
-		   // },6);
+				   },6);
+				}else{
+					base.send_response("Broker Id does not exist",null,res);
+				}
+		   },6);
 			
 		};
 

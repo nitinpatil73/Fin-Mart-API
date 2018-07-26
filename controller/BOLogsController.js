@@ -8,12 +8,12 @@ logsparameter.push(req.body.APIName);
 logsparameter.push(req.body.JsonData);
 logsparameter.push(req.body.FBAID);
 logsparameter.push(req.body.Source);
-console.log(logsparameter);
+//console.log(logsparameter);
 
 
 con.execute_proc('call usp_insert_backofficelogs(?,?,?,?)',logsparameter,function(data) {
-	console.log(data);
-	 console.log(data[0][0]);
+//	console.log(data);
+//console.log(data[0][0]);
     if(data[0][0].SavedStatus=="0"){
       base.send_response("Success", data[0],res);
     }

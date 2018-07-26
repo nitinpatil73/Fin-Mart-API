@@ -2,7 +2,7 @@ var base=require('./baseController');
 var Log  = require('../model/LogModel.js');
 
 var insertTracking = function(req, res, next) {
-	console.log("hit");
+//	console.log("hit");
 	var loan = new Log({ FBAId: req.body.FBAID, RequestString : req.body.Data, Type :req.body.Type });
 		loan.save(function(err) {
 			if(err){

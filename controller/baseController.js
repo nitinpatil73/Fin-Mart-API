@@ -39,7 +39,7 @@ BaseController.check_in_cache = function (req, res, callback) {
             if (result === true) {
                 callback(null);
             } else {
-                console.log("from mongo");
+                //console.log("from mongo");
                 callback(post['data']);
             }
         });

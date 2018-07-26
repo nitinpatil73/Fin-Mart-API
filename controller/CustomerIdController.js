@@ -26,14 +26,14 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 								// console.log("++++++++++++++++++++++++++")
 								// console.log(customer);
 		          				con.execute_proc('call sp_update_CustIdAndFOC(?,?)',customer,function(respdata) {
-									console.log(respdata);
+									//console.log(respdata);
 								});
 		          			}
 		          			else if(result.CreateCustomerResult.Status=="2"){
-		          				console.log(result.CreateCustomerResult.MSG);
+		          				//console.log(result.CreateCustomerResult.MSG);
 		          			}
 		          			else{
-		          				console.log(result.CreateCustomerResult.MSG);
+		          				//console.log(result.CreateCustomerResult.MSG);
 		          			}
 		          			res_msg="success";
 		          			res_data=result;
@@ -52,7 +52,7 @@ function call_cust_soap(authenticateInputInfo,inputInfo,next){
 		    var soap = require('soap');
 		    var url = 'http://magicsales.dwtsims.com/WCFServices/WCFServices.svc?wsdl';
 		    var args = { "inputInfo" :inputInfo , "authenticateInputInfo" : authenticateInputInfo };
-		    console.log(args);
+		  //  console.log(args);
 		    var message = "success";
 		    soap.createClient(url, function (err, client) {
 		        client.CreateCustomer(args, function (err, result) {

@@ -11,7 +11,7 @@ var rblplcalc = function(req, res, next) {
 	"IRR":req.body.IRR
 
   }, function(data) {
-   console.log(data);
+   //console.log(data);
    base.send_response("success",data,res);
   },12);
 

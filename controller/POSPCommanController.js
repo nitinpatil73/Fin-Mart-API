@@ -16,21 +16,21 @@ app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
 		"AppUSERID": "3OK92Dl/LwA0HqfC5+fCxw==",
 		"AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
 	  }, function(dataa) {
-	  	console.log("....GetProdPriceDeta.......");
-	  	console.log(dataa);
+	  	//console.log("....GetProdPriceDeta.......");
+	  	//console.log(dataa);
 	  	if(dataa.message !=null){
 	  		var message =JSON.parse(dataa.message);
 	  		if(message.Status=="1"){
 	  			var amount = message.TotalAmt;	 
-	  			console.log("amount:"+amount); 		
+	  			//console.log("amount:"+amount); 		
 	  			PaymentDataRequest(CustID,amount,mobileno,custname,emailid,fbaid,res,pospno,function(pay_data,status){
 	  				if(status==0){
-	  					console.log("Failure......................")
+	  					//console.log("Failure......................")
 
 	  				}else{
-	  					console.log("Success.......................")
+	  					//console.log("Success.......................")
 	  				}
-	  				console.log(pay_data);
+	  				//console.log(pay_data);
 	  				next(pay_data,status);
 	  			});
 	  		}
@@ -38,7 +38,7 @@ app('/api/CommonAPI/GetProdPriceDeta', 'POST', {
 	  			//base.send_response("Invalid response in GetProdPriceDeta", null,res);
 	  			next("Invalid response in GetProdPriceDeta",0);
 	  		}
-	  		console.log(message);
+	  		//console.log(message);
 	  	}
 	  	else{
 	  			//base.send_response("Invalid response in GetProdPriceDeta 1", null,res);
@@ -86,13 +86,13 @@ app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
   "AppPASSWORD": "BjLfd1dqTCyH1DQLhylKRQ=="
 	  }, function(data) {
 
-		console.log("---PaymentDataRequest----");
-		console.log(data);
+		//console.log("---PaymentDataRequest----");
+	//	console.log(data);
 	  	if(data.type == "Success"){
-	  		console.log(message);
+	  	//	console.log(message);
 	  		var message = JSON.parse(data.message);
-	  		console.log("-------------------------------");
-	  		console.log(message);
+	  	//	console.log("-------------------------------");
+	  	//	console.log(message);
 	  		if(message.Status == "1"){
 	  			var parameter = [];
 	  			parameter.push(fbaid);
@@ -100,9 +100,9 @@ app('/api/PaymentGateway/PaymentDataRequest', 'POST', {
 	  			parameter.push(message.PaymRefeID);
 	  			parameter.push(CustID);
 	  			parameter.push(501);
-	  			console.log(parameter);
+	  			//console.log(parameter);
 	  			con.execute_proc('call sp_InsPaymentlink(?,?,?,?,?)',parameter,function(respdata) {
-	  				console.log(respdata);
+	  			//	console.log(respdata);
 					if(respdata[0][0].SavedStatus == 0){
 						message.POSPNo = pospno;
 						next(message,1);

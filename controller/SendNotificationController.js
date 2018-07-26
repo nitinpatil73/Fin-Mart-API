@@ -22,6 +22,7 @@ var sendnotification = function(req, res, next){
           "to": data[0][i].TokeId,
           "data":message
         };
+       // console.log(message)
         sendNotificationToUser(notificationdata,data[0][i].UserNotificationRequestId)
       }
       base.send_response("Success",data[0],res);

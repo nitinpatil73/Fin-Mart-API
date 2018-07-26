@@ -26,9 +26,9 @@ parameter.push(req.body.PersonalLoanRequest.api_source);
 parameter.push(req.body.PersonalLoanRequest.empcode);
 parameter.push(req.body.PersonalLoanRequest.Contact);
 parameter.push(req.body.PersonalLoanRequest.panno);
-console.log(parameter);
+//console.log(parameter);
 con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);
 	}
@@ -147,9 +147,9 @@ if(req.body.loan_requestID){
 else{
 	parameter.push(null);
 }
-console.log(parameter);
+//console.log(parameter);
 con.execute_proc('call setQuoteToApplicationLoanRequest(?)',parameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);
 	}
@@ -169,9 +169,9 @@ if(req.body.loan_requestID){
 else{
 	parameter.push(null);
 }
-console.log(parameter);
+//console.log(parameter);
 con.execute_proc('call deletePersonalLoanRequest(?)',parameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);
 	}

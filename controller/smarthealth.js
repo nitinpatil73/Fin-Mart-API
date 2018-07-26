@@ -74,7 +74,7 @@ var floterIndividualRequest = {
 };
 
 
-console.log(floterIndividualRequest);
+//console.log(floterIndividualRequest);
 // console.log(apitype);
 wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Sum": req.body.HealthRequest.SumInsured,
@@ -95,9 +95,9 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Para6": "0_0_0_0_0",
   "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
   }, function(datax) {
-    console.log("--------------------------------------");
+   // console.log("--------------------------------------");
    // console.log(datax);
-    console.log("--------------------------------------");
+   // console.log("--------------------------------------");
     var CustomerReferenceID = "";
     if(datax!=null){     
       var data = datax.sort(function(first, second) {
@@ -162,20 +162,20 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
                newresponse.GrossPremiumStep = data[i].GrossPremium;
                newresponse.LstbenfitsFive =data[i].LstbenfitsAll;
                newdata.push(newresponse);
-               console.log("..............PlanID................");
-               console.log(data[i].PlanID); 
+              // console.log("..............PlanID................");
+              // console.log(data[i].PlanID); 
       }
       
       //console.log(newdata);
       //res.send(newdata);
-       console.log("******************************************************************************************");
+      // console.log("******************************************************************************************");
       var uniqueInsurerId = [];
       var uniqueData = [];
       var remainingData = [];
       for(i = 0; i< newdata.length; i++){
         CustomerReferenceID =0;// data[0].CustomerReferenceID;
         var insIDProdName = newdata[i].InsurerId + "|" + newdata[i].ProductName;
-        console.log(insIDProdName);
+        //console.log(insIDProdName);
           if(uniqueInsurerId.indexOf(insIDProdName) === -1){
                 uniqueInsurerId.push(insIDProdName);
                 uniqueData.push(newdata[i]);
@@ -183,10 +183,10 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
                 remainingData.push(newdata[i]);              
           }
       }
-console.log(uniqueInsurerId);
+//console.log(uniqueInsurerId);
       var final = {"header" :uniqueData , "child" : remainingData};
-      console.log(".............");
-      console.log(final);
+    //  console.log(".............");
+    //  console.log(final);
       //base.send_response("success",final,res);
 
      manageHealthRequest(req, res, next,final,CustomerReferenceID);      
@@ -203,8 +203,8 @@ var manageHealthRequest = function(req, res, next,responsedata,CustomerReference
 
 var parameter = [];
 
-if(req.body.HealthRequest.HealthRequestId){
-  parameter.push(req.body.HealthRequest.HealthRequestId); 
+if(req.body.HealthRequestId){
+  parameter.push(req.body.HealthRequestId); 
 }
 else{
   parameter.push(0);
@@ -228,28 +228,27 @@ parameter.push(req.body.HealthRequest.SumInsured);
 parameter.push(req.body.HealthRequest.SupportsAgentID);
 parameter.push(req.body.fba_id);
 parameter.push(req.body.agent_source);
-parameter.push(req.body.HealthRequest.Quote_Application_Status);
 
 //console.log("Length:"+req.body.HealthRequest.MemberList.length);
 var memberlist = "";
 for (var i = 0; i < req.body.HealthRequest.MemberList.length; i++) {
    memberlist += req.body.HealthRequest.MemberList[i].MemberDOB +","+req.body.HealthRequest.MemberList[i].MemberGender +","+req.body.HealthRequest.MemberList[i].MemberNumber +","+req.body.HealthRequest.MemberList[i].MemberType +","+req.body.HealthRequest.MemberList[i].MemberTypeID +","+req.body.HealthRequest.MemberList[i].Age +"|";
  } 
- console.log("=========================memberlist============================");
- console.log(memberlist);
+// console.log("=========================memberlist============================");
+// console.log(memberlist);
  parameter.push(memberlist);
  parameter.push(req.body.HealthRequest.pincode);
 //console.log(parameter);
-console.log("...............2435.............");
-  con.execute_proc('call ManageHealthRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
-    console.log("............................");
-    console.log(data[0][0]);
+//console.log("...............2435.............");
+  con.execute_proc('call ManageHealthRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+  //  console.log("............................");
+  //  console.log(data[0][0]);
     if(data[0][0].SavedStatus=="0"){
       var response = {
         "HealthRequestId" : data[0][0].HealthRequestId,
         "health_quote": responsedata
       };
-      console.log(responsedata);
+   //   console.log(responsedata);
       base.send_response("Success", response,res);
     }
     else{
@@ -261,7 +260,7 @@ console.log("...............2435.............");
 
 
 var getHealthRequest = function(req, res, next) {
-  console.log("test");
+ // console.log("test");
 var parameter = [];
 if(req.body.fba_id){
   parameter.push(req.body.fba_id); 
@@ -284,13 +283,13 @@ else{
   parameter.push(0);
   req.body.type=0;
 }
-console.log(parameter);
+//console.log(parameter);
 if(req.body.type == 0)
 {
   con.execute_proc('call getHealthRequest(?,?,?)',parameter,function(data) {
     var quoteresponse = [];
     var applicationquote = [];
-    console.log(data[0].length);
+   // console.log(data[0].length);
     for (var i = 0; i < data[0].length; i++) {
     
       data[0][i].progress_image = null;
@@ -298,10 +297,10 @@ if(req.body.type == 0)
       var arr = JSON.parse(data[0][i].MemberList);
 
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
-      console.log("---------------------healthrequest---------------------");
-      console.log(healthrequest);
+     // console.log("---------------------healthrequest---------------------");
+     // console.log(healthrequest);
       var response ={
-        "fba_id" : data[0][i].fba_id,
+        "fba_id" : data[0][i].FBAID,
         "HealthRequestId" : data[0][i].HealthRequestId,
         "agent_source" : data[0][i].agent_source,
         "crn" : data[0][i].crn,
@@ -311,7 +310,7 @@ if(req.body.type == 0)
     
       quoteresponse.push(response);
     }
-    console.log(quoteresponse);
+   // console.log(quoteresponse);
 
     for (var i = 0; i < data[1].length; i++) {
       data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
@@ -322,7 +321,7 @@ if(req.body.type == 0)
       
       healthrequest.MemberList =arr;
       var response ={
-        "fba_id" : data[1][i].fba_id,
+        "fba_id" : data[1][i].FBAID,
         "HealthRequestId" : data[1][i].HealthRequestId,
         "agent_source" : data[1][i].agent_source,
         "crn" : data[1][i].crn,
@@ -332,7 +331,7 @@ if(req.body.type == 0)
       };
       applicationquote.push(response);
     }
-    console.log("******************************");
+  //  console.log("******************************");
     var responsedata = {"quote":quoteresponse,"application":applicationquote};
     base.send_response("Success", responsedata,res);
   });
@@ -348,7 +347,7 @@ else if(req.body.type == 1)
       var arr = JSON.parse(data[0][i].MemberList);
       healthrequest.MemberList =arr;// array(data[0][i].MemberList);
       var response ={
-        "fba_id" : data[0][i].fba_id,
+        "fba_id" : data[0][i].FBAID,
         "HealthRequestId" : data[0][i].HealthRequestId,
         "agent_source" : data[0][i].agent_source,
         "crn" : data[0][i].crn,
@@ -373,7 +372,7 @@ else if(req.body.type == 2)
       
       healthrequest.MemberList =arr;
       var response ={
-        "fba_id" : data[0][i].fba_id,
+        "fba_id" : data[0][i].FBAID,
         "HealthRequestId" : data[0][i].HealthRequestId,
         "agent_source" : data[0][i].agent_source,
         "crn" : data[0][i].crn,
@@ -442,7 +441,7 @@ wrapper('/WMDataservice/api/HealthInsurance/GetCompareBenefits', 'POST', {
    "StrProdBeneID": req.body.StrProdBeneID,
   "IFAID": "27bgc7eiR5RoCV5xXvTcTQ==",
   }, function(data) {
-     console.log(data);
+    // console.log(data);
      if(data!=null && data.length>0){
         base.send_response("Success", data,res);    
      }
@@ -463,13 +462,37 @@ var ComparePremium = function (req, res, next) {
     else{
       helth_req_id.push(null);
     }
+//console.log(helth_req_id);
     var getcomparedata;
   con.execute_proc('call get_compare_premium(?,?,?)',helth_req_id,function(response) {
     if(response!=null){      
+
+// console.log( {
+//     "CityID": response[0][0].CityID,
+//     "PlanID": response[0][0].PBPlanID,
+//     "HealthRequestId": req.body.HealthRequestId,
+//     "FBAID": req.body.FBAID,
+//     "ContactEmail": response[0][0].ContactEmail,
+//     "ContactMobile": response[0][0].ContactMobile,
+//     "ContactName": response[0][0].ContactName,
+//     "DeductibleAmount": 0,
+//     "ExistingCustomerReferenceID": 0,
+//     "HealthType": "Health",
+//     "MaritalStatusID": response[0][0].MaritalStatusID,
+//     "MemberList": req.body.MemberList,
+//     "PolicyFor": response[0][0].PolicyFor,
+//     "PolicyTermYear": 1,
+//     "ProductID": 2,
+//     "SessionID": "",
+//     "SourceType": "APP",
+//     "SumInsured": response[0][0].SumInsured,
+//     "SupportsAgentID": 2
+//   });
 wrapper('/api/SmartHealth', 'POST', {
     "CityID": response[0][0].CityID,
     "PlanID": response[0][0].PBPlanID,
     "HealthRequestId": req.body.HealthRequestId,
+    "FBAID": req.body.FBAID,
     "ContactEmail": response[0][0].ContactEmail,
     "ContactMobile": response[0][0].ContactMobile,
     "ContactName": response[0][0].ContactName,
@@ -487,6 +510,7 @@ wrapper('/api/SmartHealth', 'POST', {
     "SupportsAgentID": 2
   }, function(data) {
     if(data!=null && data.length>0){
+//console.log("----------wrapper retured----");
        var memberlistparameter = []; 
        var memberlist = "";
        for (var i = 0; i < req.body.MemberList.length; i++) {
@@ -519,6 +543,8 @@ wrapper('/api/SmartHealth', 'POST', {
                         NetPremium : data[0].NetPremium,
                         ProposerPageUrl : data[0].ProposerPageUrl,
                       }
+//console.log("---*******************************************------------------------");
+//console.log(response);
                       base.send_response("Success",response,res);
                   }
                   else{
@@ -538,7 +564,7 @@ wrapper('/api/SmartHealth', 'POST', {
         base.send_response("failure",null, res);
     }
   },2);
-console.log('done');
+//console.log('done');
      //   base.send_response("Success",response,res);
     }else{
          base.send_response("failure",null,res);

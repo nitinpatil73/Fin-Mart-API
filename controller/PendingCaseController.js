@@ -16,10 +16,10 @@ else{
 	req.body.count=0;
 }
 
-console.log(parameter);
+//console.log(parameter);
 
 con.execute_proc('call getPendingcases(?,?)',parameter,function(data) {
-	console.log(data);
+//	console.log(data);
 	if(data != null){
 		base.send_response("Success", data[0],res);
 	}
@@ -72,7 +72,7 @@ parameter.push(req.body.quotetype);
 	  },6);
 	}else{
 		con.execute_proc('call DeleteQuoteFromPendingCase(?,?)',parameter,function(data) {
-			console.log(data);
+			//console.log(data);
 			if(data[0][0].SavedStatus == 0){
 				base.send_response("Success", data[0],res);
 			}

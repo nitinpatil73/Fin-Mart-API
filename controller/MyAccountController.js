@@ -31,7 +31,7 @@ if(req.body.Type == 0){
 	FBAUpdateAccountparameter.push(req.body.DisplayPhoneNo);
 	FBAUpdateAccountparameter.push(req.body.DisplayDesignation);
 	con.execute_proc('call AllUpdateMyAccount(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',FBAUpdateAccountparameter,function(data) {
-	console.log(data);
+//	console.log(data);
 
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
@@ -48,7 +48,7 @@ else if(req.body.Type == 1){//1st panel
 	FBAUpdateAccountparameter.push(req.body.Mobile_1 );
 	FBAUpdateAccountparameter.push(req.body.EmailId );
 	con.execute_proc('call UpdateAccountProfile(?,?,?,?)',FBAUpdateAccountparameter,function(data) {
-	console.log(data);
+	//console.log(data);
 
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
@@ -69,7 +69,7 @@ else if(req.body.Type == 2){//2nd panel
 	FBAUpdateAccountparameter.push(req.body.State);
 
 	con.execute_proc('call UpdateAccountAddress(?,?,?,?,?,?,?)',FBAUpdateAccountparameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
 		base.send_response("Profile updated successfully", data[0][0],res);
@@ -91,7 +91,7 @@ else if(req.body.Type == 2){//2nd panel
 	FBAUpdateAccountparameter.push(req.body.Loan_MICR);
 	FBAUpdateAccountparameter.push(req.body.Loan_BankCity);
 	con.execute_proc('call UpdateAccountBankDetails(?,?,?,?,?,?,?,?,?,?,?)',FBAUpdateAccountparameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
 		base.send_response("Profile updated successfully", data[0][0],res);
@@ -108,7 +108,7 @@ else if(req.body.Type == 4){
 	FBAUpdateAccountparameter.push(req.body.DisplayDesignation);
 
 	con.execute_proc('call UpdateAccountFBARDisplay(?,?,?,?)',FBAUpdateAccountparameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
 		base.send_response("Profile updated successfully", data[0][0],res);
@@ -123,9 +123,9 @@ else if(req.body.Type == 4){
 var GetMyAccount = function(req, res, next){
 		var GetMyAccount = [];
 		GetMyAccount.push(req.body.FBAID);	//
-		console.log(GetMyAccount);
+	//	console.log(GetMyAccount);
 		con.execute_proc('call GetMyAccount(?)',GetMyAccount,function(data) {
-		console.log(data);
+	//	console.log(data);
 		if(data!=null && data[0].length>0){
 			 var doc_available = data[1];		
 			 var response = data[0];

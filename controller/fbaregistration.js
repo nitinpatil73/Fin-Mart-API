@@ -8,7 +8,7 @@ var RBLog  = require('../model/RBUpdateLoanLog.js');
 var Mailer = require('../controller/MailController');
 var logger=require('../bin/Logger');
 var insertFBARegistration = function(req, res, next) {
-console.log("called");
+//console.log("called");
 //res.send("success");
 
 // console.log(res.body);
@@ -27,19 +27,20 @@ fbadata.push(req.body.StateID);//`StatID`,
 fbadata.push("R");//`FBAStat`,
 fbadata.push(req.body.SMID);//`SMID`,
 fbadata.push(req.body.CustID);//`CustID`,
-console.log(fbadata);
+fbadata.push(req.body.referedby_code);//`CustID`,
+//console.log(fbadata);
 //res.send(fbadata);
 
 //InsertUpdateFBARepresentation(10,req,res,next);
 
-con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
+con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	if(data[0][0].SavedStatus == 0){
 		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
 		SetCustomerId(data[0][0].FBAID,req, res,function(data){
-			console.log(data);
+			//console.log(data);
 			//called payment link in function below
 		});
 	
@@ -123,7 +124,7 @@ var converteddata = {
         fromrb : 1
 	};
 	
-	console.log(converteddata);
+	//console.log(converteddata);
 
 	var apiname = "/LoginDtls.svc/xmlservice/insFbaRegistration";
 
@@ -134,7 +135,7 @@ var converteddata = {
 	wrapper(apiname, 'POST', 
     converteddata
   , function(data) {
-  	console.log("LoanId"+data.result);
+  //	console.log("LoanId"+data.result);
   	if(data.statusId == 0){
 
   		UpdateLoanId(FBAID,data.result);
@@ -144,7 +145,7 @@ var converteddata = {
 		var loan = new RBLog({ FBAId: FBAID,RequestString:req.body,IsActive:true });
 		loan.save(function(err) {
 			if(err){
-				console.log(err);
+				//console.log(err);
 			};
 		});
   	}
@@ -165,7 +166,7 @@ function UpdateLoanId(FBAID,LoanId,req, res, next) {
 	fbausers.push(FBAID); //p_FBAID        INT,
 	fbausers.push(LoanId); 
 	con.execute_proc('call UpdateLoanId(?,?)',fbausers,function(loandata) {
-		console.log(loandata);
+		//console.log(loandata);
 	});
 	// console.log(personal);
 }
@@ -184,7 +185,7 @@ function InsertFBAUsers(FBAID,req, res, next) {
 	con.execute_proc('call spInsertFBAUsers(?,?,?,?,?,?,?,?)',fbausers,function(fbauserdata) {
 		sendRegistrationEmail(req);
 		sendBecomePOSP(req);
-		console.log(fbauserdata);
+		//console.log(fbauserdata);
 	});
 	// console.log(personal);
 }
@@ -226,7 +227,7 @@ function sendBecomePOSP(req) {
 	var emailTemplate_posp = "<div class='gmail_quote' style='color: #222222; font-family: arial, sans-serif; font-size: 12.8px'><div><table style='font-family: Arial, sans-serif; font-size: 14px; padding: 25px 0px 0px 25px; color: #000000'><tbody><tr><td style='font-family: arial, sans-serif'><p>Dear Mr.&nbsp;<b>{{name}}</b></p><p>Thank you very much for registering on the Magic Finmart Platform. As you will probably be aware the platform offers you the option of selling multiple products from multiple vendors.<br />However to unlock the full potential of the platform you will need to comply with IRDA norms for selling Insurance products and you can do the same by becoming a POSP with Landmark Insurance Brokers.</p><p><strong>Why you should become a POSP:</strong></p><p>IRDA Approved Sales Channel</p><p>Code (using Aadhar No) registered with IRDA</p><p>Name/Aadhar No appears on the policy document (guaranteeing renewals)</p><p>By registering as a POSP with a broker you get access to all insurance companies (you can offer choice of insurers to your customers)</p><p>POSP Life/GI can sell both Life &amp; GI products</p><p><strong>To become a POSP:</strong></p><p>you must be 18 years &amp; above</p><p>you must have education of 10th Std &amp; above</p><p>you must submit Pan/Aadhar/Photo/Education Proof</p><p>you must undergo 15 hours training and write a small exam</p><p><strong>you must not be an agent of any insurance company</strong></p><p>You can initiate the process by going to the main menu of your Finmart App and go to POSP enrolment to start the process.&nbsp;<br />In case you need any help you may reach out to our FBA Support Centre at 022-66048200.</p><p>We thank you for associating with us on the platform and assure you of our best services at all times.</p><p>Warm Regards,<br />Magic Finmart Team</p></td></tr></tbody></table><br /><div class='yj6qo'></div><div class='adL'></div></div><div class='adL'></div></div>";
 	emailTemplate_posp = emailTemplate_posp.replace("{{name}}",req.body.FirstName + ' ' + req.body.LastName);
 	sendEmail(req.body.EmailId,"Become a POSP with Landmark Insurance","",emailTemplate_posp);
-	console.log(emailTemplate_posp);
+	//console.log(emailTemplate_posp);
 }
 
 function InsertUpdateFBAProfessionalAuto(FBAID,req, res, next) {
@@ -243,7 +244,7 @@ function InsertUpdateFBAProfessionalAuto(FBAID,req, res, next) {
 	personal.push(req.body.Postal ); //p_IsPostSavi   TINYINT,
 	personal.push(req.body.Bonds ); //p_IsBonds      TINYINT
 	con.execute_proc('call InsertUpdateFBAProfessionalAuto(?,?,?,?,?,?,?,?,?,?,?)',personal,function(autodata) {
-		console.log(autodata);
+		//console.log(autodata);
 	});
 }
 
@@ -294,25 +295,25 @@ var representation = [];
 
 	// var representation =  InsertUpdateFBARepresentation(data[0][0].FBAID,req,res,next);
 	con.execute_proc('call InsertUpdateFBARepresentation(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',representation,function(respdata) {
-		console.log(respdata);
+		//console.log(respdata);
 	});
 }
 
 function SetCustomerId(fbaid,req, res, next) {
 	var CustomerId=require("./CustomerIdController");
-	console.log("going to set Cutomer Id and FOC ...............")
+	//console.log("going to set Cutomer Id and FOC ...............")
 	CustomerId.SetCustomerId(fbaid,req, res,function(data){
 		CustID=data.CreateCustomerResult.CustID;
 			var POSP=require("./POSPCommanController");
 			POSP.GetProdPriceDeta(CustID,req.body.Mobile_1,req.body.FirstName+" "+req.body.LastName,req.body.EmailId,fbaid,res,0,function(pay_stat,status){
 				if(status==0){
-					console.log("Failure......................")
+					//console.log("Failure......................")
 						//base.send_response(pay_data, null,res);	
   				}else{
-  					console.log("Success.......................")
+  					//console.log("Success.......................")
   					//base.send_response("Success", pay_data,res);	
   				}
-  				console.log(pay_stat);
+  				//console.log(pay_stat);
 
 			});
 	});

@@ -66,7 +66,13 @@ else if(hosttype == 8) {
     hostname = "zohowebapi.magicsales.in";
   }
 else if(hosttype == 11) {
-    hostname = "qa.policyboss.com";
+if(process.env.NODE_ENV == 'development'){
+
+         hostname = "qa.policyboss.com";      
+    }
+    else{
+        hostname = "vehicleinfo.policyboss.com";
+    }   
   }
   else if(hosttype == 12) {
     // port="80";
@@ -77,7 +83,25 @@ else if(hosttype == 11) {
     // port="80";
     hostname = "apiservices.magicfinmart.com";
   }
+
+  else if(hosttype == 14) {
+    // port="80";
+    hostname = "api.magicfinmart.com";
+  }
+  else if(hosttype == 15) {
+    hostname = "finmartwebapi.magicsales.in";
+  }
+
+  else if(hosttype == 17) {
+    hostname = "api.rupeeboss.com";
+  }
   var dataString = JSON.stringify(data);
+//  console.log("*******************************");
+  if(hosttype == 15){
+     dataString =encodeURIComponent(dataString); 
+   //  console.log(encodeURIComponent(dataString));
+}
+  //console.log(encodeURIComponent(dataString));
   var headers = {};
   
   if (method == 'GET') {
@@ -89,7 +113,10 @@ else if(hosttype == 11) {
       'Content-Type': 'application/json',
       'Content-Length': dataString.length,
       'UserName': username,
-      'Password': password
+      'Password': password,
+      'token': '1234567890',
+      'CONNECTION': 'keep-alive'
+      
     };
   }
   var options = {
@@ -97,14 +124,15 @@ else if(hosttype == 11) {
     port : port,
     path: endpoint,
     method: method,
-    headers: headers
+    headers: headers,
+    'CONNECTION': 'keep-alive'
   };
-  console.log("---------*******------------wrapper--------------**********---------------");
-  console.log(options);
+//  console.log("---------*******------------wrapper--------------**********---------------");
+//  console.log(options);
 
   var req = https.request(options, function(res) {
     res.setEncoding('utf-8');
-
+//	req.socket.setTimeout(600000);
     var responseString = '';
 
     res.on('data', function(data) {
@@ -113,7 +141,7 @@ else if(hosttype == 11) {
 
     res.on('end', function() {
       // console.log(hostname);
-       console.log(responseString);
+     //  console.log(responseString);
       var responseObject = JSON.parse(responseString);
       success(responseObject);
     });

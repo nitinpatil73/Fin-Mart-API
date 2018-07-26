@@ -22,7 +22,7 @@ var GetSalesMaterial = function(req, res, next){
 var GetSalesMaterialDocs = function(req, res, next){
 		var GetSalesMaterialDocs = [];
 		GetSalesMaterialDocs.push(req.body.product_id);	//
-		console.log(GetSalesMaterialDocs);
+	//	console.log(GetSalesMaterialDocs);
 		con.execute_proc('call GetSalesMaterialDocs(?)',GetSalesMaterialDocs,function(data) {
 		if(data!=null)
 		{

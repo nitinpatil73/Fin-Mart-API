@@ -5,9 +5,9 @@ var handler = require('./HandlerController');
 
 var saveLoanData = function(req, res, next) {
 
-console.log(getLoanParameters(req, res, next));
+//console.log(getLoanParameters(req, res, next));
  con.execute_proc('call ManageLoanRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',getLoanParameters(req, res, next),function(data) {
-  console.log(data);
+//  console.log(data);
   if(data[0][0].SavedStatus == "0"){
     base.send_response("Success", data[0],res);
   }
@@ -127,7 +127,7 @@ var setQuoteToApplication = function(req, res, next) {
   var parameters = [];
     parameters.push(req.body.loan_requestID);
     con.execute_proc('call QuoteToApplicationLoan(?)',parameters,function(data) {
-    console.log(data[0][0]);
+  //  console.log(data[0][0]);
     if(data[0][0].SavedStatus=="0"){
       base.send_response("Success", data[0],res);
     }
@@ -145,7 +145,7 @@ var deleteLoanRequestById = function(req, res, next) {
   var parameters = [];
     parameters.push(req.body.loan_requestID);
     con.execute_proc('call DeleteLoanRequestLoan(?)',parameters,function(data) {
-    console.log(data[0][0]);
+  //  console.log(data[0][0]);
     if(data[0][0].SavedStatus=="0"){
       base.send_response("Success", data[0],res);
     }
@@ -189,7 +189,7 @@ function getAllLoanData(fbaid,type,count,QandAType,res,req){
   }
 
 
-  console.log(parameters);
+//  console.log(parameters);
   // parameters.push(type);
 
 if(QandAType == 0)
@@ -208,7 +208,7 @@ if(QandAType == 0)
       quoteresponse.push(response);
     }
     for (var i = 0; i < data[1].length; i++) {
-      console.log(data[1][i].StatusPercent);
+    //  console.log(data[1][i].StatusPercent);
       // var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
       // data[1][i].progress_image = zeroimage;
       data[1][i].progress_image = handler.validateimage(req,data[1][i].StatusPercent);
@@ -248,7 +248,7 @@ else if(QandAType == 2)
     con.execute_proc('call getLoanRequest(?,?,?,?)',parameters,function(data) {
     var applicationresponse = [];
     for (var i = 0; i < data[0].length; i++) {
-      console.log(data[0][i].StatusPercent);
+    //  console.log(data[0][i].StatusPercent);
       data[0][i].progress_image = handler.validateimage(req,data[0][i].StatusPercent);
       // var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
       // data[0][i].progress_image = zeroimage;

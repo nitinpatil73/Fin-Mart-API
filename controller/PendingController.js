@@ -64,7 +64,7 @@ var GetLoanID = function (req, res, next) {
             Loan_BankCity : response[0][0].Loan_BankCity,
             fromrb : 1,
       }, function(data) {
-        console.log(data);
+       // console.log(data);
         if(data.statusId == 0){
            //base.send_response("Success",data,res); 
           UpdateLoanId(req.body.FBAID,data.result,req,res,next);
@@ -73,7 +73,7 @@ var GetLoanID = function (req, res, next) {
         var loan = new RBLog({ FBAId: FBAID,RequestString:req.body,IsActive:true });
         loan.save(function(err) {
           if(err){
-            console.log(err);
+           // console.log(err);
           };
         });
         }
@@ -90,10 +90,10 @@ var GetLoanID = function (req, res, next) {
       fbausers.push(FBAID); //p_FBAID        INT,
       fbausers.push(LoanId); 
       con.execute_proc('call UpdateLoanId(?,?)',fbausers,function(loandata) {
-        console.log("--------------");
-        console.log(loandata);
+       // console.log("--------------");
+        //console.log(loandata);
         if(loandata.SavedStatus == 0){
-        console.log(loandata);
+      //  console.log(loandata);
          base.send_response(loandata[0].Message,loandata[0],res); 
         }else{
           base.send_response(loandata[0].Message,loandata[0],res); 

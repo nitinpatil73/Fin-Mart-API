@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var Cache = require('../model/cache.js');
-var base = require('./baseController');
+var con=require('../bin/dbconnection.js');
+var base=require('./baseController');
 /* GET users listing. */
-var getVehicleDetail = function (req, res, next) {
+var getVehicleDetail_Old = function (req, res, next) {
     var soap = require('soap');
     var url = 'http://qa.policyboss.com/SmartQuote.svc?wsdl';
     var args = {Product_Id: req.body.ProductId, Product_IdSpecified: true};
@@ -18,6 +19,8 @@ var getVehicleDetail = function (req, res, next) {
                 client.GET_Vehicle_Details_Mobile(args, function (err, result) {
                     
                     data = result.GET_Vehicle_Details_MobileResult?result.GET_Vehicle_Details_MobileResult['diffgram']:null;
+                   // console.log("--------------------------------------------");
+                   // console.log(data);
                     if (data  && result.GET_Vehicle_Details_MobileResult['diffgram'].hasOwnProperty('NewDataSet')) {
                         refine_data = result.GET_Vehicle_Details_MobileResult['diffgram']['NewDataSet']['Table'];
                         //saving data in db
@@ -51,10 +54,24 @@ var getVehicleDetail = function (req, res, next) {
     });
 };
 
+
+var getVehicleDetail=function(req,res,next){
+    con.execute_proc('call vehicle_details(?)',req.body.ProductId,function(data){
+        if(data != null && data != '')
+        {
+            base.send_response("Success",data[0],res);
+        }
+        else
+        {
+            base.send_response("failure",null,res);
+        }
+
+    });
+};
 //router.get('/',function(){
 //    cache.say_hi(function(){
 //        console.log("baaba");
 //    });
 //});
-module.exports = getVehicleDetail;
+module.exports = {"getVehicleDetail_Old":getVehicleDetail_Old,"getVehicleDetail":getVehicleDetail};
 

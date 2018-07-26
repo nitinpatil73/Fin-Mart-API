@@ -21,7 +21,7 @@ UploadController.save=function(req,res){
       cb(null, filename);
     }
   });
-  console.log("before" )
+ // console.log("before" )
   var upload = multer({ storage: storage }).single('DocFile')
   upload(req, res, function (err) {
     //console.log("uploading....")
@@ -72,7 +72,7 @@ UploadController.save=function(req,res){
                              //        console.log(store_path+"/"+prv_file+' was deleted');
                              //      });
                              // }
-
+                           //  console.log(data[0].prv_file)
                             base.send_response("Success",data[0],res);
                         }else{
                             base.send_response("Upload failed",null,res);

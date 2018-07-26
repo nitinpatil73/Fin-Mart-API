@@ -4,9 +4,9 @@ var base = require('./baseController');
 var UserNotificationOpen = function(req, res, next){
 		var UserNotificationOpen = [];
 		UserNotificationOpen.push(req.body.UserNotificationRequestId);	//
-		console.log(UserNotificationOpen);
+	//	console.log(UserNotificationOpen);
 		con.execute_proc('call updatenotificationopen(?)',UserNotificationOpen,function(data) {
-		console.log(data);
+	//	console.log(data);
 		if(data[0][0].SavedStatus == 0)
 		{
 			base.send_response("Success", data[0][0],res);
@@ -21,7 +21,7 @@ var UserNotificationOpen = function(req, res, next){
 var GetNotificationList = function(req, res, next){
 		var GetNotificationList = [];
 		GetNotificationList.push(req.body.FBAID);	//
-		console.log(GetNotificationList);
+	//	console.log(GetNotificationList);
 		con.execute_proc('call GetNotificationList(?)',GetNotificationList,function(data) {
 		if(data!=null && data[0].length>0){
 			var url = "http://bo.magicfinmart.com/";

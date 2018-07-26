@@ -65,3 +65,4 @@ var parameter = [];
   }
 };
 module.exports = {"shorturl" :shorturl,"ShortURLParameter":ShortURLParameter,"shorturlforrupeebosstofinmart":shorturlforrupeebosstofinmart}
+

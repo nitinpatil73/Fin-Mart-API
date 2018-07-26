@@ -16,7 +16,7 @@ var UpdatePartnerinfo = function(req, res, next){
 			parameter.push(req.body.PartPincode);
 
 			con.execute_proc('call sp_update_Partner_Info(?,?,?,?,?,?,?,?)',parameter,function(data) {
-				console.log(data);
+			//	console.log(data);
 				if(data!=null){
 					base.send_response("Success",data[0],res);
 				}

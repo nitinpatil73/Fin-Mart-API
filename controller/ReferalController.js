@@ -5,7 +5,7 @@ var UpdateRefererCode = function(req, res, next){
 		var GetUpdateRefererCode = [];
 		GetUpdateRefererCode.push(req.body.code);
 		GetUpdateRefererCode.push(req.body.fba_id);	//
-		console.log(GetUpdateRefererCode);
+	//	console.log(GetUpdateRefererCode);
 		con.execute_proc('call updateRefererCode(?,?)',GetUpdateRefererCode,function(data) {
 		if(data!=null)
 		{

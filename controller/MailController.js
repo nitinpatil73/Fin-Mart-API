@@ -8,7 +8,7 @@ var Mailer = require('../controller/MailController');
 
 class MailController{};
 MailController.send=function(mailDetails,next){
-    mailDetails.from=()=>"Magic Finmart <info@magicfinamrt.com>";
+    mailDetails.from="Magic FinMart <fba.support@magicfinmart.com>";
     nodemailer.createTestAccount((err, account) => {
 
     // create reusable transporter object using the default SMTP transport
@@ -21,12 +21,12 @@ MailController.send=function(mailDetails,next){
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             logger.log('error', error.status, error.message);
-            console.log(error);
+         //   console.log(error);
             next(0);
         }
-        console.log('Message sent: %s', info.messageId);
+       // console.log('Message sent: %s', info.messageId);
         // Preview only available when sending through an Ethereal account
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    //    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
          next(1);
         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@blurdybloop.com>
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...

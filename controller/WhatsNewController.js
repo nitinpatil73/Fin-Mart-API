@@ -4,9 +4,9 @@ var base = require('./baseController');
 var WhatsNew = function(req, res, next){
 		var WhatsNew = [];
 		WhatsNew.push(req.body.app_version);	//
-		console.log(WhatsNew);
+	//	console.log(WhatsNew);
 		con.execute_proc('call whatsnew(?)',WhatsNew,function(data) {
-		console.log(data);
+	//	console.log(data);
 		if(data!=null)
 		{
 			base.send_response("Success", data[0],res);		

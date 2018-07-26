@@ -10,7 +10,7 @@ var UpdateQuotStatus = function(req, res, next) {
 		parameter.push(req.body.QuotStat);
 
 		con.execute_proc('call UpdateQuotStatus(?,?,?,?)',parameter,function(data) {
-			console.log(data);
+		//	console.log(data);
 	      if(data[0][0].SavedStatus=="0"){
 	        base.send_response("Success", data[0],res);
 	      }
@@ -104,7 +104,7 @@ var UpdateQuoteToApplicationStatus = function(req, res, next) {
 			parameter.push(null);	
 		}
 		con.execute_proc('call UpdateQuoteToApplicationStatus(?,?,?,?,?)',parameter,function(data) {
-			console.log(data);
+		//	console.log(data);
 	      if(data[0][0].SavedStatus=="0"){
 	        base.send_response("Success", data[0],res);
 	      }
@@ -130,7 +130,7 @@ parameter.push(req.body.PaidDate);
 parameter.push(req.body.Amount);
 parameter.push(req.body.InvoiceURLPath);
 parameter.push(req.body.PCode);
-console.log(parameter);
+//console.log(parameter);
 con.execute_proc('call sp_UpdateFBA_Regis_Payment(?,?,?,?,?,?,?,?)',parameter,function(data) {
 	  if(data[0][0].SavedStatus=="0"){
 	    base.send_response("Success", data[0],res);
@@ -169,7 +169,7 @@ var getIFSCCode = function(req, res, next) {
 		var parameter = [];
 		parameter.push(req.body.IFSCCode);
 		con.execute_proc('call getIFSCCode(?)',parameter,function(data) {
-			console.log(data);
+		//	console.log(data);
 			if(data[0]!=null){
 				if(data[0].length>0){
 					base.send_response("Success", data[0],res);	  
@@ -194,7 +194,7 @@ var updateRefererCode = function(req, res, next) {
 		var parameter = [];
 		parameter.push(req.body.code);
 		con.execute_proc('call getIFSCCode(?)',parameter,function(data) {
-			console.log(data);
+		//	console.log(data);
 			if(data[0]!=null){
 				if(data[0].length>0){
 					base.send_response("Success", data[0],res);	  
@@ -221,9 +221,9 @@ var insertPaymentLink = function(req, res, next){
 		parameter.push(req.body.PayRefrenceID);
 		parameter.push(req.body.DWTCustID);
 		parameter.push(501);
-		console.log(parameter);
+	//	console.log(parameter);
 		con.execute_proc('call sp_InsPaymentlink(?,?,?,?,?)',parameter,function(respdata) {
-			console.log(respdata);
+			//console.log(respdata);
 		if(respdata[0][0].SavedStatus == 0){
 				base.send_response("Success", respdata[0],res);				
 		}
@@ -272,4 +272,17 @@ var UpdateCSNoPaymentStatus = function(req, res, next) {
 		base.send_response("Some Data Missing", "",res);
 	}
 };
-module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode,"insertPaymentLink":insertPaymentLink,"UpdateERPID":UpdateERPID,"UpdateCSNoPaymentStatus":UpdateCSNoPaymentStatus};
+
+var GetFBAInfo = function(req, res, next) {
+	if(req.body.FBAID){
+	var fbadetail = [];
+	fbadetail.push(req.body.FBAID);			
+	con.execute_proc('call getFBAInfoForPolicyBoss(?)',fbadetail,function(data) {
+	  res.send(data[0][0]);
+	});
+	}
+	else{
+		base.send_response("FBAID missing", "",res);
+	}
+};
+module.exports = {"UpdateQuotStatus" : UpdateQuotStatus ,"UpdateApplnNo" : UpdateApplnNo,"UpdatePOSPStatus" : UpdatePOSPStatus,"AddPaymentInfo":AddPaymentInfo,"UpdateBankId": UpdateBankId,"UpdateQuoteToApplicationStatus":UpdateQuoteToApplicationStatus,"getIFSCCode":getIFSCCode,"insertPaymentLink":insertPaymentLink,"UpdateERPID":UpdateERPID,"UpdateCSNoPaymentStatus":UpdateCSNoPaymentStatus,"GetFBAInfo":GetFBAInfo};

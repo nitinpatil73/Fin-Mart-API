@@ -44,7 +44,7 @@ var createTicket = function(req, res, next) {
 var getTicketRequest = function(req, res, next){
 		var getTicketRequest = [];
 		getTicketRequest.push(req.body.fbaid);	
-		console.log(getTicketRequest);
+	//	console.log(getTicketRequest);
 		con.execute_proc('call Usp_Ticket_Data(?)',getTicketRequest,function(data) {
 		if(data!=null)
 		{

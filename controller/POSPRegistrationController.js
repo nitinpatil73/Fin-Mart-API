@@ -5,9 +5,9 @@ var pospComman=require('./POSPCommanController');
 var pospregistration = function(req, res, next) {
 
 	con.execute_proc('call sp_Ins_UpPOSPInfo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',POSPRegistration(req),function(respdata) {
-		console.log(respdata[0]);
+	//	console.log(respdata[0]);
 		if(respdata[0][0].SavedStatus == 0){
-			console.log(respdata[0]);
+		//	console.log(respdata[0]);
 			if(req.body.POSPID && req.body.POSPID>0){
 				// respdata[0][0].PaymentURL = "http://rupeeboss.com";
 				// respdata[0][0].PospNo = "377";
@@ -98,34 +98,34 @@ function SaveFBADetaPolicyBoss(req,res,next){
 			Presentation : presentation,
 			Nominee : nominee
 	  }, function(data) {
-	  	console.log("............data..............");
+	  	//console.log("............data..............");
 	  	if(data!=null){	  		
 	  		if(data=="Email Id already exists"){
 	  			base.send_response("Email Id already exists", null,res);
 	  		}
 	  		else{
-	  			console.log("............data 1..............");
-	  			console.log(data);
+	  			//console.log("............data 1..............");
+	  			//console.log(data);
 	  			var pospparam= [];
 	  			pospparam.push(req.body.FBAID);
 	  			pospparam.push(data);
 	  				con.execute_proc('call UpdatePOSPNO(?,?)',pospparam,function(respdata) {
-					console.log(".....UpdatePOSPNO......");
+					//console.log(".....UpdatePOSPNO......");
 
-					console.log(respdata[0]);
+					//console.log(respdata[0]);
 					if(respdata[0][0].SavedStatus == 0){
 						if(respdata[0][0].Link){
 							base.send_response("Sucess", respdata[0][0],res);	
 						}else{
 							pospComman.GetProdPriceDeta(respdata[0][0].CustID,respdata[0][0].MobiNumb1,respdata[0][0].FullName,respdata[0][0].EmailID,req.body.FBAID,res,data,function(pay_data,status){
-							console.log(pay_data);
+							//console.log(pay_data);
 							if(status==0){
-			  					console.log("Failure......................")
+			  				//	console.log("Failure......................")
 
 			  						base.send_response(pay_data, null,res);	
 				  				}else{
-				  					console.log("Success.......................")
-				  					base.send_response("Success", pay_data,res);	
+				  					//console.log("Success.......................")
+				  					base.send_response("Posp registered successfully.", pay_data,res);	
 				  				}
 
 				  				
@@ -195,7 +195,7 @@ function POSPRegistration(req){
 	representation.push(req.body.Posp_StatID);//p_POSPStatID SMALLINT,
 	representation.push(req.body.Posp_ChanPartCode);//p_POSPChanPartCode VARCHAR(20)
 	representation.push(req.body.Posp_BankCity);
-	console.log(representation);
+	//console.log(representation);
 	return representation;
 	// var representation =  InsertUpdateFBARepresentation(data[0][0].FBAID,req,res,next);
 	
@@ -205,7 +205,7 @@ function POSPRegistration(req){
 var GetPOSPDetails = function(req, res, next){
 		var GetPOSPDetailsParameter = [];
 		GetPOSPDetailsParameter.push(req.body.FBAID);	//
-		console.log(GetPOSPDetailsParameter);
+		//console.log(GetPOSPDetailsParameter);
 		con.execute_proc('call GetPOSPDetails(?)',GetPOSPDetailsParameter,function(data) {	
 			if(data!=null && data[0].length>0){
 			 var doc_available = data[1];		
@@ -213,11 +213,11 @@ var GetPOSPDetails = function(req, res, next){
 			for (var i = 0 ; i < data[1].length; i++) {
 				
 				if(data[1][i].FileName!=null &&data[1][i].FileName!=""){
-					console.log(data[1][i].FileName+"-----------------");
+					//console.log(data[1][i].FileName+"-----------------");
 					data[1][i].FileName ="http://"+ req.headers.host + "/upload/"+ data[1][i].FileName;
 				}				
 			}
-			console.log(response[0].Posp_Profile_Url);
+			//console.log(response[0].Posp_Profile_Url);
 			if(response[0].Posp_Profile_Url !=null && response[0].Posp_Profile_Url!=""){
 				response[0].Posp_Profile_Url ="http://"+  req.headers.host + "/upload/"+ response[0].Posp_Profile_Url;
 			} 

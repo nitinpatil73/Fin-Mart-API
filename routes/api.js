@@ -2,10 +2,10 @@ var express = require('express');
 var router = express.Router();
 var con=require('../bin/dbconnection.js');
 var User = require('../model/user.js');
-var getvehicalcity = require('../controller/getvehiclecity');
+
 var getVehicleInfo = require('../controller/vehicleinfo');
 var smarthealth = require('../controller/smarthealth');
-var getVehicleDetail=require('../controller/getvehicledetail');
+
 var insertFBARegistration =require('../controller/fbaregistration');
 var loan=require('../controller/loancontroller');
 var otp=require('../controller/OTPController');
@@ -53,9 +53,7 @@ User.find({ username: email,password:pwd }, function(err, user) {
 });
 }
 
-router.get('/get-city-vehicle', function(req, res, next) {
-    getvehicalcity(req,res,next);
-});
+
 
 router.post('/vehicle-info', function(req, res, next) {
     getVehicleInfo(req,res,next);
@@ -64,8 +62,14 @@ router.post('/vehicle-info', function(req, res, next) {
 router.post('/smart-health', function(req, res, next) {
     smarthealth.smarthealth(req,res,next);
 });
-router.post('/vehicle-details', function(req, res, next) {
-    getVehicleDetail(req,res,next);
+router.post('/vehicle-details_old', function(req, res, next) {
+  var VDetail=require('../controller/getvehicledetail');
+    VDetail.getVehicleDetail_Old(req,res,next);
+});
+
+router.post('/vehicle-details',function(req,res,next){
+  var getvehicle=require('../controller/getvehicledetail');
+  getvehicle.getVehicleDetail(req,res,next);
 });
 
 router.post('/save-loan-request', function(req, res, next) {
@@ -108,7 +112,7 @@ router.post('/login', function(req, res, next) {
   // console.log(req.body.name);
 });
 
-router.get('/get-insurance-company', function(req, res, next) {
+router.post('/get-insurance-company', function(req, res, next) {
   insurancecompany(req,res,next);
 });
 
@@ -420,6 +424,11 @@ router.post('/get-mps-data', function (req, res, next) {
   MPSdata.MPSControllerParameter(req,res,next);
 });
 
+router.post('/validated-cupon-code', function (req, res, next) {
+  var ccode = require('../controller/MPSController');
+  ccode.ValidateCuponCode(req,res,next);
+});
+
 
 router.post('/send-notification', function (req, res, next) {
   var sendnoti = require('../controller/SendNotificationController');
@@ -653,5 +662,30 @@ router.post('/dump-data',function(req,res,next){
 router.post('/product-insurance-mappingId-update',function(req,res,next){
   var updatedatapro = require('../controller/ProInMappingIdUpdateController');
   updatedatapro.ProInMapping_Id(req,res);
+});
+
+router.post('/get-city-vehicle-old', function(req, res, next) {
+  var getvehicalcity_old = require('../controller/getvehiclecity');
+    getvehicalcity_old.Get_Vechicle_city_Old(req,res,next);
+});
+
+router.post('/get-city-vehicle', function(req, res, next) {
+  var getvehicalcity = require('../controller/getvehiclecity');
+    getvehicalcity.Get_Vechical_City(req,res,next);
+});
+
+router.post('/validate-refer-code',function(req,res,next){
+  var validaterefer = require('../controller/ValidateRefereCode');
+  validaterefer.validate_refer_code(req,res,next);
+});
+
+router.post('/GetFBAInfo', function(req, res, next) {
+    var transaction = require('../controller/TransactionController');
+    transaction.GetFBAInfo(req,res,next);
+});
+
+router.post('/fba-user-check',function(req,res,next){
+  var userchk = require('../controller/FBAUserCheckController');
+  userchk(req,res,next);
 });
 module.exports = router;

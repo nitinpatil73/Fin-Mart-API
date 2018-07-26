@@ -6,10 +6,11 @@ var BackOfficepospregistration = function(req, res, next) {
 	var backofficeparameter = [];
 	backofficeparameter.push(req.body.FBAID)
 	con.execute_proc('call BackOffice_POSP_Registration(?)',backofficeparameter,function(respdata) {
-		console.log("====================================================");
-		console.log(respdata);
+		//console.log("====================================================");
+		//console.log(respdata);
 		if(respdata[0] != null && respdata[0] != ''){
-		if(respdata[0][0].Posp_PAN != null && respdata[0][0].Posp_PAN != '' && respdata[0][0].Other_PAN != null && respdata[0][0].Other_PAN != ''){
+		if(respdata[0][0].Posp_PAN != null && respdata[0][0].Posp_PAN != ''){
+			//console.log("******************************************");
 			var basicDetails = {
 				"FirstName" : respdata[0][0].FirsName,
 			    "LastName" : respdata[0][0].LastName,
@@ -47,19 +48,50 @@ var BackOfficepospregistration = function(req, res, next) {
 
 			};
 
-			var nominee ={
-				"FirstName" : respdata[0][0].Othe_First_Name,
-				"LastName" : respdata[0][0].Othe_Last_Name,
-				"PAN" : respdata[0][0].Other_PAN,
-				"BankAccountNumber" : respdata[0][0].Other_BankAcNo,
-				"AccountType" : respdata[0][0].Other_Account_Type,
-				"IFSCCode" : respdata[0][0].Other_IFSC,
-				"MICRCode" : respdata[0][0].Other_MICR,
-				"BankName" : respdata[0][0].Other_BankName,
-				"BankBranch" : respdata[0][0].Other_BankBranch,
-				"BankCity" : ""
-			};
+			var nominee={};			
+			if(respdata[0][0].Other_PAN != null && respdata[0][0].Other_PAN != ''){
+			 nominee ={
+					"FirstName" : respdata[0][0].Othe_First_Name,
+					"LastName" : respdata[0][0].Othe_Last_Name,
+					"PAN" : respdata[0][0].Other_PAN,
+					"BankAccountNumber" : respdata[0][0].Other_BankAcNo,
+					"AccountType" : respdata[0][0].Other_Account_Type,
+					"IFSCCode" : respdata[0][0].Other_IFSC,
+					"MICRCode" : respdata[0][0].Other_MICR,
+					"BankName" : respdata[0][0].Other_BankName,
+					"BankBranch" : respdata[0][0].Other_BankBranch,
+					"BankCity" : ""
+				};
+			}
+			else
+			{
+				nominee = {
+					"FirstName" : respdata[0][0].Posp_First_Name,
+					"LastName" : respdata[0][0].Posp_Last_Name,
+					"PAN" : respdata[0][0].Posp_PAN,
+					"Aadhar" : respdata[0][0].Posp_Aadhaar,
+					"BankAccountNumber" : respdata[0][0].Posp_BankAcNo,
+					"AccountType" : respdata[0][0].Posp_Account_Type,
+					"IFSCCode" : respdata[0][0].Posp_IFSC,
+					"MICRCode" : respdata[0][0].Posp_MICR,
+					"BankName" : respdata[0][0].Posp_BankName,
+					"BankBranch" : respdata[0][0].Posp_BankBranch,
+					"BankCity" : respdata[0][0].POSPBankCity
 
+				};
+			}
+
+
+
+// console.log({
+// 		    "FBAID" : req.body.FBAID,
+// 			"SM_POSP_ID" : 0,
+// 			"SM_POSP_Name" : "",
+// 			"BasicDetails" : basicDetails,
+// 			"Address" : address,
+// 			"Presentation" : presentation,
+// 			"Nominee" : nominee
+// 		  });
 			app('/api/pospregistration', 'POST', {
 		    "FBAID" : req.body.FBAID,
 			"SM_POSP_ID" : 0,
@@ -69,6 +101,8 @@ var BackOfficepospregistration = function(req, res, next) {
 			"Presentation" : presentation,
 			"Nominee" : nominee
 		  }, function(data) {
+		  //	console.log("=------------------------------------------");
+		  	//console.log(data);
 		  	if(data!=null){	 
 		  		if(data=="Email Id already exists"){
 	  				base.send_response("Email Id already exists", null,res);

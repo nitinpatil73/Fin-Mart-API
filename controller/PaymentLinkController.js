@@ -11,13 +11,13 @@ var parameter = [];
 if(req.body.FBAID){
 parameter.push(req.body.FBAID);
 	con.execute_proc('call getFBADetailsForPaymentLink(?)',parameter,function(data) {
-	console.log("-----------" +data[0].length);
+	//console.log("-----------" +data[0].length);
 	if(data != null && data[0].length>0){
 if(data[0][0].CustID){
 	// CustID,mobileno,custname,emailid,fbaid,res,pospno,next
 	pospcommon.GetProdPriceDeta(data[0][0].CustID,data[0][0].MobiNumb1,data[0][0].FullName,data[0][0].EmailID,req.body.FBAID,res,data[0][0].POSPNo,function(pay_data,status) {
-		console.log(pay_data);
-		console.log(status);
+		//console.log(pay_data);
+		//console.log(status);
 		if(status==1){
 			base.send_response("Success", pay_data,res);
 		}

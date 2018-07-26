@@ -6,12 +6,12 @@ var forgotPassword = function(req, res, next) {
 
 var emailparameter = [];
 emailparameter.push(req.body.EmailID);	//
-console.log(emailparameter);
+//console.log(emailparameter);
 
 
 con.execute_proc('call forgotPassword(?)',emailparameter,function(data) {
-	console.log("**************");
-	console.log(data[1]);
+	//console.log("**************");
+	//console.log(data[1]);
 	if(data[0][0].EmailStatus == 0){
 		sendforgotpassword(data,res);
 		//base.send_response("Success", data[0],res);

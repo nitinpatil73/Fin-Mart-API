@@ -6,11 +6,12 @@ class SMSController{};
 //for sending OTP
 SMSController.sendMessage = function (phoneno, message) {
   message=encodeURIComponent(message);
-https.get("http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]="+phoneno+"&message[]="+message, (resp) => {
+  
 
+https.get('http://alrt.co.in/http-api.php?username=finmrt&password=pass1234&senderid=FINMRT&route=1&number='+phoneno+',&message='+message, (resp) => {
+  
  });
 };
-
 SMSController.send = function (req, res, next) {
 	group=req.body.group_id;
 	if(!group){
@@ -24,12 +25,14 @@ SMSController.send = function (req, res, next) {
             }else{
                 get_mobiles_and_msg(data,function(data){
                     send_sms(data,function(msgid){
-                        msg=msgid.split(":");
-                        if(msg.length==2){
-                            update_msg_id(group,msg[1]);
-                            base.send_response("Success",msg[1],res);
-                        }
-                            base.send_response("Failure",msg,res);
+                       update_msg_id(group,msgid);
+                            base.send_response("Success",msgid,res);
+                        // msg=msgid.split(":");
+                        // if(msg.length==2){
+                        //     update_msg_id(group,msg[1]);
+                        //     base.send_response("Success",msg[1],res);
+                        // }
+                           // base.send_response("Failure",msg,res);
                     });
 		});
             }
@@ -42,8 +45,10 @@ function send_sms(data,cb){
    var request = require('request');
    message=encodeURIComponent(data.msg);
    //var url='http://vas.mobilogi.com/api.php?username=rupeeboss&password=pass1234&route=1&sender=FINMRT&mobile[]='+data.mobile+'&message[]='+data.msg ;
-   var url='http://vas.mobilogi.com/api.php?username=finmrt&password=pass1234&route=5&sender=FINMRT&mobile[]='+data.mobile+'&message[]='+message ;
-   console.log(url);
+  // var url='http://vas.mobilogi.com/api.php?username=finmrt&password=pass1234&route=5&sender=FINMRT&mobile[]='+data.mobile+'&message[]='+message ;
+
+  var url = 'https://api.instaalerts.zone/SendSMS/sendmsg.php?uname=RUPBOS&pass=S~N9p7K4&send=FINMRT&dest='+data.mobile+'&msg='+message ;
+  // console.log(url);
    request(url, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     cb(body);

@@ -69,13 +69,13 @@ vehicleparameter.push(req.body.insImage);
 
 
 
-console.log(vehicleparameter);
+//console.log(vehicleparameter);
 
 
 con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);
 	}
@@ -143,8 +143,8 @@ else{
 	req.body.type=0;
 }
 
-console.log("**********************************");
-console.log(vehicleparameter);
+//console.log("**********************************");
+//console.log(vehicleparameter);
 if(req.body.type == 0){
 	con.execute_proc('call GetVehicleRequest(?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 		var quoteresponse = [];
@@ -250,10 +250,10 @@ vehicleparameter.push(req.body.insImage);
 
 // vehicleparameter.push(req.body.crn);
 
-console.log(vehicleparameter);
+//console.log(vehicleparameter);
 
 	con.execute_proc('call QuoteToApplicationVehicle(?,?,?)',vehicleparameter,function(data) {
-		console.log(data[0][0]);
+	//	console.log(data[0][0]);
 		if(data[0][0].SavedStatus=="0"){
 			base.send_response("Success", data[0],res);
 		}
@@ -274,10 +274,10 @@ else{
 	parameter.push(0);
 }
 
-console.log(parameter);
+//console.log(parameter);
 
 	con.execute_proc('call DeleteVehicleRequest(?)',parameter,function(data) {
-		console.log(data[0][0]);
+		//console.log(data[0][0]);
 		if(data[0][0].SavedStatus=="0"){
 			base.send_response("Success", data[0],res);
 		}

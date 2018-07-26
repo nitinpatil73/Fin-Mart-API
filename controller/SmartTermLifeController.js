@@ -10,7 +10,11 @@ var SmartTermLifeParameter = function(req, res, next) {
 	{
 		con.execute_proc('call smart_term_get_city_state(?)',pincodeparameter,function(pincoderesponse) {
 	    if(pincoderesponse!=null){
-			wrapper('/quotes/api/SmartTermLife', 'POST', {
+			var apiname = "/api/SmartTermLife";
+		   if(process.env.NODE_ENV == 'development'){
+		        apiname = "/quotes/api/SmartTermLife";		     
+		    }
+			wrapper(apiname, 'POST', {
 		   	 "PolicyTerm": req.body.termRequestEntity.PolicyTerm,
 		     "InsuredGender": req.body.termRequestEntity.InsuredGender,
 		     "Is_TabaccoUser": req.body.termRequestEntity.Is_TabaccoUser,
@@ -52,6 +56,9 @@ var SmartTermLifeParameter = function(req, res, next) {
 		     "InsurerId": req.body.termRequestEntity.InsurerId,
 		     "SessionID": req.body.termRequestEntity.SessionID,
 		     "Existing_ProductInsuranceMapping_Id": req.body.termRequestEntity.Existing_ProductInsuranceMapping_Id,
+		    
+		     "FBAID": req.body.termRequestEntity.FBAID,
+
 		     "ContactName": req.body.termRequestEntity.ContactName,
 		     "ContactEmail": req.body.termRequestEntity.ContactEmail,
 		     "ContactMobile": req.body.termRequestEntity.ContactMobile,
@@ -63,10 +70,10 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
 		  }, function(response) {
-		  	console.log("---------------------------------Response------------------------------------");
-		  	console.log(response);
-				 // if(response == 'Success')
-				 // {
+		//  	console.log("---------------------------------Response------------------------------------");
+		 // 	console.log(response);
+				  if(response != null && response != '')
+				  {
 		  		 	var SmartTermLifeParameter = [];
 		  		 		SmartTermLifeParameter.push(req.body.termRequestId);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.PolicyTerm);
@@ -123,10 +130,10 @@ var SmartTermLifeParameter = function(req, res, next) {
 					     			 base.send_response("Record not saved.","",res);	
 					     		}
 					     	 });
-				// }
-		  //    	else{
-		  //    		base.send_response(response[0].QuoteStatus, null,res);	
-		  //    	}
+				}
+		     	else{
+		     		base.send_response("Kindly try after sometime..",null,res);	
+		     	}
 		  },11);
 		}else{
 		    base.send_response("failure",null,res);
@@ -217,6 +224,7 @@ var GetSmartTermLife = function(req, res, next) {
 		            "InsurerId": getsmartdata[0][i].InsurerId,
 		            "SessionID": getsmartdata[0][i].SessionID,
 		            "Existing_ProductInsuranceMapping_Id": getsmartdata[0][i].Existing_ProductInsuranceMapping_Id,
+		            "FBAID": getsmartdata[0][i].fba_id,
 		            "ContactName": getsmartdata[0][i].ContactName,
 		            "ContactEmail": getsmartdata[0][i].ContactEmail,
 		            "ContactMobile": getsmartdata[0][i].ContactMobile,
@@ -277,6 +285,7 @@ var GetSmartTermLife = function(req, res, next) {
 			            "InsurerId": getsmartdata[1][i].InsurerId,
 			            "SessionID": getsmartdata[1][i].SessionID,
 			            "Existing_ProductInsuranceMapping_Id": getsmartdata[1][i].Existing_ProductInsuranceMapping_Id,
+			            "FBAID": getsmartdata[1][i].fba_id,
 			            "ContactName": getsmartdata[1][i].ContactName,
 			            "ContactEmail": getsmartdata[1][i].ContactEmail,
 			            "ContactMobile": getsmartdata[1][i].ContactMobile,
@@ -351,6 +360,7 @@ else if(req.body.type == 1)
 		            "InsurerId": getsmartdata[0][i].InsurerId,
 		            "SessionID": getsmartdata[0][i].SessionID,
 		            "Existing_ProductInsuranceMapping_Id": getsmartdata[0][i].Existing_ProductInsuranceMapping_Id,
+		            "FBAID": getsmartdata[0][i].fba_id,
 		            "ContactName": getsmartdata[0][i].ContactName,
 		            "ContactEmail": getsmartdata[0][i].ContactEmail,
 		            "ContactMobile": getsmartdata[0][i].ContactMobile,
@@ -423,6 +433,7 @@ else if(req.body.type == 2)
 			            "InsurerId": getsmartdata[0][i].InsurerId,
 			            "SessionID": getsmartdata[0][i].SessionID,
 			            "Existing_ProductInsuranceMapping_Id": getsmartdata[0][i].Existing_ProductInsuranceMapping_Id,
+			            "FBAID": getsmartdata[0][i].fba_id,
 			            "ContactName": getsmartdata[0][i].ContactName,
 			            "ContactEmail": getsmartdata[0][i].ContactEmail,
 			            "ContactMobile": getsmartdata[0][i].ContactMobile,
@@ -441,8 +452,8 @@ else if(req.body.type == 2)
     			};
     			applicationquote.push({"termRequestEntity":response_appli,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id});
     		}
-    		console.log("--------------------2------------------------");
-    		console.log(applicationquote);
+    	//	console.log("--------------------2------------------------");
+    	//	console.log(applicationquote);
     		var getsmart = {"quote":[],"application":applicationquote};
 			base.send_response("Success",getsmart,res);
 		}else{

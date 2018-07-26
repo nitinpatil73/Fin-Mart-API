@@ -18,10 +18,10 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
   "followupDate": req.body.followupDate,
   "empCode": "Rb40000432"
   }, function(data) {
-   console.log(data);
+  // console.log(data);
     if(data!=null){
       var respose = JSON.parse(data);
-      console.log(respose);
+    //  console.log(respose);
       if(respose.Status=="1"){
 
          var parameter = [];
@@ -44,6 +44,8 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
           // console.log("**********************************************************");
           // console.log(respdata);
             if(respdata[0][0].SavedStatus == 0){
+              QuickLeadLive(req, res, respose.Lead_Id,next);
+            //  console.log("--------"+respose.Lead_Id);
               base.send_response("Lead Submitted Successfully", respose,res);
             }else{
               base.send_response(respdata[0][0].respose, null,res);       
@@ -79,8 +81,8 @@ var quikleadfromrupeeboss = function (req, res, next) {
           parameter.push(req.body.Name);
           parameter.push(req.body.Product_Id);
           parameter.push(req.body.Remark);       
-          console.log("**********************************************************");
-          console.log(parameter);
+        //  console.log("**********************************************************");
+        //  console.log(parameter);
           con.execute_proc('call quickleadrequest_data(?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(respdata) {
           // console.log("**********************************************************");
           // console.log(respdata);
@@ -96,10 +98,10 @@ var dumpdatacontroller = function(req, res, next) {
     wrapper('/BankAPIService.svc/GetQuickLeadDetail', 'GET',{
     },function(response) {
       if(response != null && response != ''){
-        console.log(response.length);
-      console.log("---------------------------------------"); 
+      //  console.log(response.length);
+      //console.log("---------------------------------------"); 
         for(var i=0; i<response.length; i++){
-           console.log(i);
+        //   console.log(i);
           // var Lead_Date_Format = new Date(response[i].Lead_Date)
           // var FollowUp_Date_Format = new Date(response[i].FollowUp_Date)
           var dumpdataparameter = [];
@@ -126,8 +128,8 @@ var dumpdatacontroller = function(req, res, next) {
                 status=1;
               }
               else{
-                console.log(dumpdataparameter);
-                console.log(savedata);
+              //  console.log(dumpdataparameter);
+               // console.log(savedata);
                 status=0;
               }
           });
@@ -143,15 +145,66 @@ var dumpdatacontroller = function(req, res, next) {
 }
 
 
-// function formatDate(date) {
-//   var hours = date.getHours();
-//   var minutes = date.getMinutes();
-//   var second = date.getSeconds();
-//   hours = hours % 12;
-//   hours = hours ? hours : 12; // the hour '0' should be '12'
-//   minutes = minutes < 10 ? '0'+minutes : minutes;
-//   var strTime = hours + ':' + minutes +':'+ second;
-//   return date.getFullYear()+1 + "-" + date.getMonth() + "-" + date.getDate() + "  " + strTime;
-// }
 
-module.exports = {"QuickLead":QuickLead,"quikleadfromrupeeboss":quikleadfromrupeeboss,"dumpdatacontroller":dumpdatacontroller};
+var QuickLeadLive = function (req, res,leadid, next) {
+//  console.log(".........."+leadid);
+wrapper('/api/quick-lead-live', 'POST', {
+   "brokerId": req.body.brokerId,
+  "Source": "DC",
+  "Name": req.body.Name,
+  "EMail": req.body.EMail,
+  "Mobile": req.body.Mobile,
+  "Status": "43",
+  "ProductId":req.body.ProductId,
+  "Loan_amt": req.body.Loan_amt,
+  "FBA_Id": req.body.FBA_Id,
+  "Monthly_income": req.body.Monthly_income,
+  "Remark": req.body.Remark,
+  "followupDate": req.body.followupDate,
+  "empCode": "Rb40000432",
+  "leadid" : leadid
+  }, function(data) {
+  // console.log(data);
+    if(data!=null){
+      var respose = JSON.parse(data);
+    //  console.log(respose);
+        
+    }
+    else{
+        //base.send_response("failure",data, res);
+    }
+  },14);
+};
+
+var QuickLead_live = function (req, res, next) {
+//  console.log("*******************"+req.body.leadid);
+  var parameter = [];
+          parameter.push(req.body.brokerId);
+          parameter.push(req.body.Name);
+          parameter.push(req.body.EMail);
+          parameter.push(req.body.Mobile);
+          parameter.push("43");
+          parameter.push(req.body.ProductId);
+          parameter.push(req.body.Loan_amt);
+          parameter.push(req.body.FBA_Id);
+          parameter.push(req.body.Monthly_income);
+          parameter.push(req.body.Remark);
+          parameter.push(req.body.followupDate);
+          parameter.push("Rb40000431");
+          parameter.push(req.body.leadid);
+          // console.log("**********************************************************");
+          // console.log(parameter);
+          con.execute_proc('call insert_quick_lead(?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(respdata) {
+          // console.log("**********************************************************");
+          // console.log(respdata);
+            if(respdata[0][0].SavedStatus == 0){
+              //QuickLeadLive(req, res, next);
+              //base.send_response("Lead Submitted Successfully", respose,res);
+            }else{
+              //base.send_response(respdata[0][0].respose, null,res);       
+            } 
+          });
+};
+
+
+module.exports = {"QuickLead":QuickLead,"quikleadfromrupeeboss":quikleadfromrupeeboss,"dumpdatacontroller":dumpdatacontroller,"QuickLead_live":QuickLead_live};

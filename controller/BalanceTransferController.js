@@ -25,10 +25,10 @@ BalanceTransferparameter.push(req.body.BLLoanRequest.email);
 BalanceTransferparameter.push(req.body.BLLoanRequest.contact);
 BalanceTransferparameter.push(req.body.BLLoanRequest.quote_id);
 BalanceTransferparameter.push(req.body.BLLoanRequest.source);
-console.log(BalanceTransferparameter);
+//console.log(BalanceTransferparameter);
 
 con.execute_proc('call ManageBalanceTransfer(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',BalanceTransferparameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
 		base.send_response("Success", data[0],res);
@@ -44,11 +44,11 @@ var SetQuoteApplicationBalanceTransfer = function(req, res, next) {
 
 var sqapplibalancetransferparameter = [];
 sqapplibalancetransferparameter.push(req.body.BalanceTransferId);	//
-console.log(sqapplibalancetransferparameter);
+//console.log(sqapplibalancetransferparameter);
 
 
 con.execute_proc('call SetQuoteApplicationBalanceTransfer(?)',sqapplibalancetransferparameter,function(data) {
-	console.log(data);
+	//console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);
 	}
@@ -63,11 +63,11 @@ var DeleteBalanceTransfer = function(req, res, next) {
 
 var DeleteBalanceTransferparameter = [];
 DeleteBalanceTransferparameter.push(req.body.BalanceTransferId);	//
-console.log(DeleteBalanceTransferparameter);
+//console.log(DeleteBalanceTransferparameter);
 
 
 con.execute_proc('call deletebalancetransfer(?)',DeleteBalanceTransferparameter,function(data) {
-	console.log(data);
+//	console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);
 	}
@@ -109,7 +109,7 @@ var getbalancetransferrequest = function(req, res, next){
 	if(req.body.type == 0)
 	{	//
 		con.execute_proc('call GetBalanceTransferRequest(?,?,?)',getbalancetransferrequest,function(data) {
-		console.log(data);
+	//	console.log(data);
 		var quoteresponse = [];
 		var applicationquote = [];
 		for (var i = 0; i < data[0].length; i++) {
@@ -141,7 +141,7 @@ var getbalancetransferrequest = function(req, res, next){
 	else if(req.body.type == 1)
 	{
 		con.execute_proc('call GetBalanceTransferRequest(?,?,?)',getbalancetransferrequest,function(data) {
-		console.log(data);
+	//	console.log(data);
 		var quoteresponse = [];
 		for (var i = 0; i < data[0].length; i++) {
 			//var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"
@@ -161,7 +161,7 @@ var getbalancetransferrequest = function(req, res, next){
 	else if(req.body.type == 2)
 	{
 		con.execute_proc('call GetBalanceTransferRequest(?,?,?)',getbalancetransferrequest,function(data) {
-		console.log(data);
+		//console.log(data);
 		var applicationquote = [];
 		for (var i = 0; i < data[0].length; i++) {
 			// var zeroimage ="http://"+ req.headers.host + "/images/progress/zero_percent.png"

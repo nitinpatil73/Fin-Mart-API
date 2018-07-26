@@ -10,7 +10,7 @@ var GetConstantData = function(req, res, next){
 			// console.log(data[0][4].ConstantValue);
 			// console.log(data[0][5].ConstantValue);
 			// console.log(data[0][6].ConstantValue);
-			console.log(data[0]);
+			//console.log(data[0]);
 		if(data!=null){
 			var response={
 			     "VersionCode":data[0][0].ConstantValue,
@@ -24,11 +24,13 @@ var GetConstantData = function(req, res, next){
 				 "POSPStat":"6",
 				 "POSPTraining":"1",
 				 "MPSStatus":data[0][9].ConstantValue,
+				 "UpdateMaster":"2",
+				 "logtracking":"1"
 			};
 			base.send_response("Success",response,res);
 		}
 		else{
-			base.send_response("No data found",null,res);
+			base.send_response("FBAID does not exits.",null,res);
 		}
    	});
 

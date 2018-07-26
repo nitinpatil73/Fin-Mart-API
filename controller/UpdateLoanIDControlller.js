@@ -8,11 +8,11 @@ var updateloanid = function (req, res, next) {
 wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
    "fbaid" : req.body.fbaid
   }, function(data) {
-  		console.log("*************************data***************************");
-		console.log(data);
+  	//	console.log("*************************data***************************");
+	//	console.log(data);
     if(data!=null && data.loanId != 0 && data.loanId != ''){
-    	console.log("-------------------data.loanId---------------------");
- 		console.log(data.loanId);
+    //	console.log("-------------------data.loanId---------------------");
+ 	//	console.log(data.loanId);
     var loan = [];
 	loan.push(req.body.fbaid); //p_FBAID        INT,
 	loan.push(data.loanId); 
@@ -37,8 +37,8 @@ wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
 function GetFBAData(FBAID,req, res, next) {
 	
 	con.execute_proc('call GetLoanFBAData(?)',FBAID,function(fbadata) {
-		console.log("*************************fbadata***************************");
-		console.log(fbadata);
+		//console.log("*************************fbadata***************************");
+		//console.log(fbadata);
 		if(fbadata[0].length>0)
 		{
 			var converteddata = {
@@ -92,14 +92,14 @@ function GetFBAData(FBAID,req, res, next) {
 		            "Representative_Bank_City": fbadata[0][0].Loan_BankCity  
 			}
 
-			console.log("'''''''''''''''''''''");
-			console.log(converteddata);
+		//	console.log("'''''''''''''''''''''");
+		//	console.log(converteddata);
 			var apiname = "/LoginDtls.svc/xmlservice/insFbaRegistration";
 				wrapper(apiname, 'POST', 
 			    converteddata
 			  , function(data) {
-			  	console.log("*************************insFbaRegistration***************************");
-				console.log(data);
+			//  	console.log("*************************insFbaRegistration***************************");
+			//	console.log(data);
 			  	if(data.statusId == 0)
 			  	{
 			  		var updatparameter = [];
