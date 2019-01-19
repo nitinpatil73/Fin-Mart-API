@@ -7,6 +7,8 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
   var port = "80";
   var username = "test";
   var password = "test@123";
+  var UserName = "";
+  var Password = "";
   if (hosttype == 1) {
     //hostname = "vehicleinfo.policyboss.com";
     hostname = "qa-horizon.policyboss.com";
@@ -17,25 +19,21 @@ else if(hosttype == 2) {
         
         //hostname = "qa.policyboss.com";
          hostname = "vehicleinfo.policyboss.com";
-          username = "Datacomp";
+         username = "Datacomp";
          password = "dc@pb123";
     }
     else{
         hostname = "vehicleinfo.policyboss.com";
     } 
   }
-   else if(hosttype == 3) {
-
-    
-    if(process.env.NODE_ENV == 'development'){
-        port = 8063;
-        hostname = "erp.rupeeboss.com";
-    }
-    else{
+   else if(hosttype == 3) {    
+    // if(process.env.NODE_ENV == 'development'){
+    //     port = 8063;
+    //     hostname = "erp.rupeeboss.com";
+    // }
+    // else{
         hostname = "beta.services.rupeeboss.com";
-    }
-
-    
+  // }
   }
   else if(hosttype == 4) {
     hostname = "services.rupeeboss.com";
@@ -66,13 +64,13 @@ else if(hosttype == 8) {
     hostname = "zohowebapi.magicsales.in";
   }
 else if(hosttype == 11) {
-if(process.env.NODE_ENV == 'development'){
+// if(process.env.NODE_ENV == 'development'){
 
-         hostname = "qa.policyboss.com";      
-    }
-    else{
+//          hostname = "qa.policyboss.com";      
+//     }
+//     else{
         hostname = "vehicleinfo.policyboss.com";
-    }   
+    //}   
   }
   else if(hosttype == 12) {
     // port="80";
@@ -95,6 +93,44 @@ if(process.env.NODE_ENV == 'development'){
   else if(hosttype == 17) {
     hostname = "api.rupeeboss.com";
   }
+
+  else if(hosttype == 18) {
+    hostname = "202.131.96.98";
+    port = "8041";
+  }
+  else if(hosttype == 19){
+    hostname = "202.131.96.98";
+    port = "8010";
+  }
+  else if(hosttype == 20) {
+    hostname = "landmarktimes.policyboss.com";
+  }
+  else if(hosttype == 21) {
+    hostname = "localhost";
+    port = "8081";
+  }
+
+  else if(hosttype == 22) {
+    // if(process.env.NODE_ENV == 'development'){
+    //       hostname = "qa.policyboss.com";
+    //       UserName = "test";
+    //       Password = "test@123";
+    // }
+    // else{
+        hostname = "vehicleinfo.policyboss.com";
+        UserName = "test";
+        Password = "test@123";
+    //} 
+  }
+
+  else if(hosttype == 23) {
+    if(process.env.NODE_ENV == 'development'){
+      hostname = "admin.finpeace.co";      
+    }else{
+      hostname = "10ocqwfp.finpeace.ind.in";
+    }   
+  }
+
   var dataString = JSON.stringify(data);
 //  console.log("*******************************");
   if(hosttype == 15){
@@ -127,8 +163,8 @@ if(process.env.NODE_ENV == 'development'){
     headers: headers,
     'CONNECTION': 'keep-alive'
   };
-//  console.log("---------*******------------wrapper--------------**********---------------");
-//  console.log(options);
+  console.log("---------*******------------wrapper--------------**********---------------");
+  console.log(options);
 
   var req = https.request(options, function(res) {
     res.setEncoding('utf-8');
@@ -141,7 +177,7 @@ if(process.env.NODE_ENV == 'development'){
 
     res.on('end', function() {
       // console.log(hostname);
-     //  console.log(responseString);
+    //  console.log(responseString);
       var responseObject = JSON.parse(responseString);
       success(responseObject);
     });

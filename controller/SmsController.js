@@ -8,11 +8,23 @@ SMSController.sendMessage = function (phoneno, message) {
   message=encodeURIComponent(message);
   
 
-https.get('http://alrt.co.in/http-api.php?username=finmrt&password=pass1234&senderid=FINMRT&route=1&number='+phoneno+',&message='+message, (resp) => {
+// https.get('http://alrt.co.in/http-api.php?username=finmrt&password=pass1234&senderid=FINMRT&route=1&number='+phoneno+',&message='+message, (resp) => {
+  
+//  });
+
+
+https.get('http://sms.cell24x7.com:1111/mspProducerM/sendSMS?user=rupee&pwd=apirupee&sender=FINMRT&mobile='+phoneno+'&msg='+message+'&mt=0', (resp) => {
   
  });
 };
 SMSController.send = function (req, res, next) {
+   var reqlog = [];
+  reqlog.push("smslog");
+  reqlog.push(JSON.stringify(req.body));
+  reqlog.push("123");
+  reqlog.push("API Called");
+  con.execute_proc('call InsertLog(?,?,?,?)',reqlog,function(data) {
+  });
 	group=req.body.group_id;
 	if(!group){
 		 base.send_response("group id required",null,res);

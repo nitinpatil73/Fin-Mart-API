@@ -42,12 +42,13 @@ var CreditCard={
 wrapper('/BankAPIService.svc/createRBLCreditCardReq', 'POST', {
 		"CreditCard": CreditCard
   }, function(data) {
-  	// console.log("--------------------------------createRBLCreditCardReq-------------------------------------")
-  	// console.log(data);
+  	 console.log("--------------------------------createRBLCreditCardReq-------------------------------------")
+  	 console.log(data);
     	if(data!=null){
   			var message = JSON.parse(data);
         if(message.Status != 0){
           var status = [];
+          var successmsg;
           if(message.Status == 1)
           {
               status.push("Successful");
@@ -62,12 +63,17 @@ wrapper('/BankAPIService.svc/createRBLCreditCardReq', 'POST', {
           {
               status.push("Reject");
               message.Status="Reject";
+              successmsg="Thank you for choosing RBL Credit card.";
           }
-        //  console.log("-----------------------------status-------------------------------------");
-         // console.log(status);
+          else
+          {
+              successmsg="Thank you for choosing RBL Credit Card. A link has been sent to your registered email id . Click on the link to upload your supporting documents.";
+          }
+          //  console.log("-----------------------------status-------------------------------------");
+          // console.log(status);
     				var ApplnNo = message.ReferenceCode;	  			
   	  			saveCreditCardRequest(req.body.FirstName + " " +req.body.MiddleName + " " + req.body.LastName, req.body.Email,req.body.Mobile,req.body.fba_id,"1",ApplnNo,req.body.CardType,req.body.CreditCardDetailId,status);
-  				  base.send_response("Thank you for choosing RBL Credit card. A has been sent to your registered Email id. Click on the link to upload your supporting documents.", message,res);	
+  				  base.send_response(successmsg, message,res);	
         }
         else{
           base.send_response(message.Errorinfo,null,res); 
@@ -143,6 +149,74 @@ var getSavedCreditCardInfo = function(req, res, next){
 var creditCardICICI = function (req, res, next) {
 wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
 },function(Encoderesponse) {
+  var data = {
+     "_token": "NQmw3jBZbZREEStAkGVZTby7eZqeWJEj4tf5UUET",
+  "empid": "MAA=",
+  "brokerid":Encoderesponse,
+  "source":"RABDAA==",
+  "prod": req.body.prod,
+  "amount": req.body.amount,
+  "interest": req.body.interest,
+  "ApplicantFirstName": req.body.ApplicantFirstName,
+  "ApplicantMiddleName": req.body.ApplicantMiddleName,
+  "ApplicantLastName": req.body.ApplicantLastName,
+  "DateOfBirth": req.body.DateOfBirth,
+  "email_id": req.body.email_id,
+  "NameOnCard": req.body.NameOnCard,
+  "MotherName": req.body.MotherName,
+  "no_of_dependents": req.body.no_of_dependents,
+  "Gender": req.body.Gender,
+  "marital_status": req.body.marital_status,
+  "preferred_address": req.body.preferred_address,
+  "resident_status": req.body.resident_status,
+  "CustomerProfile": req.body.CustomerProfile,
+  "supplementary_card":req.body.supplementary_card,
+  "CompanyName": req.body.CompanyName,
+  "Income": req.body.Income,
+  "designation": req.body.designation,
+  "work_email": req.body.work_email,
+  "work_STDCode": req.body.work_STDCode,
+  "work_number": req.body.work_number,
+  "type_of_company": req.body.type_of_company,
+  "highest_education": req.body.highest_education,
+  "ICICIBankRelationship": req.body.ICICIBankRelationship,
+  "Total_Exp": req.body.Total_Exp,
+  "SalaryAccountWithOtherBank": req.body.SalaryAccountWithOtherBank,
+  "ResidenceAddress1": req.body.ResidenceAddress1,
+  "ResidenceAddress2": req.body.ResidenceAddress2,
+  "ResidenceAddress3": req.body.ResidenceAddress3,
+  "City": req.body.City,
+  "ResidencePincode": req.body.ResidencePincode,
+  "ResidenceState": req.body.ResidenceState,
+  "type_current": req.body.type_current,
+  "same": req.body.same,
+  "PerResidenceAddress1": req.body.PerResidenceAddress1,
+  "PerResidenceAddress2": req.body.PerResidenceAddress2,
+  "PerResidenceAddress3": req.body.PerResidenceAddress3,
+  "PerCity": req.body.PerCity,
+  "PerResidencePincode": req.body.PerResidencePincode,
+  "PerResidenceState": req.body.PerResidenceState,
+  "per_res_type": req.body.per_res_type,
+  "ResidencePhoneNumber": req.body.ResidencePhoneNumber,
+  "ResidenceMobileNo": req.body.ResidenceMobileNo,
+  "STDCode": req.body.STDCode,
+  "have_credit_card": req.body.have_credit_card,
+  "previous_bank": "",
+  "credit_date": "",
+  "credit_limit": "",
+  "PanNo": req.body.PanNo,
+  "SalaryAccountOpened": req.body.SalaryAccountOpened,
+  "terms": req.body.terms,
+  "type": "DC",
+  "ChannelType": "RupeeBoss",
+  "CampaignName": "Rupeeboss Online",
+  "ICICIRelationshipNumber":req.body.ICICIRelationshipNumber
+  }
+
+  console.log("--------------------------log--------------------------------");
+  console.log(data);
+   console.log("--------------------------Encoderesponse log--------------------------------");
+  console.log(Encoderesponse);
 if(Encoderesponse != null && Encoderesponse != ''){
     wrapper('/BankAPIService.svc/PostIciciBank', 'POST', {
 		 "_token": "NQmw3jBZbZREEStAkGVZTby7eZqeWJEj4tf5UUET",
@@ -207,8 +281,8 @@ if(Encoderesponse != null && Encoderesponse != ''){
   "CampaignName": "Rupeeboss Online",
   "ICICIRelationshipNumber":req.body.ICICIRelationshipNumber
   }, function(data) {
-   // console.log("====================            icic             ==========================");
-   // console.log(data);
+    console.log("====================            icic             ==========================");
+    console.log(data);
   		if(data!=null){
   			var message = JSON.parse(data);
   			var ApplnNo = message.ApplicationId;
@@ -227,8 +301,13 @@ if(Encoderesponse != null && Encoderesponse != ''){
         {
               message.Reason="Congratulations! You are eligible for an icic Bank Credit Card. Our representative will get in touch with you shortly.";
         }
-
+        if(message.Reason == 'Income criteria not met')
+        {
+           status.push("Decline");
+           message.Decision="Decline";
+        }
       if(ApplnNo){
+
               saveCreditCardRequest(req.body.ApplicantFirstName + " " + req.body.ApplicantMiddleName + " " +req.body.ApplicantLastName, req.body.work_email, req.body.ResidenceMobileNo,req.body.fba_id,"2",ApplnNo,req.body.CardType,req.body.CreditCardDetailId,status)
               base.send_response(message.Reason,message,res);
         }

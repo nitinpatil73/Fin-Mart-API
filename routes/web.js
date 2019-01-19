@@ -4,29 +4,10 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-router.get('/nihon', function(req, res, next) {
+router.get('/medsave', function(req, res, next) {
 	res.render('medsave');
   
 });
-router.get('/tatacapital-pl', function(req, res, next) {
-	res.render('tatacapital-pl');
-  
-});
-router.get('/kotak-personal-loan-dc', function(req, res, next) {
-	res.render('kotak-personal-loan-dc');
-  
-});
-router.get('/rbl-personal-loan', function(req, res, next) {
-	res.render('rbl-personal-loan-dc');
-  
-});
-
-router.get('/apply-iifl-loan', function(req, res, next) {
-	res.render('apply-iifl-loan-dc');
-  
-});
-
-
 router.get('/log-1', function(req, res, next) {
 const fs = require('fs');
 

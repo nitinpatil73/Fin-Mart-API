@@ -241,6 +241,8 @@ var EarlySalary = function (req, res, next) {
 		//	var HDFCResponse = ("{\"Status\":\"0\",\"Lead_Id\":\"796295\"}");
 			wrapper('/BankAPIService.svc/getEncryptString?InputData='+req.body.brokerid, 'GET',{
 				},function(Encoderesponse) {
+					console.log("-------------------------------------------");
+					console.log(Encoderesponse);
 					if(Encoderesponse != null && Encoderesponse != ''){
 						wrapper('/BankAPIService.svc/createHDFCPLReq', 'POST', {
 			 			  "branch_location": req.body.branch_location,
@@ -270,6 +272,8 @@ var EarlySalary = function (req, res, next) {
   						  "source": "MAA=",
 						  "CampaignName": req.body.CampaignName
 						  }, function(HDFCResponse) {
+						  	console.log("-------------------------------------------");
+						  	console.log(HDFCResponse);
 						 js=JSON.parse(HDFCResponse);
 						 if(js.Status == 1){
 						    	  	SaveExpressKotakLoanParameter(req.body.customer_name,
@@ -281,7 +285,8 @@ var EarlySalary = function (req, res, next) {
 						     		req.body.FBAID,
 						     		js.Lead_Id,
 						     		req, res, function(data){
-						     	 //	console.log(data);
+						     			console.log("-------------------------------------------");
+						     	 	    console.log(data);
 						     	 });
 						    	  var successresponse = {"Lead_Id":js.Lead_Id};
 						        base.send_response("Record saved successfully.",successresponse,res);    
@@ -343,13 +348,11 @@ var EarlySalary = function (req, res, next) {
    				"source": "MAA=",
 			    "CampaignName": req.body.CampaignName
 			}
-		//	console.log("--------------------log------------------------------");
-		//	console.log(PersonalLoan);
 			wrapper('/BankAPIService.svc/createRBLPersonalLoanReq', 'POST', {
 			 	"PersonalLoan":PersonalLoan
 				  }, function(RBLData) {
-				//  	console.log("------------------------RBLData-------------------------------");
-				 // 	console.log(RBLData);
+				  	console.log("------------------------RBLData-------------------------------");
+				  	console.log(RBLData);
 				 js=JSON.parse(RBLData);
 				    if(js.Status == 0){
 				     	base.send_response(js.Errorinfo,null,res);

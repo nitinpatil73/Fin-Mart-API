@@ -9,15 +9,19 @@ var dumpdatacontroller = function(req, res, next) {
 				console.log(response.length);
 			console.log("---------------------------------------");	
 				for(var i=0; i<response.length; i++){
-					console.log(i);
-					var Lead_Date_Format = new Date(response[i].Lead_Date)
-					var FollowUp_Date_Format = new Date(response[i].FollowUp_Date)
+					 console.log(i);
+					// var Lead_Date_Format = new Date(response[i].Lead_Date)
+					// var FollowUp_Date_Format = new Date(response[i].FollowUp_Date)
 					var dumpdataparameter = [];
 					dumpdataparameter.push(response[i].Broker_Id);
 					dumpdataparameter.push(response[i].Email);
 					dumpdataparameter.push(response[i].FBA_Id);
-					dumpdataparameter.push(formatDate(FollowUp_Date_Format));
-					dumpdataparameter.push(formatDate(Lead_Date_Format));
+				//	dumpdataparameter.push(formatDate(FollowUp_Date_Format));
+				//	dumpdataparameter.push(formatDate(Lead_Date_Format));
+
+					dumpdataparameter.push(response[i].FollowUp_Date);
+					dumpdataparameter.push(response[i].Lead_Date);
+
 					dumpdataparameter.push(response[i].Lead_Status_Id);
 					dumpdataparameter.push(response[i].Lead_id);
 					dumpdataparameter.push(response[i].Loan_Amt);
@@ -40,7 +44,6 @@ var dumpdatacontroller = function(req, res, next) {
 				}
 				
 					   base.send_response("Record saved successfully","Success",res);
-				
 				//base.send_response("Success",response,res);
 			}else{
 				base.send_response("Failure",null,res);

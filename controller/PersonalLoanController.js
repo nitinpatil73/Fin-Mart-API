@@ -26,8 +26,21 @@ parameter.push(req.body.PersonalLoanRequest.api_source);
 parameter.push(req.body.PersonalLoanRequest.empcode);
 parameter.push(req.body.PersonalLoanRequest.Contact);
 parameter.push(req.body.PersonalLoanRequest.panno);
+
+parameter.push(req.body.PersonalLoanRequest.AccountNumber);
+parameter.push(req.body.PersonalLoanRequest.AddressLine);
+parameter.push(req.body.PersonalLoanRequest.AddressType);
+parameter.push(req.body.PersonalLoanRequest.City);
+parameter.push(req.body.PersonalLoanRequest.Locality1);
+parameter.push(req.body.PersonalLoanRequest.MaritalStatus);
+parameter.push(req.body.PersonalLoanRequest.PhoneType);
+parameter.push(req.body.PersonalLoanRequest.Postal);
+parameter.push(req.body.PersonalLoanRequest.State);
+parameter.push(req.body.PersonalLoanRequest.email);
+parameter.push(req.body.PersonalLoanRequest.Lead_Id);
+
 //console.log(parameter);
-con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
 	//console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);

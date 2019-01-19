@@ -1,9 +1,20 @@
 var mysql  = require('mysql');
 var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
-        password : '',
+      //----------------------local-----------------
+        // host     : 'localhost',
+        // user     : 'root',
+        // password : '',
+        // database : 'backoffice'
+      //  ----------------------qa----------------
+        host     : '35.154.94.67',
+        user     : 'finmart_user',
+        password : 'finmart@321',
         database : 'BackOffice'
+       // -------------live--------------
+         // host     : '35.154.72.18',
+         // user     : 'finmart_user',
+         // password : 'finmart@0909',
+         // database : 'BackOffice'
       });
 //pass the query to execute
 connection.execute_query=function (query,callback){

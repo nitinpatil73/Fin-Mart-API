@@ -1,6 +1,21 @@
 var con=require('../bin/dbconnection.js');
 var base = require('./baseController');
 
+var UserNotificationReceive = function(req, res, next){
+		var UserNotificationReceive = [];
+		UserNotificationReceive.push(req.body.UserNotificationRequestId);	//
+		con.execute_proc('call updatenotificationreceive(?)',UserNotificationReceive,function(data) {
+		if(data[0][0].SavedStatus == 0)
+		{
+			base.send_response("Success", data[0][0],res);
+		}
+		else
+		{
+			base.send_response("Failure", null,res);				
+		}
+   	});
+}
+
 var UserNotificationOpen = function(req, res, next){
 		var UserNotificationOpen = [];
 		UserNotificationOpen.push(req.body.UserNotificationRequestId);	//
@@ -41,4 +56,4 @@ var GetNotificationList = function(req, res, next){
    	});
 }
 
-module.exports = {"UserNotificationOpen":UserNotificationOpen,"GetNotificationList":GetNotificationList};
+module.exports = {"UserNotificationReceive":UserNotificationReceive,"UserNotificationOpen":UserNotificationOpen,"GetNotificationList":GetNotificationList};

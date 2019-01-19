@@ -6,11 +6,11 @@ var BackOfficepospregistration = function(req, res, next) {
 	var backofficeparameter = [];
 	backofficeparameter.push(req.body.FBAID)
 	con.execute_proc('call BackOffice_POSP_Registration(?)',backofficeparameter,function(respdata) {
-		//console.log("====================================================");
-		//console.log(respdata);
+		console.log("==========================procedure==========================");
+		console.log(respdata);
 		if(respdata[0] != null && respdata[0] != ''){
 		if(respdata[0][0].Posp_PAN != null && respdata[0][0].Posp_PAN != ''){
-			//console.log("******************************************");
+			console.log("******************************************");
 			var basicDetails = {
 				"FirstName" : respdata[0][0].FirsName,
 			    "LastName" : respdata[0][0].LastName,
@@ -101,8 +101,8 @@ var BackOfficepospregistration = function(req, res, next) {
 			"Presentation" : presentation,
 			"Nominee" : nominee
 		  }, function(data) {
-		  //	console.log("=------------------------------------------");
-		  	//console.log(data);
+		 	console.log("=--------------------wrapper----------------------");
+		  	console.log(data);
 		  	if(data!=null){	 
 		  		if(data=="Email Id already exists"){
 	  				base.send_response("Email Id already exists", null,res);

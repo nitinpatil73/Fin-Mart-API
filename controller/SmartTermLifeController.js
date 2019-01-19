@@ -9,11 +9,73 @@ var SmartTermLifeParameter = function(req, res, next) {
 	if(pincodeparameter != '' && pincodeparameter != null)
 	{
 		con.execute_proc('call smart_term_get_city_state(?)',pincodeparameter,function(pincoderesponse) {
+			console.log("------------------------------pincode responce----------------------------------------");
+	    	console.log(pincoderesponse);
 	    if(pincoderesponse!=null){
 			var apiname = "/api/SmartTermLife";
-		   if(process.env.NODE_ENV == 'development'){
-		        apiname = "/quotes/api/SmartTermLife";		     
-		    }
+		   // if(process.env.NODE_ENV == 'development'){
+		   //      apiname = "/quotes/api/SmartTermLife";		     
+		   //  }
+
+		    var log = {"PolicyTerm": req.body.termRequestEntity.PolicyTerm,
+		     "InsuredGender": req.body.termRequestEntity.InsuredGender,
+		     "Is_TabaccoUser": req.body.termRequestEntity.Is_TabaccoUser,
+		     "SumAssured": req.body.termRequestEntity.SumAssured,
+		     "InsuredDOB": req.body.termRequestEntity.InsuredDOB,
+		     "PaymentModeValue": req.body.termRequestEntity.PaymentModeValue,
+		     "PolicyCommencementDate": req.body.termRequestEntity.PolicyCommencementDate,
+		     "CityName": pincoderesponse[0][0].cityname,
+		     "State": pincoderesponse[0][0].state_name,
+		     "PlanTaken": req.body.termRequestEntity.PlanTaken,
+		     "Frequency": req.body.termRequestEntity.Frequency,
+		     "DeathBenefitOption": req.body.termRequestEntity.DeathBenefitOption,
+		     "PPT": req.body.termRequestEntity.PPT,
+		     "IncomeTerm": req.body.termRequestEntity.IncomeTerm,
+
+		     "MonthlyIncome": req.body.termRequestEntity.MonthlyIncome,
+		     "LumpsumAmount": req.body.termRequestEntity.LumpsumAmount,
+		     "IncreaseIncomePercentage": req.body.termRequestEntity.IncreaseIncomePercentage,
+		     "IncreaseSAPercentage": req.body.termRequestEntity.IncreaseSAPercentage,
+		     "ADBPercentage": req.body.termRequestEntity.ADBPercentage,
+
+
+		     "CISA": req.body.termRequestEntity.CISA,
+		     "LumpsumBSAProp": req.body.termRequestEntity.LumpsumBSAProp,
+		     "ADBSA": req.body.termRequestEntity.ADBSA,
+		     "TypeOfLife": req.body.termRequestEntity.TypeOfLife,
+		     "ATPDSA": req.body.termRequestEntity.ATPDSA,
+		     "HCBSA": req.body.termRequestEntity.HCBSA,
+		     "WOP": req.body.termRequestEntity.WOP,
+		     "PaymentOptn": req.body.termRequestEntity.PaymentOptn,
+
+
+		     "MaritalStatus": req.body.termRequestEntity.MaritalStatus,
+		     "PremiumPaymentOption": req.body.termRequestEntity.PremiumPaymentOption,
+		     "ServiceTaxNotApplicable": req.body.termRequestEntity.ServiceTaxNotApplicable,
+		     "CIBenefit": req.body.termRequestEntity.CIBenefit,
+		     "ADHB": req.body.termRequestEntity.ADHB,
+
+		     "InsurerId": req.body.termRequestEntity.InsurerId,
+		     "SessionID": req.body.termRequestEntity.SessionID,
+		     "Existing_ProductInsuranceMapping_Id": req.body.termRequestEntity.Existing_ProductInsuranceMapping_Id,
+		    
+		     "FBAID": req.body.termRequestEntity.FBAID,
+
+		     "ContactName": req.body.termRequestEntity.ContactName,
+		     "ContactEmail": req.body.termRequestEntity.ContactEmail,
+		     "ContactMobile": req.body.termRequestEntity.ContactMobile,
+		     "SupportsAgentID": req.body.termRequestEntity.SupportsAgentID,
+
+
+		     "LumpsumPercentage": req.body.termRequestEntity.LumpsumPercentage,
+			"created_date": req.body.termRequestEntity.created_date,
+			"crn": req.body.termRequestEntity.crn,
+			"pincode": req.body.termRequestEntity.pincode};
+			console.log("--------------------------Smart term life log-------------------------------------");
+			console.log(log);
+
+
+
 			wrapper(apiname, 'POST', {
 		   	 "PolicyTerm": req.body.termRequestEntity.PolicyTerm,
 		     "InsuredGender": req.body.termRequestEntity.InsuredGender,
@@ -70,8 +132,10 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
 		  }, function(response) {
-		//  	console.log("---------------------------------Response------------------------------------");
-		 // 	console.log(response);
+		  	console.log("---------------------------------Response SmartTermLife------------------------------------");
+		  	console.log(response);
+		  	console.log("---------------------------------crn------------------------------------");
+		  	console.log(response[0].CustomerReferenceID);
 				  if(response != null && response != '')
 				  {
 		  		 	var SmartTermLifeParameter = [];
@@ -236,6 +300,7 @@ var GetSmartTermLife = function(req, res, next) {
 		            "updated_date": getsmartdata[0][i].updated_date,
 		            "isActive": getsmartdata[0][i].isActive,
 		            "PBStatus": getsmartdata[0][i].PBStatus,
+		            "PBStatusDesc": getsmartdata[0][i].PBStatusDesc,
 		            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
 		            "ApplNumb": getsmartdata[0][i].ApplNumb,
 		            "ApplDate": getsmartdata[0][i].ApplDate
@@ -297,6 +362,7 @@ var GetSmartTermLife = function(req, res, next) {
 			            "updated_date": getsmartdata[1][i].updated_date,
 			            "isActive": getsmartdata[1][i].isActive,
 			            "PBStatus": getsmartdata[1][i].PBStatus,
+			            "PBStatusDesc": getsmartdata[1][i].PBStatusDesc,
 			            "PBStatusDate": getsmartdata[1][i].PBStatusDate,
 			            "ApplNumb": getsmartdata[1][i].ApplNumb,
 			            "ApplDate": getsmartdata[1][i].ApplDate
@@ -372,6 +438,7 @@ else if(req.body.type == 1)
 		            "updated_date": getsmartdata[0][i].updated_date,
 		            "isActive": getsmartdata[0][i].isActive,
 		            "PBStatus": getsmartdata[0][i].PBStatus,
+		            "PBStatusDesc": getsmartdata[0][i].PBStatusDesc,
 		            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
 		            "ApplNumb": getsmartdata[0][i].ApplNumb,
 		            "ApplDate": getsmartdata[0][i].ApplDate
@@ -445,6 +512,7 @@ else if(req.body.type == 2)
 			            "updated_date": getsmartdata[0][i].updated_date,
 			            "isActive": getsmartdata[0][i].isActive,
 			            "PBStatus": getsmartdata[0][i].PBStatus,
+			            "PBStatusDesc": getsmartdata[0][i].PBStatusDesc,
 			            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
 			            "ApplNumb": getsmartdata[0][i].ApplNumb,
 			            "ApplDate": getsmartdata[0][i].ApplDate

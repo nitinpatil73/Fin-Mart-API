@@ -6,7 +6,7 @@ var handler = require('./HandlerController');
 var saveLoanData = function(req, res, next) {
 
 //console.log(getLoanParameters(req, res, next));
- con.execute_proc('call ManageLoanRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',getLoanParameters(req, res, next),function(data) {
+ con.execute_proc('call ManageLoanRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',getLoanParameters(req, res, next),function(data) {
 //  console.log(data);
   if(data[0][0].SavedStatus == "0"){
     base.send_response("Success", data[0],res);
@@ -70,6 +70,7 @@ function getLoanParameters(req, res, next) {
     parameters.push(req.body.HomeLoanRequest.quote_id);
     parameters.push(req.body.HomeLoanRequest.CoApplicantName);
     parameters.push(req.body.HomeLoanRequest.CoApplicantRelation);
+    parameters.push(req.body.HomeLoanRequest.Lead_Id);
     return parameters;
 }
 

@@ -7,7 +7,9 @@ var wrapper = require('./wrapper.js');
 var RBLog  = require('../model/RBUpdateLoanLog.js');
 var Mailer = require('../controller/MailController');
 var logger=require('../bin/Logger');
+//var dateFormat = require('dateformat');
 var insertFBARegistration = function(req, res, next) {
+
 //console.log("called");
 //res.send("success");
 
@@ -27,13 +29,44 @@ fbadata.push(req.body.StateID);//`StatID`,
 fbadata.push("R");//`FBAStat`,
 fbadata.push(req.body.SMID);//`SMID`,
 fbadata.push(req.body.CustID);//`CustID`,
-fbadata.push(req.body.referedby_code);//`CustID`,
+fbadata.push(req.body.referedby_code);
+fbadata.push(req.body.VersionCode);
+fbadata.push(req.body.AppSource);
+
+if(req.body.ParentId != null && req.body.ParentId != '')
+{
+	fbadata.push(req.body.ParentId);
+}
+else
+{
+	fbadata.push(0);
+}
+
+if(req.body.Pancard != null && req.body.Pancard != '')
+{
+	fbadata.push(req.body.Pancard);
+}
+else
+{
+	fbadata.push(null);
+}
+
+var headerreq = req.header("apptype") ;
+
+if(headerreq == 'rba')
+{
+    fbadata.push('rba');
+}
+else
+{
+	fbadata.push('finmart');
+}
 //console.log(fbadata);
 //res.send(fbadata);
 
 //InsertUpdateFBARepresentation(10,req,res,next);
 
-con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
+con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	if(data[0][0].SavedStatus == 0){
 		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);
@@ -121,7 +154,8 @@ var converteddata = {
         Representative_Bank_Name : req.body.Loan_BankName,
         Representative_Bank_Branch : req.body.Loan_BankBranch,
         Representative_Bank_City : req.body.Loan_BankCity,
-        fromrb : 1
+        regsource : 1,
+        UID : "0"
 	};
 	
 	//console.log(converteddata);
@@ -176,7 +210,15 @@ function InsertFBAUsers(FBAID,req, res, next) {
 	fbausers.push(FBAID); //p_FBAID        INT,
 	fbausers.push(req.body.EmailId); 
 	fbausers.push(""); //p_LifeComp     VARCHAR(50),
-	fbausers.push(req.body.password); //p_IsGeneInsu   TINYINT,
+	if(req.body.password == null || req.body.password == '')
+	{
+		var pass=formatDate(req.body.DOB);
+		fbausers.push(pass);
+	}
+	else
+	{
+		fbausers.push(req.body.password); //p_IsGeneInsu   TINYINT,
+	}
 	fbausers.push(""); //p_GeneComp     VARCHAR(50),
 	fbausers.push(""); //p_IsHealthInsu TINYINT,
 	fbausers.push(0); //p_HealthComp   VARCHAR(50),
@@ -320,5 +362,16 @@ function SetCustomerId(fbaid,req, res, next) {
 	next();   
 };
 
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year ].join('');
+}
 
 module.exports = insertFBARegistration;
