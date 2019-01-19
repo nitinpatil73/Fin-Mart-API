@@ -25,6 +25,7 @@
     "mysql": "github:mysqljs/mysql",
     "nodemailer": "^4.4.2",
     "randomstring": "^1.1.5",
+    "safe-buffer": "^5.1.2",
     "serve-favicon": "~2.4.5",
     "soap": "^0.23.0",
     "utf8": "^3.0.0",
