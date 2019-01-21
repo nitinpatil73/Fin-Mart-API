@@ -1,15 +1,15 @@
 var mysql  = require('mysql');
 var connection = mysql.createConnection({
       //----------------------local-----------------
-        // host     : 'localhost',
-        // user     : 'root',
-        // password : '',
-        // database : 'backoffice'
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'backoffice'
       //  ----------------------qa----------------
-        host     : '35.154.94.67',
-        user     : 'finmart_user',
-        password : 'finmart@321',
-        database : 'BackOffice'
+        // host     : '35.154.94.67',
+        // user     : 'finmart_user',
+        // password : 'finmart@321',
+        // database : 'BackOffice'
        // -------------live--------------
          // host     : '35.154.72.18',
          // user     : 'finmart_user',

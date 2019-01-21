@@ -844,4 +844,15 @@ router.post('/GetPospAppointmentLetter', function(req, res, next) {
   var vehicleoffline = require('../controller/PospWrapperController');
   vehicleoffline.pospwrapper(req,res,next);
 });
+
+router.post('/posp-appointment-email', function(req, res, next) {
+  var appoiEmail = require('../controller/PospAppointmentEmailController');
+  appoiEmail.PospAppointmentsEmail(req,res,next);
+});
+
+router.post('/get-customers-sms-template', function(req, res, next) {
+  var getcustsmstemp = require('../controller/FbaCustomersSmstemplateController');
+  getcustsmstemp.fbacustsmstemplate(req,res,next);
+});
+
 module.exports = router;
