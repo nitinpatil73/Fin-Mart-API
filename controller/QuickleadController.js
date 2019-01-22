@@ -3,6 +3,22 @@ var base = require('./baseController');
 var wrapper = require('./wrapper.js');
 
 var QuickLead = function (req, res, next) {
+  var log = {"brokerId": req.body.brokerId,
+  "Source": "DC",
+  "Name": req.body.Name,
+  "EMail": req.body.EMail,
+  "Mobile": req.body.Mobile,
+  "Status": "43",
+  "ProductId":req.body.ProductId,
+  "Loan_amt": req.body.Loan_amt,
+  "FBA_Id": req.body.FBA_Id,
+  "Monthly_income": req.body.Monthly_income,
+  "Remark": req.body.Remark,
+  "followupDate": req.body.followupDate,
+  "empCode": "Rb40000432"}
+
+  console.log("---------------log----------------------");
+  console.log(log);
 wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
    "brokerId": req.body.brokerId,
   "Source": "DC",
@@ -18,7 +34,8 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
   "followupDate": req.body.followupDate,
   "empCode": "Rb40000432"
   }, function(data) {
-  // console.log(data);
+    console.log("-----------------1---------------------------");
+   console.log(data);
     if(data!=null){
       var respose = JSON.parse(data);
     //  console.log(respose);
@@ -38,11 +55,11 @@ wrapper('/BankAPIService.svc/createOtherLoanLeadReq', 'POST', {
           parameter.push(req.body.followupDate);
           parameter.push("Rb40000432");
           parameter.push(respose.Lead_Id);
-          // console.log("**********************************************************");
-          // console.log(parameter);
+           console.log("**********************************************************");
+           console.log(parameter);
           con.execute_proc('call insert_quick_lead(?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(respdata) {
-          // console.log("**********************************************************");
-          // console.log(respdata);
+           console.log("*************************save*********************************");
+           console.log(respdata);
             if(respdata[0][0].SavedStatus == 0){
               QuickLeadLive(req, res, respose.Lead_Id,next);
             //  console.log("--------"+respose.Lead_Id);

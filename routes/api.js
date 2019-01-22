@@ -855,4 +855,8 @@ router.post('/get-customers-sms-template', function(req, res, next) {
   getcustsmstemp.fbacustsmstemplate(req,res,next);
 });
 
+router.post('/get-field-sales', function(req, res, next) {
+  var filedsales = require('../controller/EmployeeController');
+  filedsales.getFieldSales(req,res,next);
+});
 module.exports = router;
