@@ -61,12 +61,21 @@ else
 {
 	fbadata.push('finmart');
 }
+
+if(req.body.field_sales_uid != null && req.body.field_sales_uid != '')
+{
+	fbadata.push(req.body.field_sales_uid);
+}
+else
+{
+	fbadata.push(0);
+}
 //console.log(fbadata);
 //res.send(fbadata);
 
 //InsertUpdateFBARepresentation(10,req,res,next);
 
-con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
+con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	if(data[0][0].SavedStatus == 0){
 		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);

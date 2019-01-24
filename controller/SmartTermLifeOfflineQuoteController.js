@@ -116,6 +116,20 @@ var GetSmartTermLifeOfflineQuote = function(req, res, next) {
 				var quoteresponse = [];
 	    		var applicationquote = [];
 	    		for (var i = 0; i < getsmartdata[0].length; i++) {
+
+
+	    			   var quote = []; 
+
+			        for (var j = 0; j < getsmartdata[1].length; j++) {  
+			          //console.log(data[1][j].TranId);       
+			          if(getsmartdata[1][j].TranId == getsmartdata[0][i].TransId){
+			             // console.log(data[1][j].TransId);
+			             // console.log(data[0][i].TranId);
+			              quote.push(getsmartdata[1][j]);
+			            }
+         			}
+
+
 	    		var response_quote ={
 			            "PolicyTerm": getsmartdata[0][i].PolicyTerm,
 			            "InsuredGender": getsmartdata[0][i].InsuredGender,
@@ -172,10 +186,12 @@ var GetSmartTermLifeOfflineQuote = function(req, res, next) {
 			            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
 			            "ApplNumb": getsmartdata[0][i].ApplNumb,
 			            "ApplDate": getsmartdata[0][i].ApplDate,
-			            "comment": getsmartdata[0][i].comment
+			            "comment": getsmartdata[0][i].comment,
+			            "TransId": getsmartdata[0][i].TransId
+			           
 
 	    			};
-	    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermrequestid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id});
+	    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermofflinequoteid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id, "quote":quote});
 	    		}
 	    		var getsmart = {"quote":quoteresponse,"application":[]};
 				base.send_response("Success",getsmart,res);
