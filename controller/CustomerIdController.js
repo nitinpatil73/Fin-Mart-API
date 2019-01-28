@@ -5,8 +5,6 @@ class CustomerIdController{};
 CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 	var res_data=null;
 	var res_msg="failure";
-	//console.log("-----------------------1------------------------");
-	
 	pre_process_data(fbaid,req,function(inputInfo){
 		//console.log(inputInfo);
 		//from api fbaid come in req and fbaid param is -1 so setting manually from req
@@ -50,12 +48,11 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 };
 
 function call_cust_soap(authenticateInputInfo,inputInfo,next){
-	//console.log("-----------------------2------------------------");
 
 		    var soap = require('soap');
 		    var url = 'http://magicsales.dwtsims.com/WCFServices/WCFServices.svc?wsdl';
 		    var args = { "inputInfo" :inputInfo , "authenticateInputInfo" : authenticateInputInfo };
-		   // console.log(args);
+		  //  console.log(args);
 		    var message = "success";
 		    soap.createClient(url, function (err, client) {
 		        client.CreateCustomer(args, function (err, result) {
@@ -64,8 +61,6 @@ function call_cust_soap(authenticateInputInfo,inputInfo,next){
 		          else
 		          	{
 		          		next(result);
-		          		//console.log("-----------------------result----------------------------");
-		          		//console.log(result);
 
 		          	}
 		        });
@@ -73,7 +68,7 @@ function call_cust_soap(authenticateInputInfo,inputInfo,next){
 		    
 }
 function pre_process_data(fbaid,req,next){
-//console.log("-----------------------3------------------------");
+
 			var fbaparameter = [];
 			fbaparameter.push(req.body.FBAId);
 			var inputInfo={};
@@ -112,8 +107,6 @@ function pre_process_data(fbaid,req,next){
 			}else{
 	//  -1 means req is made by api to update customer id manually
 			con.execute_proc('call customer_controllet_get_fba_data(?)',fbaparameter,function(data) {
-				//console.log("-----------------------4------------------------");
-				//console.log(data);
 					if(data != null){
 						// console.log("++++++++++++++++++++++++++++++++++++++++")
 						// console.log(data);

@@ -49,8 +49,7 @@ var PendingCaseInsurenceAndLoan = function(req,res,next){
 			    				"created_date":data[1][i].created_date,
 			    				"BankImage":data[1][i].BankImage,
 			    				"cdate":data[1][i].cdate,
-			    				"pendingdays":data[1][i].pendingdays,
-			    				"Lead_Id":data[1][i].Lead_Id
+			    				"pendingdays":data[1][i].pendingdays
 			    			}
 			    			Loan.push(LoanResponce);
 			    		}
@@ -108,8 +107,7 @@ var PendingCaseInsurenceAndLoan = function(req,res,next){
 			    				"created_date":data[0][i].created_date,
 			    				"BankImage":data[0][i].BankImage,
 			    				"cdate":data[0][i].cdate,
-			    				"pendingdays":data[0][i].pendingdays,
-			    				"Lead_Id":data[0][i].Lead_Id
+			    				"pendingdays":data[0][i].pendingdays
 			    			}
 			    			Loan.push(LoanResponce);
 			    		}

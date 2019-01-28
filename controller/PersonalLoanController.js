@@ -37,10 +37,9 @@ parameter.push(req.body.PersonalLoanRequest.PhoneType);
 parameter.push(req.body.PersonalLoanRequest.Postal);
 parameter.push(req.body.PersonalLoanRequest.State);
 parameter.push(req.body.PersonalLoanRequest.email);
-parameter.push(req.body.PersonalLoanRequest.Lead_Id);
 
 //console.log(parameter);
-con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+con.execute_proc('call ManagePersonalLoan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
 	//console.log(data);
 	if(data[0][0].SavedStatus == "0"){
 		base.send_response("Success", data[0],res);

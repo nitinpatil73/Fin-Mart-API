@@ -27,7 +27,7 @@ var GetConstantData = function(req, res, next){
 				 "POSPProfileUrl":"",
                  "FBAProfileUrl":"",
 				 "HorizonVersion":"2.0",
-				 "healthappenable":"1"
+				 "healthappenable":"0"
 			};
 			base.send_response("Success",response,res);
 		}

@@ -8,7 +8,7 @@ $('#auth_button').click(function (){
    if(! $('#login_form').valid()){
        return false;
    }else{
-           $.post('http://localhost:3000/api/authenticate', $('#login_form').serialize())
+           $.post('api/authenticate', $('#login_form').serialize())
              .done(function(msg){ 
                  if(msg.status===1){
                      $('#welcome').empty().append("Welcome Mr. "+msg.name);

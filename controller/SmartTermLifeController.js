@@ -69,11 +69,10 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"created_date": req.body.termRequestEntity.created_date,
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
-			"sub_fba_id" : req.body.fba_id
 		  }, function(response) {
 		//  	console.log("---------------------------------Response------------------------------------");
 		 // 	console.log(response);
-				  if(response != null && response != '')
+				  if(response[0].CustomerReferenceID != null && response[0].CustomerReferenceID != '')
 				  {
 		  		 	var SmartTermLifeParameter = [];
 		  		 		SmartTermLifeParameter.push(req.body.termRequestId);
@@ -237,7 +236,6 @@ var GetSmartTermLife = function(req, res, next) {
 		            "updated_date": getsmartdata[0][i].updated_date,
 		            "isActive": getsmartdata[0][i].isActive,
 		            "PBStatus": getsmartdata[0][i].PBStatus,
-		            "PBStatusDesc": getsmartdata[0][i].PBStatusDesc,
 		            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
 		            "ApplNumb": getsmartdata[0][i].ApplNumb,
 		            "ApplDate": getsmartdata[0][i].ApplDate
@@ -299,7 +297,6 @@ var GetSmartTermLife = function(req, res, next) {
 			            "updated_date": getsmartdata[1][i].updated_date,
 			            "isActive": getsmartdata[1][i].isActive,
 			            "PBStatus": getsmartdata[1][i].PBStatus,
-			            "PBStatusDesc": getsmartdata[1][i].PBStatusDesc,
 			            "PBStatusDate": getsmartdata[1][i].PBStatusDate,
 			            "ApplNumb": getsmartdata[1][i].ApplNumb,
 			            "ApplDate": getsmartdata[1][i].ApplDate
@@ -375,7 +372,6 @@ else if(req.body.type == 1)
 		            "updated_date": getsmartdata[0][i].updated_date,
 		            "isActive": getsmartdata[0][i].isActive,
 		            "PBStatus": getsmartdata[0][i].PBStatus,
-		            "PBStatusDesc": getsmartdata[0][i].PBStatusDesc,
 		            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
 		            "ApplNumb": getsmartdata[0][i].ApplNumb,
 		            "ApplDate": getsmartdata[0][i].ApplDate
@@ -449,7 +445,6 @@ else if(req.body.type == 2)
 			            "updated_date": getsmartdata[0][i].updated_date,
 			            "isActive": getsmartdata[0][i].isActive,
 			            "PBStatus": getsmartdata[0][i].PBStatus,
-			            "PBStatusDesc": getsmartdata[0][i].PBStatusDesc,
 			            "PBStatusDate": getsmartdata[0][i].PBStatusDate,
 			            "ApplNumb": getsmartdata[0][i].ApplNumb,
 			            "ApplDate": getsmartdata[0][i].ApplDate

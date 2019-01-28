@@ -1,3 +1,4 @@
+require('newrelic');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,11 +11,12 @@ var api = require('./routes/api');
 var app = express();
 var base=require('./controller/baseController');
 var logger=require('./bin/Logger');
- process.env.API_HOST_URL =  (process.env.NODE_ENV == 'production')?"http://api.magicfinmart.com":"http://qa.mgfm.in";
- process.env.BO_HOST_URL =  (process.env.NODE_ENV == 'production')?"http://bo.magicfinmart.com":"http://bo.mgfm.in";
- // console.log(process.env.BO_HOST_URL);
- // console.log("-------------------")
- // console.log(process.env.API_HOST_URL)
+var app=express();
+var cors=require("cors")
+app.use(cors());
+var con=require('./bin/dbconnection.js');
+
+
 // view engine setup
 // var phpExpress = require('php-express')({
 //   binPath: 'php'
@@ -39,6 +41,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var requestAccess = function (req, res, next) {
   token=req.header("token") ;
+
+  var reqlog = [];
+  reqlog.push(req.url);
+  reqlog.push(JSON.stringify(req.body));
+  reqlog.push(token);
+  reqlog.push("API Called");
+  con.execute_proc('call InsertLog(?,?,?,?)',reqlog,function(data) {
+  });
   
   //console.log(user + " "+pwd);
   if(token==="1234567890"){
@@ -72,14 +82,8 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
 
-  logger.error(err.stack);
-  if(req.app.get('env') === 'production' ){
-     res.send({Message: "Fatal error !!! " + err.status + ": "+err.message, Status: "Failure", StatusNo: 1, MasterData: null});
-  }else{
-    throw err;
-    
-  }
- 
+  logger.error('error', err.status, err.message);
+  res.send({Message: "Fatal error !!! " + err.status + ": "+err.message, Status: "Failure", StatusNo: 1, MasterData: null});
 });
 
 

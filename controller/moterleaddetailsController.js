@@ -45,11 +45,7 @@ var savemoterleaddetails = function(req,res,next){
 				savemoterleadpara.push(req.body.QT_Entry_Number);
 				savemoterleadpara.push(req.body.VehicleRegNumber);
 
-				console.log("-----------date format----------------");
-				console.log(savemoterleadpara);
-
 				con.execute_proc('call insert_moter_lead_details(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',savemoterleadpara,function(rdata){
-					console.log(rdata);
 					if(rdata[0][0].SavedStatus == '0'){
 						base.send_response("Saved successfully.",rdata[0],res);
 					}else{

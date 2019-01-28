@@ -19,21 +19,25 @@ else if(hosttype == 2) {
         
         //hostname = "qa.policyboss.com";
          hostname = "vehicleinfo.policyboss.com";
-         username = "Datacomp";
+          username = "Datacomp";
          password = "dc@pb123";
     }
     else{
         hostname = "vehicleinfo.policyboss.com";
     } 
   }
-   else if(hosttype == 3) {    
-    // if(process.env.NODE_ENV == 'development'){
-    //     port = 8063;
-    //     hostname = "erp.rupeeboss.com";
-    // }
-    // else{
-        hostname = "beta.services.rupeeboss.com";
-  // }
+   else if(hosttype == 3) {
+
+    
+    if(process.env.NODE_ENV == 'development'){
+        port = 8063;
+        hostname = "erp.rupeeboss.com";
+    }
+    else{
+        hostname = "services.rupeeboss.com";
+    }
+
+    
   }
   else if(hosttype == 4) {
     hostname = "services.rupeeboss.com";
@@ -42,13 +46,12 @@ else if(hosttype == 2) {
     hostname = "finmartwebapi.magicsales.in";
   }
   else if(hosttype == 6) {
-  //   if(process.env.NODE_ENV == 'development'){
-  //      hostname = "uat.api.rupeeboss.com";
-  // }
-  // else{
-  //      hostname = "api.rupeeboss.com";
-  // }
-   hostname = "api.rupeeboss.com";
+    if(process.env.NODE_ENV == 'development'){
+       hostname = "uat.api.rupeeboss.com";
+  }
+  else{
+       hostname = "api.rupeeboss.com";
+  }
   
   }else if(hosttype==7){
     hostname="http://vas.mobilogi.com";
@@ -65,13 +68,13 @@ else if(hosttype == 8) {
     hostname = "zohowebapi.magicsales.in";
   }
 else if(hosttype == 11) {
-// if(process.env.NODE_ENV == 'development'){
+if(process.env.NODE_ENV == 'development'){
 
-//          hostname = "qa.policyboss.com";      
-//     }
-//     else{
+         hostname = "qa.policyboss.com";      
+    }
+    else{
         hostname = "vehicleinfo.policyboss.com";
-    //}   
+    }   
   }
   else if(hosttype == 12) {
     // port="80";
@@ -107,31 +110,30 @@ else if(hosttype == 11) {
     hostname = "landmarktimes.policyboss.com";
   }
   else if(hosttype == 21) {
-    hostname = "localhost";
-    port = "8081";
+    hostname = "api.magicfinmart.com";
   }
-
   else if(hosttype == 22) {
-    // if(process.env.NODE_ENV == 'development'){
-    //       hostname = "qa.policyboss.com";
-    //       UserName = "test";
-    //       Password = "test@123";
-    // }
-    // else{
-        hostname = "vehicleinfo.policyboss.com";
-        UserName = "test";
-        Password = "test@123";
-    //} 
+      hostname = "vehicleinfo.policyboss.com";
+      UserName = "test";
+      Password = "test@123";
   }
 
   else if(hosttype == 23) {
     if(process.env.NODE_ENV == 'development'){
       hostname = "admin.finpeace.co";      
     }else{
-      hostname = "10ocqwfp.finpeace.ind.in";
+        hostname = "10ocqwfp.finpeace.ind.in";
     }   
   }
 
+  else if(hosttype == 24) {
+    hostname = "inspection.policyboss.com";
+  }
+  else if(hosttype == 25) {
+    hostname = "202.131.96.100";
+    port = "7541";
+  }
+  
   var dataString = JSON.stringify(data);
 //  console.log("*******************************");
   if(hosttype == 15){
@@ -178,7 +180,7 @@ else if(hosttype == 11) {
 
     res.on('end', function() {
       // console.log(hostname);
-    //  console.log(responseString);
+     //  console.log(responseString);
       var responseObject = JSON.parse(responseString);
       success(responseObject);
     });

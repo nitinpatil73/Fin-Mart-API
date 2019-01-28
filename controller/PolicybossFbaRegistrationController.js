@@ -10,6 +10,7 @@ var logger=require('../bin/Logger');
 var insertFBARegistration = function(req, res, next) {
 	if(req.body.UID != null && req.body.UID != ''){
 		//if(req.body.ss_id != null && req.body.ss_id != ''){
+			if("1"=="1"){
 			var fbadata = [];
 			fbadata.push(req.body.Name);//FirsName`,
 			fbadata.push("");//`LastName`,
@@ -29,7 +30,7 @@ var insertFBARegistration = function(req, res, next) {
 			fbadata.push("5"); // app sourse
 			fbadata.push(0); // parent id
 			fbadata.push(req.body.UID);
-			con.execute_proc('call LandmarkInsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
+			con.execute_proc('call PolicybossInsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 				if(data[0][0].SavedStatus == 0){
 					//PolicybossLandmarkRegistration(data[0][0].fbaid,req, res, next);
 					//RupeeBossFBARegistartion(data[0][0].fbaid,req, res, next);
@@ -42,9 +43,9 @@ var insertFBARegistration = function(req, res, next) {
 						base.send_response(data[0][0].Message, null,res);				
 				}
 			});
-		// }else{
-		// 	base.send_response("ss_id not exists", null,res);
-		// }
+		}else{
+			base.send_response("ss_id not exists", null,res);
+		}
 	}else{
 			base.send_response("UID not exists", null,res);
 	}

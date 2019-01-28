@@ -8,8 +8,8 @@ var updateloanid = function (req, res, next) {
 wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
    "fbaid" : req.body.fbaid
   }, function(data) {
-  		console.log("*************************data***************************");
-		console.log(data);
+  	//	console.log("*************************data***************************");
+	//	console.log(data);
     if(data!=null && data.loanId != 0 && data.loanId != ''){
     //	console.log("-------------------data.loanId---------------------");
  	//	console.log(data.loanId);
@@ -34,11 +34,11 @@ wrapper('/LoginDtls.svc/XMLService/updateFBALoanId', 'POST', {
 };
 
 
-function GetFBAData(FBA_ID,req, res, next) {
+function GetFBAData(FBAID,req, res, next) {
 	
-	con.execute_proc('call GetLoanFBAData(?)',FBA_ID,function(fbadata) {
-		 console.log("*************************fbadata***************************");
-		 console.log(fbadata);
+	con.execute_proc('call GetLoanFBAData(?)',FBAID,function(fbadata) {
+		//console.log("*************************fbadata***************************");
+		//console.log(fbadata);
 		if(fbadata[0].length>0)
 		{
 			var converteddata = {
@@ -91,17 +91,17 @@ function GetFBAData(FBA_ID,req, res, next) {
 		            "Representative_Bank_Branch": fbadata[0][0].LoanBankBran , 
 		            "Representative_Bank_City": fbadata[0][0].Loan_BankCity,
 		            "regsource" : 1,
-		            "UID":"0"
+		            "UID":"0"  
 			}
 
-			console.log("''''''''''+++++++++++++++++++++'''''''''''");
-			console.log(converteddata);
+		//	console.log("'''''''''''''''''''''");
+		//	console.log(converteddata);
 			var apiname = "/LoginDtls.svc/xmlservice/insFbaRegistration";
 				wrapper(apiname, 'POST', 
 			    converteddata
 			  , function(data) {
-			  	console.log("*************************insFbaRegistration***************************");
-				console.log(data);
+			//  	console.log("*************************insFbaRegistration***************************");
+			//	console.log(data);
 			  	if(data.statusId == 0)
 			  	{
 			  		var updatparameter = [];

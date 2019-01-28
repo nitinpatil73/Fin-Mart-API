@@ -11,9 +11,9 @@ var firsthivesendsms = function(req, res, next) {
 		firsthivesendsmspara.push(req.body.Message);
 		con.execute_proc('call Save_FirstHiveSendSMSLog(?,?)',firsthivesendsmspara,function(data) {
 			if(data != null || data != ''){
-				base.send_response("Log saved Successfully.",data[0],res);
+				base.send_response("Message send successfully.",data[0],res);
 			}else{
-				 base.send_response("Log saved failed",null,res);
+				 base.send_response("Message send failed",null,res);
 			}
 
 		});

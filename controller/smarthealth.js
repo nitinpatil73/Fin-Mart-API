@@ -73,8 +73,8 @@ var floterIndividualRequest = {
   "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
 };
 
-console.log("-----------------log---------------------");
-console.log(floterIndividualRequest);
+
+//console.log(floterIndividualRequest);
 // console.log(apitype);
 wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Sum": req.body.HealthRequest.SumInsured,
@@ -95,9 +95,9 @@ wrapper('/WMDataservice/api/HealthInsurance/'+apitype, 'POST', {
   "Para6": "0_0_0_0_0",
   "IFAID": "7BaxTwKLbS2mDfX6s3ls7g=="
   }, function(datax) {
-    console.log("-----------------AAAAAAA---------------------");
-    console.log(datax);
-    console.log("-------------------BBBBBB-------------------");
+   // console.log("--------------------------------------");
+   // console.log(datax);
+   // console.log("--------------------------------------");
     var CustomerReferenceID = "";
     if(datax!=null){     
       var data = datax.sort(function(first, second) {
@@ -462,36 +462,32 @@ var ComparePremium = function (req, res, next) {
     else{
       helth_req_id.push(null);
     }
-    console.log(helth_req_id);
+//console.log(helth_req_id);
     var getcomparedata;
-    con.execute_proc('call get_compare_premium(?,?,?)',helth_req_id,function(response) {
-    console.log("---------------get_compare_premium sp --------------------------------------");
-    console.log(response);
-    console.log("---------------get_compare_premium sp--------------------------------------");
+  con.execute_proc('call get_compare_premium(?,?,?)',helth_req_id,function(response) {
     if(response!=null){      
-    console.log("---------------log--------------------------------------");
-    console.log( {
-    "CityID": response[0][0].CityID,
-    "PlanID": response[0][0].PBPlanID,
-    "HealthRequestId": req.body.HealthRequestId,
-    "FBAID": response[0][0].fba_id,
-    "ContactEmail": response[0][0].ContactEmail,
-    "ContactMobile": response[0][0].ContactMobile,
-    "ContactName": response[0][0].ContactName,
-    "DeductibleAmount": 0,
-    "ExistingCustomerReferenceID": 0,
-    "HealthType": "Health",
-    "MaritalStatusID": response[0][0].MaritalStatusID,
-    "MemberList": req.body.MemberList,
-    "PolicyFor": response[0][0].PolicyFor,
-    "PolicyTermYear": 1,
-    "ProductID": 2,
-    "SessionID": "",
-    "SourceType": "APP",
-    "SumInsured": response[0][0].SumInsured,
-    "SupportsAgentID": 2
-  });
-console.log("---------------log--------------------------------------");
+
+// console.log( {
+//     "CityID": response[0][0].CityID,
+//     "PlanID": response[0][0].PBPlanID,
+//     "HealthRequestId": req.body.HealthRequestId,
+//     "FBAID": response[0][0].fba_id,
+//     "ContactEmail": response[0][0].ContactEmail,
+//     "ContactMobile": response[0][0].ContactMobile,
+//     "ContactName": response[0][0].ContactName,
+//     "DeductibleAmount": 0,
+//     "ExistingCustomerReferenceID": 0,
+//     "HealthType": "Health",
+//     "MaritalStatusID": response[0][0].MaritalStatusID,
+//     "MemberList": req.body.MemberList,
+//     "PolicyFor": response[0][0].PolicyFor,
+//     "PolicyTermYear": 1,
+//     "ProductID": 2,
+//     "SessionID": "",
+//     "SourceType": "APP",
+//     "SumInsured": response[0][0].SumInsured,
+//     "SupportsAgentID": 2
+//   });
 wrapper('/api/SmartHealth', 'POST', {
     "CityID": response[0][0].CityID,
     "PlanID": response[0][0].PBPlanID,
@@ -513,9 +509,8 @@ wrapper('/api/SmartHealth', 'POST', {
     "SumInsured": response[0][0].SumInsured,
     "SupportsAgentID": 2
   }, function(data) {
-    console.log("----------wrapper retured----");
-    console.log(data);
     if(data!=null && data.length>0){
+//console.log("----------wrapper retured----");
        var memberlistparameter = []; 
        var memberlist = "";
        for (var i = 0; i < req.body.MemberList.length; i++) {

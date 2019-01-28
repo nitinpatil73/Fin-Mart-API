@@ -3,22 +3,20 @@ var base=require('./baseController');
 var app = require('./wrapper.js');
 var pospComman=require('./POSPCommanController');
 var pospregistration = function(req, res, next) {
-console.log('------------------------------controller-------------------------------------');
-		
+
 	con.execute_proc('call sp_Ins_UpPOSPInfo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',POSPRegistration(req),function(respdata) {
-	
 	//	console.log(respdata[0]);
 		if(respdata[0][0].SavedStatus == 0){
-			console.log('------------------------------AppSource-------------------------------------');
-			console.log(respdata[0][0].SavedStatus);
+			//console.log('------------------------------AppSource-------------------------------------');
+			//console.log(respdata[0][0].Sources);
 			if(req.body.POSPID && req.body.POSPID>0){
 				// respdata[0][0].PaymentURL = "http://rupeeboss.com";
 				// respdata[0][0].PospNo = "377";
 				base.send_response(respdata[0][0].Message, respdata[0][0] ,res);				
 			}
 			else{
-				console.log('------------------------------SaveFBADetaPolicyBoss-------------------------------------');
-				console.log(respdata[0][0].Sources);
+				//console.log('------------------------------SaveFBADetaPolicyBoss-------------------------------------');
+				//console.log(respdata[0][0].Sources);
 				SaveFBADetaPolicyBoss(respdata[0][0].Sources,req,res,next);
 			}
 			//base.send_response(respdata[0][0].Message, respdata[0][0] ,res);
@@ -46,8 +44,8 @@ function SaveFBADetaPolicyBoss(Sources,req,res,next){
 	    Sources : Sources
 	};
 
-	console.log('----------------------------------basicDetails------------------------------------------');
-	console.log(basicDetails);
+	//console.log('----------------------------------basicDetails------------------------------------------');
+	//console.log(basicDetails);
 
 
 	var address = {
@@ -98,21 +96,6 @@ function SaveFBADetaPolicyBoss(Sources,req,res,next){
 
 	// };
 	// console.log(BasicDetails);
-
-	var pospregistration_data = {
-		FBAID : req.body.FBAID,
-		SM_POSP_ID : req.body.SMID,
-		SM_POSP_Name : req.body.SM_Name,
-		BasicDetails : basicDetails,
-		Address : address,
-		Presentation : presentation,
-		Nominee : nominee
-	};
-
-		console.log("............pospregistration_data ..............");
-	  	console.log(pospregistration_data);
-	  	console.log("............pospregistration_data..............");
-
 		app('/api/pospregistration', 'POST', {
 		    FBAID : req.body.FBAID,
 			SM_POSP_ID : req.body.SMID,
@@ -122,35 +105,29 @@ function SaveFBADetaPolicyBoss(Sources,req,res,next){
 			Presentation : presentation,
 			Nominee : nominee
 	  }, function(data) {
-	  	console.log("............data /api/pospregistration ..............");
-	  	console.log(data);
-	  	console.log("............data /api/pospregistration ..............");
+	  	//console.log("............data..............");
 	  	if(data!=null){	  		
 	  		if(data=="Email Id already exists"){
 	  			base.send_response("Email Id already exists", null,res);
 	  		}
 	  		else{
-	  			console.log("............data 1..............");
-	  			console.log(data);
+	  			//console.log("............data 1..............");
+	  			//console.log(data);
 	  			var pospparam= [];
 	  			pospparam.push(req.body.FBAID);
 	  			pospparam.push(data);
 	  				con.execute_proc('call UpdatePOSPNO(?,?)',pospparam,function(respdata) {
-					console.log(".....UpdatePOSPNO......");
+					//console.log(".....UpdatePOSPNO......");
 
-					console.log(respdata);
+					//console.log(respdata[0]);
 					if(respdata[0][0].SavedStatus == 0){
-						console.log(".....UpdatePOSPNO123......");
 						if(respdata[0][0].Link){
-							console.log(respdata[0][0].Link);
-							console.log(".....UpdatePOSPNO123......");
 							base.send_response("Sucess", respdata[0][0],res);	
 						}else{
-							console.log(".....UpdatePOSPNO123 876......");
 							pospComman.GetProdPriceDeta(respdata[0][0].CustID,respdata[0][0].MobiNumb1,respdata[0][0].FullName,respdata[0][0].EmailID,req.body.FBAID,res,data,function(pay_data,status){
 							//console.log(pay_data);
 							if(status==0){
-			  					console.log("Failure......................")
+			  				//	console.log("Failure......................")
 
 			  						base.send_response(pay_data, null,res);	
 				  				}else{

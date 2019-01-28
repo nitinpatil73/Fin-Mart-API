@@ -12,12 +12,11 @@ var pospwrapper = function(req, res, next)
      "SS_ID": req.body.SS_ID
 	},function(data)
 		{
-			console.log("***************************");
 			console.log(data);
 			  if (isNaN(data))
 			  {
          
-                base.send_response("Failure",null,res);	
+                base.send_response("No Data Available",null,res);	
 			  }
 			  else
 			  {

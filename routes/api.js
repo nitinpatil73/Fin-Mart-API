@@ -454,7 +454,7 @@ router.post('/payment',function(req,res,next){
 
 router.post('/set-cust-id',function(req,res,next){
   var CustomerId=require("../controller/CustomerIdController");
-  console.log("Manually setting Cutomer Id ...............");
+  console.log("Manually setting Cutomer Id ...............")
   CustomerId.SetCustomerId(-1,req, res,function(data,msg){
     if(data.CreateCustomerResult.Status==1){
       base.send_response(msg,data,res)  
@@ -689,14 +689,14 @@ router.post('/fba-user-check',function(req,res,next){
   userchk(req,res,next);
 });
 
-router.post('/insert-fba-location-tracking',function(req,res,next){
-  var tracking = require('../controller/FbaLocationTrackingController');
-  tracking(req,res,next);
-});
-
 router.post('/health-assure-configure',function(req,res,next){
   var healthassure = require('../controller/HealthassureconfigureController');
   healthassure.GetHelthAssureData(req,res,next);
+});
+
+router.post('/insert-fba-location-tracking',function(req,res,next){
+  var tracking = require('../controller/FbaLocationTrackingController');
+  tracking(req,res,next);
 });
 
 router.post('/get-registration-source',function(req,res,next){
@@ -712,13 +712,6 @@ router.post('/vehicle-info-details',function(req,res,next){
 router.post('/save-vehicle-info-details-log',function(req,res,next){
   var Vehiclelog = require('../controller/VehicleInfoDetails');
   Vehiclelog.VehicleInfoDetailsLog(req,res,next);
-});
-
-//---------------------commission-----------------------------
-
-router.post('/send-commission',function(req,res,next){
-  var sendcommission = require('../controller/SendCommissionController');
-  sendcommission.SendCommission(req,res,next);
 });
 
 router.post('/get-rrm-list',function(req,res,next){
@@ -756,7 +749,6 @@ router.post('/get-vehicle-insu-sub-type', function(req, res, next) {
   vehicleinsusubtype.vehicleinsubtype(req,res,next);
 });
 
-
 router.post('/landmark-insert-fba-registration', function(req, res, next) {
   var landmarkpara = require('../controller/LandmarkFbaRegistrationController');
   landmarkpara(req,res,next);
@@ -773,40 +765,36 @@ router.post('/AddChildPosp', function(req, res, next) {
    console.log("check");
 });
 
-router.post('/user-called', function(req, res, next) {
-  var ucalled = require('../controller/UserCalledController');
-  ucalled.usercalled(req,res,next);
-});
-
 router.post('/policyboss-fba-registration', function(req, res, next) {
   var policybosspara = require('../controller/PolicybossFbaRegistrationController');
   policybosspara(req,res,next);
 });
 
-router.post('/syncc-landmark-employee', function(req, res, next) {
-  var policybosspara = require('../controller/LandmarkEmployeeSynccController');
-  policybosspara(req,res,next);
+
+router.post('/get-offline-quotes', function(req, res, next) {
+  var getoffline = require('../controller/GetOfflineQuotesController');
+  getoffline.Get_Offline_Quotes(req,res,next);
 });
 
-router.post('/one-time-loan-id-update', function(req, res, next) {
-  var onetimeloanid = require('../controller/OneTimeUpdateLoanIDController');
-  onetimeloanid(req,res,next);
+
+router.post('/get-offline-quote-material',function(req,res,next){
+  var cr = require('../controller/OfflineQuoteMaterialController');
+  cr.getOfflineQuoteMaterial(req,res,next);
+});
+router.post('/upload-doc-offline-quotes', function (req, res, next) {
+  let Uploadoffline = require('../controller/OfflineQuotesDocumentController');
+  Uploadoffline.save(req,res);
 });
 
-router.post('/moter-lead-details', function(req, res, next) {
-  var moter = require('../controller/moterleaddetailsController');
-  moter.moterleaddetails(req,res,next);
-});
-//-----------------------working 3rd build---------------------------------
 
 router.post('/offline-quotes-request',function(req,res,next){
   var offlinequotes = require('../controller/OfflineQuotesRequestController');
   offlinequotes.OfflineQuotesRequest(req,res,next);
 });
 
-router.post('/upload-doc-offline-quotes', function (req, res, next) {
-  let Uploadoffline = require('../controller/OfflineQuotesDocumentController');
-  Uploadoffline.save(req,res);
+router.post('/get-transaction-history',function(req,res,next){
+  var cr = require('../controller/TransactionHistoryController');
+  cr.getTransactionHistory(req,res,next);
 });
 
 router.post('/save-moter-lead-details', function(req, res, next) {
@@ -814,9 +802,74 @@ router.post('/save-moter-lead-details', function(req, res, next) {
   savemoterlead.savemoterleaddetails(req,res,next);
 });
 
-router.post('/get-offline-quotes', function(req, res, next) {
-  var getoffline = require('../controller/GetOfflineQuotesController');
-  getoffline.Get_Offline_Quotes(req,res,next);
+router.post('/addcontacts',function(req,res,next){
+  var VehicleInfoDetails = require('../controller/AddFbaContacsController');
+  console.log("check");
+  VehicleInfoDetails.addcontacts(req,res,next);
+});
+
+router.post('/get-ncd-product', function (req, res, next) {
+  let ncd = require('../controller/NCDController');
+  ncd.getNCDProduct(req,res);
+});
+
+router.post('/insert-ncd-details', function (req, res, next) {
+  
+  let ncd = require('../controller/NCDController');
+  ncd.insertncddetails(req,res);
+});
+
+router.post('/ncd-fba-document-upload', function (req, res, next) {  
+  let upload = require('../controller/NCDDocumentController');  
+  upload.save(req,res);
+});
+
+
+router.post('/getvehiclegenericinfo',function(req,res,next){
+  var VehicleInfoDetails = require('../controller/vehiclegenericinfo');
+  VehicleInfoDetails.VehicleInfoDetails(req,res,next);
+});
+
+router.post('/Health-Lead', function (req, res, next) {  
+  let upload = require('../controller/HealthLeadController');  
+  upload.getHealthLead(req,res);
+});
+
+//-----------------------------vinit--------------------------
+router.post('/LoginDetails', function (req, res, next) {  
+  let LoginDetails = require('../controller/GOQIIController');  
+   console.log("check");
+  LoginDetails.LoginDetails(req,res);
+});
+
+router.post('/UpdateProfile', function (req, res, next) {  
+  let LoginDetails = require('../controller/GOQIIController');  
+  LoginDetails.UpdateProfile(req,res);
+});
+
+router.post('/MotorLead', function (req, res, next) {  
+  let LoginDetails = require('../controller/GOQIIController');  
+  LoginDetails.MotorLead(req,res);
+});
+
+router.post('/HealthLead', function (req, res, next) {  
+  let LoginDetails = require('../controller/GOQIIController');  
+  LoginDetails.HealthLead(req,res);
+});
+
+router.post('/LifeLead', function (req, res, next) {  
+  let LoginDetails = require('../controller/GOQIIController');  
+  LoginDetails.LifeLead(req,res);
+});
+
+router.post('/LoanLead', function (req, res, next) {  
+  let LoginDetails = require('../controller/GOQIIController');  
+  LoginDetails.LoanLead(req,res);
+});
+
+router.post('/OtherLead', function (req, res, next) {  
+  let LoginDetails = require('../controller/GOQIIController');  
+  LoginDetails.OtherLead(req,res);
 });
 
 router.post('/get-all-fba-crm-mapping', function(req, res, next) {
@@ -824,10 +877,52 @@ router.post('/get-all-fba-crm-mapping', function(req, res, next) {
   getfbacrm(req,res,next);
 });
 
+router.post('/firsthive-send-sms',function(req,res,next){
+  var firsthive = require('../controller/firsthivesendsmscontroller');
+  firsthive.firsthivesendsms(req,res);
+});
 
-router.post('/smart-term-life-offline-quote',function(req,res,next){
-  var SmartTermLifeOfflineQuote = require('../controller/SmartTermLifeOfflineQuoteController');
-  SmartTermLifeOfflineQuote.SmartTermLifeOfflineQuoteParameter(req,res);
+
+
+router.post('/EmpLogin', function (req, res, next) {  
+  var EmpLogindt = require('../controller/EmpLoginController');
+ EmpLogindt.Emplogin(req,res,next);
+});
+
+router.post('/EmpUserConstant', function (req, res, next) {  
+var EmpUsrConst = require('../controller/EmpUserConstantController');
+EmpUsrConst.EmpUserConstant(req,res,next);
+});
+
+router.post('/manage-vehicle-offline', function(req, res, next) {
+  var vehicleoffline = require('../controller/OfflineVehicleController');
+  vehicleoffline.managevehicleoffline(req,res,next);
+});
+
+router.post('/get-vehicle-offline-quote', function(req, res, next) {
+  var vehicleoffline = require('../controller/OfflineVehicleController');
+  vehicleoffline.getvehiclerequestoffline(req,res,next);
+});
+
+// router.post('/smart-term-life-offline-quote',function(req,res,next){
+//   var SmartTermLifeOfflineQuote = require('../controller/SmartTermLifeOfflineQuoteController');
+//   SmartTermLifeOfflineQuote.SmartTermLifeOfflineQuoteParameter(req,res);
+// });
+
+router.post('/GetPospAppointmentLetter', function(req, res, next) {
+  var vehicleoffline = require('../controller/PospWrapperController');
+  vehicleoffline.pospwrapper(req,res,next);
+});
+
+
+router.post('/manage-health-request-offline', function(req, res, next) {
+  var healthoffline = require('../controller/HealthOfflineQuoteController');
+  healthoffline.manageHealthRequestOffline(req,res,next);
+});
+
+router.post('/get-health-request-offline', function(req, res, next) {
+  var healthoffline = require('../controller/HealthOfflineQuoteController');
+  healthoffline.getHealthRequestOfflineQuote(req,res,next);
 });
 
 router.post('/get-smart-term-life-offline-quote',function(req,res,next){
@@ -838,11 +933,6 @@ router.post('/get-smart-term-life-offline-quote',function(req,res,next){
 router.post('/firsthive-send-sms',function(req,res,next){
   var firsthive = require('../controller/firsthivesendsmscontroller');
   firsthive.firsthivesendsms(req,res);
-});
-
-router.post('/GetPospAppointmentLetter', function(req, res, next) {
-  var vehicleoffline = require('../controller/PospWrapperController');
-  vehicleoffline.pospwrapper(req,res,next);
 });
 
 router.post('/posp-appointment-email', function(req, res, next) {
@@ -858,5 +948,30 @@ router.post('/get-customers-sms-template', function(req, res, next) {
 router.post('/get-field-sales', function(req, res, next) {
   var filedsales = require('../controller/EmployeeController');
   filedsales.getFieldSales(req,res,next);
+});
+
+router.post('/get-offline-quote-material',function(req,res,next){
+  var cr = require('../controller/OfflineQuoteMaterialController');
+  cr.getOfflineQuoteMaterial(req,res,next);
+});
+/////////////////
+
+
+
+
+//------------------------nitin--------------------------
+router.post('/smart-term-life-offline-quote',function(req,res,next){
+  var SmartTermLifeOfflineQuote = require('../controller/SmartTermLifeOfflineQuoteController');
+  SmartTermLifeOfflineQuote.SmartTermLifeOfflineQuoteParameter(req,res);
+});
+
+router.post('/posp-appointment-email', function(req, res, next) {
+  var appoiEmail = require('../controller/PospAppointmentEmailController');
+  appoiEmail.PospAppointmentsEmail(req,res,next);
+});
+
+router.post('/get-customers-sms-template', function(req, res, next) {
+  var getcustsmstemp = require('../controller/FbaCustomersSmstemplateController');
+  getcustsmstemp.fbacustsmstemplate(req,res,next);
 });
 module.exports = router;

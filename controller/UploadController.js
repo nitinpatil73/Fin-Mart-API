@@ -73,10 +73,10 @@ UploadController.save=function(req,res){
                              //      });
                              // }
                            //  console.log(data[0].prv_file)
-                            //console.log(data[0][0].prv_file);
+                          //  console.log(data[0][0].prv_file);
                             var ran_no = Math.floor(Math.random() * (9999 - 1111)) + 9999;
                             data[0][0].prv_file = "http://"+ req.headers.host +  "/" + data[0][0].prv_file + "?" + ran_no;
-                           // console.log("-----------------------------------");
+                            //console.log("-----------------------------------");
                             //console.log(data[0][0].prv_file);
                             base.send_response("Success",data[0],res);
                         }else{
