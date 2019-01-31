@@ -15,27 +15,27 @@ var wrapper = function(endpoint, method, data, success,hosttype) {
     port = 3000;
   }
 else if(hosttype == 2) {
-    if(process.env.NODE_ENV == 'development'){
+    //if(process.env.NODE_ENV == 'development'){
         
         //hostname = "qa.policyboss.com";
-         hostname = "vehicleinfo.policyboss.com";
-          username = "Datacomp";
-         password = "dc@pb123";
-    }
-    else{
+         //hostname = "vehicleinfo.policyboss.com";
+         // username = "Datacomp";
+        // password = "dc@pb123";
+    ///}
+   // else{
         hostname = "vehicleinfo.policyboss.com";
-    } 
+    //} 
   }
    else if(hosttype == 3) {
 
     
-    if(process.env.NODE_ENV == 'development'){
-        port = 8063;
-        hostname = "erp.rupeeboss.com";
-    }
-    else{
+    // if(process.env.NODE_ENV == 'development'){
+    //     port = 8063;
+    //     hostname = "erp.rupeeboss.com";
+    // }
+    //else{
         hostname = "services.rupeeboss.com";
-    }
+    //}
 
     
   }
@@ -166,8 +166,8 @@ if(process.env.NODE_ENV == 'development'){
     headers: headers,
     'CONNECTION': 'keep-alive'
   };
-  console.log("---------*******------------wrapper--------------**********---------------");
-  console.log(options);
+ // console.log("---------*******------------wrapper--------------**********---------------");
+ // console.log(options);
 
   var req = https.request(options, function(res) {
     res.setEncoding('utf-8');

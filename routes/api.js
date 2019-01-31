@@ -974,4 +974,20 @@ router.post('/get-customers-sms-template', function(req, res, next) {
   var getcustsmstemp = require('../controller/FbaCustomersSmstemplateController');
   getcustsmstemp.fbacustsmstemplate(req,res,next);
 });
+
+router.post('/landmark-normal-fba-registration', function(req, res, next) {
+  var lnormalfbareg = require('../controller/LandmarkNormalFbaRegistartionController');
+  lnormalfbareg(req,res,next);
+});
+
+router.post('/one-time-push-sub-posp-entry', function(req, res, next) {
+   var onetimepushsubposp = require('../controller/OneTimePushSubPospEntryController');
+  onetimepushsubposp(req,res,next);
+   console.log("check");
+});
+
+router.post('/employee-update-loanid', function(req, res, next) {
+  var updateemploanid = require('../controller/employeeupdateloanidcontroller');
+  updateemploanid(req,res,next);
+});
 module.exports = router;
