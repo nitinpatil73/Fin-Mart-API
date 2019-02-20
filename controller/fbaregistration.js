@@ -182,6 +182,7 @@ var converteddata = {
   	if(data.statusId == 0){
 
   		UpdateLoanId(FBAID,data.result);
+  		//RupeeBossSendFbaDetails(data[0][0].FBAID,data.result,req, res, next);
   		
   	}
   	else{
@@ -370,6 +371,24 @@ function SetCustomerId(fbaid,req, res, next) {
 	});
 	next();   
 };
+
+function RupeeBossSendFbaDetails(FBAID,brokerid,req, res, next) {
+	//con.execute_proc('call usp_load_ruppeboss_send_brokerid(?)',FBAID,function(resbrokerid) {
+		wrapper('/api/fba-details', 'POST', {
+			"FirstName":req.body.FirstName,
+			"LastName":req.body.LastName,
+			"EmailId":req.body.EmailId,
+			"FBAID":FBAID,
+			"BrokID":brokerid,
+			"Mobile_1":req.body.Mobile_1,
+			"State":req.body.State,
+			"City":req.body.City,
+			"Pincode":req.body.PinCode
+  		}, function(data) {
+
+  		},12); 
+	//});
+}
 
 function formatDate(date) {
     var d = new Date(date),

@@ -32,39 +32,68 @@ var UserConstant = function(req,res,next){
 			
 	        if(process.env.NODE_ENV == 'development'){
 				if(data[0][0].POSPNo != null && data[0][0].POSPNo != ''){
-					data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+						data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}
 				}else{
-					data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+					    data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}	
 				}
-			}else{
+			 }else{
 				if(data[0][0].POSPNo != null && data[0][0].POSPNo != ''){
-					data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+						data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}
 				}else{
-					data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+					    data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurl = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}
 				}
 			}
 
 //Temp Health URL
 
-   if(process.env.NODE_ENV == 'development'){
+            if(process.env.NODE_ENV == 'development'){
 				if(data[0][0].POSPNo != null && data[0][0].POSPNo != ''){
-					data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}
 				}else{
-					data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}
 				}
 			}else{
 				if(data[0][0].POSPNo != null && data[0][0].POSPNo != ''){
-					data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}
 				}else{
-					data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId;
+					if(data[0][0].parentid != null && data[0][0].parentid != '' && data[0][0].parentid != '0'){
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].parentid+"&sub_fbaid="+data[0][0].FBAId;
+					}else{
+						data[0][0].healthurltemp = "http://d3j57uxn247eva.cloudfront.net/Health_Web/quote_list.html?ss_id=5&fba_id="+data[0][0].FBAId+"&sub_fbaid="+data[0][0].parentid;
+					}
 				}
 			}
-
 			if(data[0][0].POSPNo != null && data[0][0].POSPNo != ''){
-					data[0][0].messagesender = "http://d3j57uxn247eva.cloudfront.net/Health_Web/sms_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId;
+				data[0][0].messagesender = "http://d3j57uxn247eva.cloudfront.net/Health_Web/sms_list.html?ss_id="+data[0][0].POSPNo+"&fba_id="+data[0][0].FBAId;
 			}
-//
-
 			base.send_response("Success",data[0][0],res);
 		}else{
 			base.send_response("FBAID does not exits.",null,res);

@@ -4,10 +4,24 @@ var wrapper = require('./wrapper.js');
 
 
 var SmartTermLifeParameter = function(req, res, next) {
+	if(req.body.fba_id != '' && req.body.fba_id != null){
 	var pincodeparameter = [];
 	pincodeparameter.push(req.body.termRequestEntity.pincode);
 	if(pincodeparameter != '' && pincodeparameter != null)
 	{
+		con.execute_proc('call Get_fbaid_and_parentfbaid(?)',req.body.fba_id,function(fbaresponse) {
+			if(fbaresponse != null && fbaresponse != ''){
+				if(fbaresponse[0][0].parentid != null && fbaresponse[0][0].parentid != '' && fbaresponse[0][0].parentid != '0'){
+					var fbapara = fbaresponse[0][0].parentid;
+				}else{
+					var fbapara = fbaresponse[0][0].FBAID;
+				}
+
+				if(fbaresponse[0][0].parentid != null && fbaresponse[0][0].parentid != '' && fbaresponse[0][0].parentid != '0'){
+					var subfbapara = fbaresponse[0][0].FBAID;
+				}else{
+					var subfbapara = fbaresponse[0][0].parentid;
+				}
 		con.execute_proc('call smart_term_get_city_state(?)',pincodeparameter,function(pincoderesponse) {
 	    if(pincoderesponse!=null){
 			var apiname = "/api/SmartTermLife";
@@ -57,7 +71,7 @@ var SmartTermLifeParameter = function(req, res, next) {
 		     "SessionID": req.body.termRequestEntity.SessionID,
 		     "Existing_ProductInsuranceMapping_Id": req.body.termRequestEntity.Existing_ProductInsuranceMapping_Id,
 		    
-		     "FBAID": req.body.termRequestEntity.FBAID,
+		    // "FBAID": req.body.termRequestEntity.FBAID,
 
 		     "ContactName": req.body.termRequestEntity.ContactName,
 		     "ContactEmail": req.body.termRequestEntity.ContactEmail,
@@ -69,6 +83,8 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"created_date": req.body.termRequestEntity.created_date,
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
+			"FBAID": fbapara,
+			"sub_fbaid" : subfbapara
 		  }, function(response) {
 		//  	console.log("---------------------------------Response------------------------------------");
 		 // 	console.log(response);
@@ -120,9 +136,10 @@ var SmartTermLifeParameter = function(req, res, next) {
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.ContactMobile);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.SupportsAgentID);
 		  		 		SmartTermLifeParameter.push(response[0].CustomerReferenceID);
-		  		 		SmartTermLifeParameter.push(req.body.fba_id);
+		  		 		SmartTermLifeParameter.push(fbapara);
 		  		 		SmartTermLifeParameter.push(req.body.termRequestEntity.LumpsumPercentage);
-		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
+		  		 		SmartTermLifeParameter.push(subfbapara);
+		  		 			con.execute_proc('call SmartTermLife(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeParameter,function(smartdata) {
 					      		if(smartdata[0][0].SavedStatus == 0){
 					     			var SmartTermLifeResponce = {"LifeTermRequestID":smartdata[0][0].lifetermrequestid,"Response":response};
 					     			base.send_response("Record saved successfully.",SmartTermLifeResponce,res);
@@ -140,7 +157,14 @@ var SmartTermLifeParameter = function(req, res, next) {
 		}
 	});
 	}else{
+		base.send_response("failure",null,res);
+	}
+	});
+	}else{
 		base.send_response("Please enter pincode",null,res);
+	}
+	}else{
+		base.send_response("Please enter fbaid",null,res);
 	}
 }
 

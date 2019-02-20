@@ -3,9 +3,11 @@ var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 class CustomerIdController{};
 CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
+	console.log("******************************");
 	var res_data=null;
 	var res_msg="failure";
 	pre_process_data(fbaid,req,function(inputInfo){
+		console.log("*************11111*****************");
 		//console.log(inputInfo);
 		//from api fbaid come in req and fbaid param is -1 so setting manually from req
 		if(fbaid==-1){fbaid=req.body.FBAId;}
@@ -15,25 +17,26 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 				AppUSERID : "3OK92Dl/LwA0HqfC5+fCxw==",
 				AppPASSWORD : "BjLfd1dqTCyH1DQLhylKRQ=="
 			};
-
+			console.log("*************2222*****************");
 			call_cust_soap(authenticateInputInfo,inputInfo,function(result){
-				//console.log(result);
+				console.log("*************3333*****************");
+				console.log(result);
 				if(result){
 		          			if(result.CreateCustomerResult.Status=="1"){
 		          				var customer = [];
 								customer.push(result.CreateCustomerResult.CustID);
 								customer.push(fbaid);
-								// console.log("++++++++++++++++++++++++++")
-								// console.log(customer);
+								 console.log("++++++++++++++++++++++++++")
+								 console.log(customer);
 		          				con.execute_proc('call sp_update_CustIdAndFOC(?,?)',customer,function(respdata) {
-									//console.log(respdata);
+									console.log(respdata);
 								});
 		          			}
 		          			else if(result.CreateCustomerResult.Status=="2"){
-		          				//console.log(result.CreateCustomerResult.MSG);
+		          				console.log(result.CreateCustomerResult.MSG);
 		          			}
 		          			else{
-		          				//console.log(result.CreateCustomerResult.MSG);
+		          				console.log(result.CreateCustomerResult.MSG);
 		          			}
 		          			res_msg="success";
 		          			res_data=result;
@@ -48,13 +51,18 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 };
 
 function call_cust_soap(authenticateInputInfo,inputInfo,next){
+	console.log("********44444***********************");
 
 		    var soap = require('soap');
 		    var url = 'http://magicsales.dwtsims.com/WCFServices/WCFServices.svc?wsdl';
+
 		    var args = { "inputInfo" :inputInfo , "authenticateInputInfo" : authenticateInputInfo };
-		  //  console.log(args);
+		    console.log(args);
 		    var message = "success";
+		     console.log("**************1232**************");
 		    soap.createClient(url, function (err, client) {
+		    	 console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		         console.log(url);
 		        client.CreateCustomer(args, function (err, result) {
 		          if(err)
 		          	throw err;
@@ -108,8 +116,8 @@ function pre_process_data(fbaid,req,next){
 	//  -1 means req is made by api to update customer id manually
 			con.execute_proc('call customer_controllet_get_fba_data(?)',fbaparameter,function(data) {
 					if(data != null){
-						// console.log("++++++++++++++++++++++++++++++++++++++++")
-						// console.log(data);
+						 console.log("++++++++++++++++++++++++++++++++++++++++")
+						 console.log(data);
 						fbaid=data[0][0].FBAID;
 						inputInfo =
 						 {

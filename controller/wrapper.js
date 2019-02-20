@@ -29,13 +29,13 @@ else if(hosttype == 2) {
    else if(hosttype == 3) {
 
     
-    // if(process.env.NODE_ENV == 'development'){
-    //     port = 8063;
-    //     hostname = "erp.rupeeboss.com";
-    // }
-    //else{
+    if(process.env.NODE_ENV == 'development'){
+        port = 8063;
+        hostname = "erp.rupeeboss.com";
+    }
+    else{
         hostname = "services.rupeeboss.com";
-    //}
+    }
 
     
   }
@@ -132,6 +132,12 @@ if(process.env.NODE_ENV == 'development'){
   else if(hosttype == 25) {
     hostname = "202.131.96.100";
     port = "7541";
+  }
+
+   else if(hosttype == 28) {
+    hostname = "labs.firsthive.com";
+    port = "7070";
+   // accessKey:"vZ2ZNkdDTWXCOzURJLEgXHbGmbmdrM64eH6nHZ1cf7o3UOq70UCGAOpMcqpVVEIg";
   }
   
   var dataString = JSON.stringify(data);

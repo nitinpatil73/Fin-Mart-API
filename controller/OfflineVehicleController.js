@@ -71,11 +71,12 @@ vehicleparameter.push(req.body.motorRequestEntity.seatingcapacity);
 vehicleparameter.push(req.body.motorRequestEntity.modeloffline);
 vehicleparameter.push(req.body.motorRequestEntity.fueloffline);
 vehicleparameter.push(req.body.motorRequestEntity.varientoffline);
+vehicleparameter.push(req.body.idvAmount);
 
 
 
 
-con.execute_proc('call Managevehiclerequestoffline(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+con.execute_proc('call Managevehiclerequestoffline(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
 	console.log(data);
@@ -142,10 +143,9 @@ var getvehiclerequestoffline = function(req, res, next) {
 					"isActive" : data[0][i].isActive,
 					"selectedPrevInsID" : data[0][i].selectedPrevInsID,
 					"insImage":data[0][i].insImage,
-					"quote" : quote,
 					"comment":data[0][i].comment,
-					"motorRequestEntity" : data[0][i]
-					
+					"quote" : [{"motorRequestEntity" : data[0][i]}]			
+					//"motorRequestEntity" : data[0][i]
 				};
 
 				

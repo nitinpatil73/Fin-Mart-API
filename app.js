@@ -41,15 +41,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var requestAccess = function (req, res, next) {
   token=req.header("token") ;
+if(req.url !="/user-behaviour-data"){
 
   var reqlog = [];
   reqlog.push(req.url);
   reqlog.push(JSON.stringify(req.body));
   reqlog.push(token);
   reqlog.push("API Called");
+  console.log("----------------log----------------------");
+  // var body = JSON.stringify(req.body);
+  // var objectValue = JSON.parse(body);
+ // console.log(req.url);
   con.execute_proc('call InsertLog(?,?,?,?)',reqlog,function(data) {
   });
-  
+}
   //console.log(user + " "+pwd);
   if(token==="1234567890"){
       next();
@@ -74,6 +79,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log("------------------------");
   // set locals, only providing error in development
  
   res.locals.message = err.message;

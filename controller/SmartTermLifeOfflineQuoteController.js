@@ -191,7 +191,7 @@ var GetSmartTermLifeOfflineQuote = function(req, res, next) {
 			           
 
 	    			};
-	    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermofflinequoteid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id, "quote":quote});
+	    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermofflinequoteid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id});
 	    		}
 	    		var getsmart = {"quote":quoteresponse,"application":[]};
 				base.send_response("Success",getsmart,res);

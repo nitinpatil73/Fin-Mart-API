@@ -990,4 +990,34 @@ router.post('/employee-update-loanid', function(req, res, next) {
   var updateemploanid = require('../controller/employeeupdateloanidcontroller');
   updateemploanid(req,res,next);
 });
+
+router.post('/first-hive-create-user', function(req, res, next) {
+  var pushfirsthive = require('../controller/FirstHiveController');
+  pushfirsthive.FirstHive(req,res,next);
+});
+
+router.post('/first-hive-create-admin-user', function(req, res, next) {
+  var pushcreateadminuser = require('../controller/FirstHiveController');
+  pushcreateadminuser.FirstHivecreateadminuser(req,res,next);
+});
+
+router.post('/first-hive-user-mapping', function(req, res, next) {
+  var pushcreateusermapping = require('../controller/FirstHiveController');
+  pushcreateusermapping.FirstHiveusermapping(req,res,next);
+});
+
+router.post('/user-behaviour-data', function(req, res, next) {
+  var userbehaviour = require('../controller/UserBeheviourController');
+  userbehaviour(req,res,next);
+});
+
+router.post('/manage-vehicle-breaking', function(req, res, next) {
+  var vehiclebreaking = require('../controller/VehicleBreakingController');
+  vehiclebreaking.managevehiclebreakingapi(req,res,next);
+});
+
+router.post('/policy-boss-login-finmart', function(req, res, next) {
+  var policybosslogin = require('../controller/PolicyBossLoginController');
+  policybosslogin(req,res,next);
+});
 module.exports = router;

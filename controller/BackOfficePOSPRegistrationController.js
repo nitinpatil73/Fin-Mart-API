@@ -20,8 +20,12 @@ var BackOfficepospregistration = function(req, res, next) {
 			    "Mobile2" : respdata[0][0].MobiNumb2,
 			    "Email" : respdata[0][0].EmailID,
 			    "PAN" : "",
-			    "ServiceTaxNumber" : respdata[0][0].ServTaxNo
+			    "ServiceTaxNumber" : respdata[0][0].ServTaxNo,
+			    "Sources": respdata[0][0].Sources
 			};
+
+			console.log("---------------basicDetails--------------------");
+			console.log(basicDetails);
 
 
 			var address = {

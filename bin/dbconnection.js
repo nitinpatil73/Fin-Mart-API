@@ -7,15 +7,21 @@ var connection = mysql.createConnection({
         // database : 'backoffice'
         
       //  ----------------------qa----------------
-        // host     : '35.154.94.67',
-        // user     : 'finmart_user',
-        // password : 'finmart@321',
-        // database : 'BackOffice'
+        host     : '35.154.94.67',
+        user     : 'finmart_user',
+        password : 'finmart@321',
+        database : 'BackOffice'
 
          // -------------preprod--------------
          // host     : '52.66.161.224',
          // user     : 'finmart_user',
          // password : 'finmart@0909',
+         // database : 'BackOffice'
+
+         // -------------preprod--------------
+         // host     : 'finmart.cmqvgkpd8u77.ap-south-1.rds.amazonaws.com',
+         // user     : 'finmart_user',
+         // password : 'finmart0909',
          // database : 'BackOffice'
       });
 //pass the query to execute

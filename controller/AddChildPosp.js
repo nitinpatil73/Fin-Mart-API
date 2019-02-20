@@ -64,7 +64,7 @@ else
 con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',fbadata,function(data) {
 	console.log("proc");
 	if(data[0][0].SavedStatus == 0){
-		//RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
+		RupeeBossFBARegistartion(data[0][0].FBAID,req, res, next);
 		InsertFBAUsers(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBARepresentation(data[0][0].FBAID,req, res, next);
 		InsertUpdateFBAProfessionalAuto(data[0][0].FBAID,req, res, next);
@@ -73,6 +73,7 @@ con.execute_proc('call InsertFBARegistration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
 		// 	//console.log(data);
 		// 	//called payment link in function below
 		// });
+		RupeeBossSendFbaDetails(data[0][0].FBAID,req, res, next);
 	
 		
 		var handler = require('../controller/SmsController');
@@ -113,19 +114,19 @@ var converteddata = {
         City : req.body.City,
         State : req.body.State,
 
-        Life_Insurance : req.body.IsLic,
+        Life_Insurance : "false",
         Life_Insurance_Comp : req.body.LIC_Comp,
-        General_Insurance : req.body.IsGic,
+        General_Insurance :"false",
         General_Insurance_Comp : req.body.GIC_Comp,
-        Health_Insurance : req.body.IsHealth,
+        Health_Insurance : "false",
         Health_Insurance_Comp : req.body.Health_Comp,
-        Mutual_Fund : req.body.MF,
+        Mutual_Fund : "false",
         Mutual_Fund_Comp : req.body.MF_Comp,
-        Stocks : req.body.Stock,
+        Stocks : "false",
         Stocks_Comp : req.body.Stock_Comp,
-        Postal_Savings : req.body.Postal,
+        Postal_Savings : "false",
         Postal_Savings_Comp : req.body.Postal_Comp,
-        Bonds : req.body.Bonds,
+        Bonds : "false",
         Bonds_Comp : req.body.Bonds_Comp,
 
         POSP_First_Name : req.body.Posp_FirstName,
@@ -151,16 +152,17 @@ var converteddata = {
         Representative_Bank_Name : req.body.Loan_BankName,
         Representative_Bank_Branch : req.body.Loan_BankBranch,
         Representative_Bank_City : req.body.Loan_BankCity,
-        fromrb : 1
+        regsource : 1,
+        UID : "0"
 	};
 	
 	//console.log(converteddata);
 
 	var apiname = "/LoginDtls.svc/xmlservice/insFbaRegistration";
 
-	if(process.env.NODE_ENV == 'development'){
-		apiname = "/LoginDtls.svc/xmlservice/insFbaRegistrationForDC";
-	}
+	// if(process.env.NODE_ENV == 'development'){
+	// 	apiname = "/LoginDtls.svc/xmlservice/insFbaRegistrationForDC";
+	// }
 	
 	wrapper(apiname, 'POST', 
     converteddata
@@ -405,6 +407,24 @@ function SubPospEntry(FBAID,req, res, next){
 			console.log("This fbaid data not available");
 		}
     });
+}
+
+function RupeeBossSendFbaDetails(FBAID,req, res, next) {
+	con.execute_proc('call usp_load_ruppeboss_send_brokerid(?)',FBAID,function(resbrokerid) {
+		wrapper('/api/fba-details', 'POST', {
+			"FirstName":req.body.FirstName,
+			"LastName":req.body.LastName,
+			"EmailId":req.body.EmailId,
+			"FBAID":FBAID,
+			"BrokID":resbrokerid[0][0].LoanID,
+			"Mobile_1":req.body.Mobile_1,
+			"State":req.body.State,
+			"City":req.body.City,
+			"Pincode":req.body.PinCode
+  		}, function(data) {
+  		
+  		},12); 
+	});
 }
 
 function SubPospEntryformatDate(date) {
