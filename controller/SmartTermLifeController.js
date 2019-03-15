@@ -28,6 +28,67 @@ var SmartTermLifeParameter = function(req, res, next) {
 		   if(process.env.NODE_ENV == 'development'){
 		        apiname = "/quotes/api/SmartTermLife";		     
 		    }
+		    var log = {
+		    	"PolicyTerm": req.body.termRequestEntity.PolicyTerm,
+		     "InsuredGender": req.body.termRequestEntity.InsuredGender,
+		     "Is_TabaccoUser": req.body.termRequestEntity.Is_TabaccoUser,
+		     "SumAssured": req.body.termRequestEntity.SumAssured,
+		     "InsuredDOB": req.body.termRequestEntity.InsuredDOB,
+		     "PaymentModeValue": req.body.termRequestEntity.PaymentModeValue,
+		     "PolicyCommencementDate": req.body.termRequestEntity.PolicyCommencementDate,
+		     "CityName": pincoderesponse[0][0].cityname,
+		     "State": pincoderesponse[0][0].state_name,
+		     "PlanTaken": req.body.termRequestEntity.PlanTaken,
+		     "Frequency": req.body.termRequestEntity.Frequency,
+		     "DeathBenefitOption": req.body.termRequestEntity.DeathBenefitOption,
+		     "PPT": req.body.termRequestEntity.PPT,
+		     "IncomeTerm": req.body.termRequestEntity.IncomeTerm,
+
+		     "MonthlyIncome": req.body.termRequestEntity.MonthlyIncome,
+		     "LumpsumAmount": req.body.termRequestEntity.LumpsumAmount,
+		     "IncreaseIncomePercentage": req.body.termRequestEntity.IncreaseIncomePercentage,
+		     "IncreaseSAPercentage": req.body.termRequestEntity.IncreaseSAPercentage,
+		     "ADBPercentage": req.body.termRequestEntity.ADBPercentage,
+
+
+		     "CISA": req.body.termRequestEntity.CISA,
+		     "LumpsumBSAProp": req.body.termRequestEntity.LumpsumBSAProp,
+		     "ADBSA": req.body.termRequestEntity.ADBSA,
+		     "TypeOfLife": req.body.termRequestEntity.TypeOfLife,
+		     "ATPDSA": req.body.termRequestEntity.ATPDSA,
+		     "HCBSA": req.body.termRequestEntity.HCBSA,
+		     "WOP": req.body.termRequestEntity.WOP,
+		     "PaymentOptn": req.body.termRequestEntity.PaymentOptn,
+
+
+		     "MaritalStatus": req.body.termRequestEntity.MaritalStatus,
+		     "PremiumPaymentOption": req.body.termRequestEntity.PremiumPaymentOption,
+		     "ServiceTaxNotApplicable": req.body.termRequestEntity.ServiceTaxNotApplicable,
+		     "CIBenefit": req.body.termRequestEntity.CIBenefit,
+		     "ADHB": req.body.termRequestEntity.ADHB,
+
+		     "InsurerId": req.body.termRequestEntity.InsurerId,
+		     "SessionID": req.body.termRequestEntity.SessionID,
+		     "Existing_ProductInsuranceMapping_Id": req.body.termRequestEntity.Existing_ProductInsuranceMapping_Id,
+		    
+		    // "FBAID": req.body.termRequestEntity.FBAID,
+
+		     "ContactName": req.body.termRequestEntity.ContactName,
+		     "ContactEmail": req.body.termRequestEntity.ContactEmail,
+		     "ContactMobile": req.body.termRequestEntity.ContactMobile,
+		     "SupportsAgentID": req.body.termRequestEntity.SupportsAgentID,
+
+
+		     "LumpsumPercentage": req.body.termRequestEntity.LumpsumPercentage,
+			"created_date": req.body.termRequestEntity.created_date,
+			"crn": req.body.termRequestEntity.crn,
+			"pincode": req.body.termRequestEntity.pincode,
+			"FBAID": fbapara,
+			"sub_fba_id" : subfbapara
+		};
+
+		console.log("---------------------------Request log-------------------------------");
+		console.log(log);
 			wrapper(apiname, 'POST', {
 		   	 "PolicyTerm": req.body.termRequestEntity.PolicyTerm,
 		     "InsuredGender": req.body.termRequestEntity.InsuredGender,
@@ -84,7 +145,7 @@ var SmartTermLifeParameter = function(req, res, next) {
 			"crn": req.body.termRequestEntity.crn,
 			"pincode": req.body.termRequestEntity.pincode,
 			"FBAID": fbapara,
-			"sub_fbaid" : subfbapara
+			"sub_fba_id" : subfbapara
 		  }, function(response) {
 		//  	console.log("---------------------------------Response------------------------------------");
 		 // 	console.log(response);

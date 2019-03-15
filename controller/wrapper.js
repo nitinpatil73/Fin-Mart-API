@@ -29,13 +29,13 @@ else if(hosttype == 2) {
    else if(hosttype == 3) {
 
     
-    if(process.env.NODE_ENV == 'development'){
-        port = 8063;
-        hostname = "erp.rupeeboss.com";
-    }
-    else{
+    // if(process.env.NODE_ENV == 'development'){
+    //     port = 8063;
+    //     hostname = "erp.rupeeboss.com";
+    // }
+    // else{
         hostname = "services.rupeeboss.com";
-    }
+   // }
 
     
   }
@@ -140,6 +140,11 @@ if(process.env.NODE_ENV == 'development'){
    // accessKey:"vZ2ZNkdDTWXCOzURJLEgXHbGmbmdrM64eH6nHZ1cf7o3UOq70UCGAOpMcqpVVEIg";
   }
   
+  else if(hosttype == 29) {
+    hostname = "bo.magicfinmart.com";
+    port = "80";
+  }
+
   var dataString = JSON.stringify(data);
 //  console.log("*******************************");
   if(hosttype == 15){

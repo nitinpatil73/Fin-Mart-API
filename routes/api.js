@@ -454,7 +454,7 @@ router.post('/payment',function(req,res,next){
 
 router.post('/set-cust-id',function(req,res,next){
   var CustomerId=require("../controller/CustomerIdController");
-  console.log("Manually setting Cutomer Id ...............")
+  //console.log("Manually setting Cutomer Id ...............")
   CustomerId.SetCustomerId(-1,req, res,function(data,msg){
     if(data.CreateCustomerResult.Status==1){
       base.send_response(msg,data,res)  
@@ -1020,4 +1020,15 @@ router.post('/policy-boss-login-finmart', function(req, res, next) {
   var policybosslogin = require('../controller/PolicyBossLoginController');
   policybosslogin(req,res,next);
 });
+
+router.post('/SM-FOS-Registration', function(req, res, next) {
+  var SMFOS = require('../controller/SM-FOSRegistrationController');
+  SMFOS(req,res,next);
+});
+
+router.post('/first-hive-push-transaction', function(req, res, next) {
+  var pushtra = require('../controller/FirstHiveController');
+  pushtra.FirstHivePushTransaction(req,res,next);
+});
+
 module.exports = router;

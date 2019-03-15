@@ -50965,3 +50965,35 @@
   message: 'error',
   timestamp: '2019-02-20T06:21:13.035Z',
   [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-02-27T09:53:11.085Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-02-27T09:53:31.124Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-02-27T09:53:58.259Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-14T09:05:05.225Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-14T09:05:50.431Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-15T06:00:55.157Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-15T06:20:47.675Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-15T06:22:20.218Z',
+  [Symbol(level)]: 'error' }

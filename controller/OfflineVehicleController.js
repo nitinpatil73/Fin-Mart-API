@@ -137,15 +137,29 @@ var getvehiclerequestoffline = function(req, res, next) {
 				data[0][i].progress_image = "";
 				//data[0][i].quote = quote;
 				var response ={
+					// "SRN" : data[0][i].srn,
+					// "VehicleRequestID" : data[0][i].VehicleRequestID,
+					// "fba_id" : data[0][i].fba_id,
+					// "isActive" : data[0][i].isActive,
+					// "selectedPrevInsID" : data[0][i].selectedPrevInsID,
+					// "insImage":data[0][i].insImage,
+					// "comment":data[0][i].comment,
+					// "idvAmount":data[0][i].idvAmount,
+					// "quote" : [{"motorRequestEntity" : data[0][i]}]			
+					// //"motorRequestEntity" : data[0][i]
+
+
 					"SRN" : data[0][i].srn,
 					"VehicleRequestID" : data[0][i].VehicleRequestID,
 					"fba_id" : data[0][i].fba_id,
 					"isActive" : data[0][i].isActive,
 					"selectedPrevInsID" : data[0][i].selectedPrevInsID,
 					"insImage":data[0][i].insImage,
+					"quote" : quote,
 					"comment":data[0][i].comment,
-					"quote" : [{"motorRequestEntity" : data[0][i]}]			
-					//"motorRequestEntity" : data[0][i]
+					"idvAmount":data[0][i].idvAmount,
+					//"quote" : [{"motorRequestEntity" : data[0][i]}]
+					"motorRequestEntity" : data[0][i]
 				};
 
 				

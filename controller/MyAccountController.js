@@ -1,6 +1,6 @@
 var con=require('../bin/dbconnection.js');
 var base = require('./baseController');
-
+var wrapper = require('./wrapper.js');
 
 var FBAUpdateAccount = function(req, res, next) {
 
@@ -35,6 +35,11 @@ if(req.body.Type == 0){
 
 	if(data[0][0].SavedStatus == 0){
 		// res.send("hjg");
+		wrapper('/report/sync_fba_single?fba_id='+req.body.FBAID, 'GET',{
+        },function(dataresponse) {
+        	console.log("-------------------Horizon respnce---------------------------");
+        	console.log(dataresponse);
+        },9);
 		base.send_response("Profile updated successfully", data[0][0],res);
 	}
 	else{

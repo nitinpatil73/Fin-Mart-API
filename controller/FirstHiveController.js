@@ -76,6 +76,49 @@ var FirstHiveusermapping = function(req, res, next) {
 	});
 }
 
+var FirstHivePushTransaction = function(req, res, next) {
+	con.execute_proc('call N_Get_First_Hive_Push_Transaction()',null,function(respdatatra) {
+		// console.log("-------------1----------------");
+		// console.log(respdatatra);
+		if(respdatatra != null || respdatatra != ''){
+			
+			for (var i = 0; i < respdatatra[0].length; i++) {
+				
+				fhivepushtransaction(
+					respdatatra[0][i].fbaId,
+					respdatatra[0][i].product,
+					respdatatra[0][i].subProduct,
+					respdatatra[0][i].businesslockat,
+					respdatatra[0][i].entryNo,
+					respdatatra[0][i].reportDate,
+					respdatatra[0][i].region,
+					respdatatra[0][i].state,
+					respdatatra[0][i].inscompany,
+					respdatatra[0][i].vehicleMake,
+					respdatatra[0][i].model,
+					respdatatra[0][i].fuelType,
+					respdatatra[0][i].saleCount,
+					respdatatra[0][i].transactionValue,
+					respdatatra[0][i].noClaimBonus,
+					respdatatra[0][i].nilDep,
+					respdatatra[0][i].nextstageStatus,
+					respdatatra[0][i].policyStatus,
+					respdatatra[0][i].pospsource,
+					respdatatra[0][i].entryType,
+					respdatatra[0][i].pospMode,
+					respdatatra[0][i].healthTenure,
+					respdatatra[0][i].sumAssured,
+					req, res, next);
+										
+			}
+			base.send_response("Success","Success",res);
+		}else{
+
+			base.send_response("Failure",null,res);
+		}
+	});
+}
+
 function firsthivecreateuser(FBAID,FullName,Source_name,Pincode,City,state_name,zone,MobiNumb1,EmailID,Certification_Status,PaidDate,req, res, next){
 	console.log("----------------in function-----------------");
 		var options = { method: 'POST',
@@ -83,7 +126,7 @@ function firsthivecreateuser(FBAID,FullName,Source_name,Pincode,City,state_name,
   		headers: 
    		{ 'Postman-Token': 'a16227ea-1f55-45fb-bebe-78e60342e01f',
      	'cache-control': 'no-cache',
-     	accessKey: 'vZ2ZNkdDTWXCOzURJLEgXHbGmbmdrM64eH6nHZ1cf7o3UOq70UCGAOpMcqpVVEIg',
+     	accessKey: 'pJpGYuIfn4VkqusajZXmmPiLladXMBrIxIjLAUjtEnzhgLxIDIoVOddZhX2h7GTi',
      	'Content-Type': 'application/x-www-form-urlencoded' },
 		  form: 
 		   { fbaId:FBAID,
@@ -104,6 +147,7 @@ function firsthivecreateuser(FBAID,FullName,Source_name,Pincode,City,state_name,
 
 		request(options, function (error, response, body) {
 		  if (error) throw new Error(error);
+		  console.log(body);
 		  var respose = JSON.parse(body);
 		  console.log(respose.success);
 		  if(respose.success == true){
@@ -128,7 +172,7 @@ function pushfirsthivecreateadminuser(UID,FBA_ID,Name,Mobile_No,EMail,Profile,Em
 	  headers: 
 	   { 'Postman-Token': '6cbaa1b3-edba-43d2-8f07-f7e5c9d207bb',
 	     'cache-control': 'no-cache',
-	     accessKey: 'vZ2ZNkdDTWXCOzURJLEgXHbGmbmdrM64eH6nHZ1cf7o3UOq70UCGAOpMcqpVVEIg',
+	     accessKey: 'pJpGYuIfn4VkqusajZXmmPiLladXMBrIxIjLAUjtEnzhgLxIDIoVOddZhX2h7GTi',
 	     'Content-Type': 'application/x-www-form-urlencoded' },
 	  form: 
 	   { uid:UID,
@@ -150,6 +194,8 @@ function pushfirsthivecreateadminuser(UID,FBA_ID,Name,Mobile_No,EMail,Profile,Em
 	   	  var respose = JSON.parse(body);
 		  console.log(respose.success);
 		  if(respose.success == true){
+		  	console.log("---------------true-----------");
+		  	console.log(respose.success);
 		  	  	con.execute_proc('call update_status_first_hive_admin(?)',FBA_ID,function(updatestatus) {
 					if(updatestatus[0][0].statusid != null || updatestatus[0][0].statusid != ''){
 						console.log("---------------Success-----------");
@@ -171,7 +217,7 @@ function pushfirsthiveusermapping(fba_id,rrmuid,fieldsalesuid,fieldmanageruid,cl
 	  headers: 
 	   { 'Postman-Token': '8e19f38d-5331-477e-b740-439f8fe1d892',
 	     'cache-control': 'no-cache',
-	     accessKey: 'vZ2ZNkdDTWXCOzURJLEgXHbGmbmdrM64eH6nHZ1cf7o3UOq70UCGAOpMcqpVVEIg',
+	     accessKey: 'pJpGYuIfn4VkqusajZXmmPiLladXMBrIxIjLAUjtEnzhgLxIDIoVOddZhX2h7GTi',
 	     'Content-Type': 'application/json' },
 	  form: 
 	   { fbaId:fba_id,
@@ -206,6 +252,103 @@ function pushfirsthiveusermapping(fba_id,rrmuid,fieldsalesuid,fieldmanageruid,cl
 	});
 }
 
+function fhivepushtransaction(fbaId, product, subProduct, businesslockat, entryNo, reportDate, region, state, inscompany, vehicleMake, model, fuelType, saleCount, transactionValue, noClaimBonus, nilDep, nextstageStatus, policyStatus, pospsource, entryType, pospMode, healthTenure, sumAssured){
+	//console.log("-------------2----------------");
+	var log = { fbaId:fbaId,
+	     product:product,
+	     subProduct:subProduct,
+	     businesslockat:businesslockat,
+	     entryNo:entryNo,
+	     reportDate:reportDate,
+	     region:region,
+	     state:state,
+	     inscompany:inscompany,
+	     vehicleMake:vehicleMake,
+	     model:model,
+	     fuelType:fuelType,
+	     saleCount:saleCount,
+	     transactionValue:transactionValue,
+	     noClaimBonus:noClaimBonus,
+	     nilDep:nilDep,
+	     nextstageStatus:nextstageStatus,
+	     policyStatus:policyStatus,
+	     pospsource:pospsource,
+	     entryType:entryType,
+	     pospMode:pospMode,
+	     pospProduct:'',
+	     pospType:'',
+	     healthTenure:healthTenure,
+	     sumAssured:sumAssured,
+	     oldEntryNo: '',
+	     other1:'',
+	     other2:'',
+	     other3:'',
+	     other4:'',
+	     other5:'' };
+
+	    // console.log(log);
+	var options = { method: 'POST',
+	  url: 'http://labs.firsthive.com:7070/policy_boss/transaction/pushtransaction',
+	  headers: 
+	   { 'Postman-Token': '88b19264-8ff1-4df2-9edf-763ae29a21ef',
+	     'cache-control': 'no-cache',
+	     accessKey: 'pJpGYuIfn4VkqusajZXmmPiLladXMBrIxIjLAUjtEnzhgLxIDIoVOddZhX2h7GTi',
+	     'Content-Type': 'application/x-www-form-urlencoded' },
+	  form: 
+	   { fbaId:fbaId,
+	     product:product,
+	     subProduct:subProduct,
+	     businesslockat:businesslockat,
+	     entryNo:entryNo,
+	     reportDate:reportDate,
+	     region:region,
+	     state:state,
+	     inscompany:inscompany,
+	     vehicleMake:vehicleMake,
+	     model:model,
+	     fuelType:fuelType,
+	     saleCount:saleCount,
+	     transactionValue:transactionValue,
+	     noClaimBonus:noClaimBonus,
+	     nilDep:nilDep,
+	     nextstageStatus:nextstageStatus,
+	     policyStatus:policyStatus,
+	     pospsource:pospsource,
+	     entryType:entryType,
+	     pospMode:pospMode,
+	     pospProduct:'',
+	     pospType:'',
+	     healthTenure:healthTenure,
+	     sumAssured:sumAssured,
+	     oldEntryNo: '',
+	     other1:'',
+	     other2:'',
+	     other3:'',
+	     other4:'',
+	     other5:''} };
+
+	request(options, function (error, response, body) {
+		console.log("---------------Responce-----------");
+		console.log(body);
+	  if (error) throw new Error(error);
+	 	var respose = JSON.parse(body);
+		if(respose.success == true){
+		  	con.execute_proc('call update_status_first_hive_push_transaction(?)',entryNo,function(updatestatus) {
+				if(updatestatus[0][0].statusid != null || updatestatus[0][0].statusid != ''){
+					console.log("---------------Success-----------");
+			  		console.log(updatestatus[0][0].Message);
+			 	}else{
+					console.log("---------------failure1-----------");
+				}
+			});
+		  }else{
+		  	console.log("---------------failure2-----------");
+		  	console.log(new Date().toISOString());
+		  	    console.log("---------------failure2-----------");
+		  }
+	});
+};
+
 function SubPospEntryformatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -218,4 +361,4 @@ function SubPospEntryformatDate(date) {
     return [day,month,year].join('-');
 }
 
-module.exports = {"FirstHive":FirstHive,"FirstHivecreateadminuser":FirstHivecreateadminuser,"FirstHiveusermapping":FirstHiveusermapping};
+module.exports = {"FirstHive":FirstHive,"FirstHivecreateadminuser":FirstHivecreateadminuser,"FirstHiveusermapping":FirstHiveusermapping,"FirstHivePushTransaction":FirstHivePushTransaction};

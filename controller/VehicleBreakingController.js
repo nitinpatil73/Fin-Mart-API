@@ -67,7 +67,8 @@ vehicleparameter.push(req.body.motorRequestEntity.vehicle_insurance_subtype);
 vehicleparameter.push(req.body.motorRequestEntity.sub_fba_id);
 con.execute_proc('call Breakingvehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	if(data[0][0].SavedStatus == "0"){
-		base.send_response("Success", data[0],res);
+		SendNotificationAndEmail(data[0][0].VehicleRequestID,res);
+		//base.send_response("Success", data[0],res);
 	}
 	else{
 			base.send_response("Failure", "",res);				
@@ -75,5 +76,13 @@ con.execute_proc('call Breakingvehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
 });
 
 };
+
+function SendNotificationAndEmail(VehicleRequestID,res){
+	wrapper('/api/Send_break_in_mail_n_notification','post',{
+		"VehicleRequestID":VehicleRequestID
+	},function(responce){
+		base.send_response("Thank you for making a request. Currently this request cannot be fulfilled online. Your Relationship Manager will be getting in touch with you shortly to assist.",responce,res);
+	},29);
+}
 
 module.exports = {"managevehiclebreakingapi" : managevehiclebreakingapi}

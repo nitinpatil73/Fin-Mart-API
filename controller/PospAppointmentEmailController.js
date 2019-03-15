@@ -1,6 +1,7 @@
 var con=require('../bin/dbconnection.js');
 var base=require('./baseController');
 var Mailer = require('../controller/MailController');
+var logger=require('../bin/Logger');
 
 var PospAppointmentsEmail = function(req, res, next) {
 	if(req.body.fbaid != null || req.body.fbaid != ''){

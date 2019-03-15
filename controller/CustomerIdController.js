@@ -3,7 +3,7 @@ var base=require('./baseController');
 var wrapper = require('./wrapper.js');
 class CustomerIdController{};
 CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
-	console.log("******************************");
+	console.log("***************1***************");
 	var res_data=null;
 	var res_msg="failure";
 	pre_process_data(fbaid,req,function(inputInfo){
@@ -26,7 +26,7 @@ CustomerIdController.SetCustomerId=function(fbaid,req,res,next) {
 		          				var customer = [];
 								customer.push(result.CreateCustomerResult.CustID);
 								customer.push(fbaid);
-								 console.log("++++++++++++++++++++++++++")
+								 console.log("++++++++++++nitin++++++++++++++")
 								 console.log(customer);
 		          				con.execute_proc('call sp_update_CustIdAndFOC(?,?)',customer,function(respdata) {
 									console.log(respdata);
