@@ -361,4 +361,21 @@ function SubPospEntryformatDate(date) {
     return [day,month,year].join('-');
 }
 
-module.exports = {"FirstHive":FirstHive,"FirstHivecreateadminuser":FirstHivecreateadminuser,"FirstHiveusermapping":FirstHiveusermapping,"FirstHivePushTransaction":FirstHivePushTransaction};
+
+var FirstHiveTierUpgrade = function(req, res, next) {
+    	var TierUpgrade = [];
+		TierUpgrade.push(req.body.FBAID);
+		TierUpgrade.push(req.body.TierFrom);
+		TierUpgrade.push(req.body.TierTo);
+		TierUpgrade.push(req.body.UpgradeDate);
+		con.execute_proc('call FirstHiveTierUpgrade(?,?,?,?)',TierUpgrade,function(data) {
+			if(data != null || data != ''){
+				base.send_response("Record saved successfully.","Success",res);
+			}else{
+				 base.send_response("Record save failed",null,res);
+			}
+
+		});
+};
+
+module.exports = {"FirstHive":FirstHive,"FirstHivecreateadminuser":FirstHivecreateadminuser,"FirstHiveusermapping":FirstHiveusermapping,"FirstHivePushTransaction":FirstHivePushTransaction,"FirstHiveTierUpgrade":FirstHiveTierUpgrade};

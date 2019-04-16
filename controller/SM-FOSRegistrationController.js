@@ -26,7 +26,7 @@ var SMFOSinsertFBARegistration = function(req, res, next) {
 				fbadata.push("");//`CustID`,
 				fbadata.push("");
 				fbadata.push("");
-				fbadata.push("29");
+				fbadata.push("5");
 
 				if(req.body.ParentId != null && req.body.ParentId != ''){
 					fbadata.push(req.body.ParentId);

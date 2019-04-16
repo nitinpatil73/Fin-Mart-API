@@ -68,13 +68,14 @@ else if(hosttype == 8) {
     hostname = "zohowebapi.magicsales.in";
   }
 else if(hosttype == 11) {
-if(process.env.NODE_ENV == 'development'){
+// if(process.env.NODE_ENV == 'development'){
 
-         hostname = "qa.policyboss.com";      
-    }
-    else{
-        hostname = "vehicleinfo.policyboss.com";
-    }   
+//          hostname = "qa.policyboss.com";      
+//     }
+//     else{
+        //hostname = "vehicleinfo.policyboss.com";
+       hostname = "qa.policyboss.com";   
+  //  }   
   }
   else if(hosttype == 12) {
     // port="80";

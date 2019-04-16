@@ -1031,4 +1031,23 @@ router.post('/first-hive-push-transaction', function(req, res, next) {
   pushtra.FirstHivePushTransaction(req,res,next);
 });
 
+router.post('/first-hive-tier-upgrade', function(req, res, next) {
+  var TierUpgrade = require('../controller/FirstHiveController');
+  TierUpgrade.FirstHiveTierUpgrade(req,res,next);
+});
+
+router.post('/liqui-loan-sms', function(req, res, next) {
+  var liquisms = require('../controller/firsthivesendsmscontroller');
+  liquisms.liquiloansms(req,res,next);
+});
+
+router.post('/sync-lead-data-send-sms', function(req, res, next) {
+  var syncsms = require('../controller/SyncLeadDataSendSmsController');
+  syncsms.SyncLeadDataSendSms(req,res,next);
+});
+
+router.post('/insurer-list',function(req,res,next){
+  var insulist = require('../controller/VehicleController');
+  insulist.InsurerList(req,res,next);
+});
 module.exports = router;

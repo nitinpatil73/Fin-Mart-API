@@ -65,11 +65,19 @@ vehicleparameter.push(req.body.motorRequestEntity.erp_source);
 vehicleparameter.push(req.body.motorRequestEntity.mac_address);
 vehicleparameter.push(req.body.insImage);
 vehicleparameter.push(req.body.motorRequestEntity.vehicle_insurance_subtype);
-vehicleparameter.push(req.body.motorRequestEntity.sub_fba_id);
-
+if(req.body.motorRequestEntity.sub_fba_id != null && req.body.motorRequestEntity.sub_fba_id != '')
+{
+	vehicleparameter.push(req.body.motorRequestEntity.sub_fba_id);
+}
+else
+{
+	vehicleparameter.push(null);
+}
+vehicleparameter.push(req.body.motorRequestEntity.is_policy_exist);
+vehicleparameter.push(req.body.motorRequestEntity.is_breakin);
 
 //console.log(vehicleparameter);
-con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
 	//console.log(data);
@@ -317,4 +325,14 @@ var premiumListDbWrapper=function(req,res,next){
   },1);
 }
 
-module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest,"deactivateVehicleRequest":deactivateVehicleRequest,"premiumInitiateWrapper":premiumInitiateWrapper,"premiumListDbWrapper":premiumListDbWrapper};
+var InsurerList=function(req,res,next){
+	con.execute_proc('call Get_Insurer_List()',null,function(getdata){
+		if(getdata != null && getdata != ''){
+			base.send_response("success",getdata[0],res);
+		}else{
+			base.send_response("Failure",null,res);
+		}
+	})
+}
+
+module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest,"deactivateVehicleRequest":deactivateVehicleRequest,"premiumInitiateWrapper":premiumInitiateWrapper,"premiumListDbWrapper":premiumListDbWrapper,"InsurerList":InsurerList};

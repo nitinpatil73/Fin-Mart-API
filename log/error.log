@@ -50997,3 +50997,51 @@
   message: 'error',
   timestamp: '2019-03-15T06:22:20.218Z',
   [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-16T10:26:46.458Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T12:41:07.885Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T12:44:59.995Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T12:45:42.087Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T12:46:14.209Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T13:04:56.294Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T13:07:53.993Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T13:12:00.190Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-03-18T13:12:25.495Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-04-02T13:04:35.721Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-04-04T09:05:17.112Z',
+  [Symbol(level)]: 'error' }
+{ level: 'error',
+  message: 'error',
+  timestamp: '2019-04-04T09:05:34.838Z',
+  [Symbol(level)]: 'error' }
