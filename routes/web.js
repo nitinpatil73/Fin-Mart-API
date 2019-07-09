@@ -83,5 +83,18 @@ fs.readFile('./log/error.log', (err, data) => {
     res.render('show-logs', { data: fixedJSON });
 });
 });
+
+router.get('/file-upload-fba', function (req, res, next) { 
+  var filefba = require('../controller/FileUploadFbaController');
+  filefba.FileUploadBFAID(req,res,next);
+});
+
+router.post('/file-upload-fba-save', function (req, res, next) { 
+	console.log("--------------route 1------------------");
+	console.log(req.body.userfile);
+  	var filefbasave = require('../controller/FileUploadFbaController');
+  	filefbasave.FileUploadBFAIDSave(req,res,next);
+  	console.log("--------------route 2------------------");
+});
 //export the module
 module.exports = router;

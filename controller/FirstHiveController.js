@@ -77,13 +77,14 @@ var FirstHiveusermapping = function(req, res, next) {
 }
 
 var FirstHivePushTransaction = function(req, res, next) {
+		
 	con.execute_proc('call N_Get_First_Hive_Push_Transaction()',null,function(respdatatra) {
-		// console.log("-------------1----------------");
-		// console.log(respdatatra);
 		if(respdatatra != null || respdatatra != ''){
-			
-			for (var i = 0; i < respdatatra[0].length; i++) {
-				
+		function wait(milleseconds) {
+		  	return new Promise(resolve => setTimeout(resolve, milleseconds))
+		}
+		async function send(respdatatra) {
+			for (var i = 0; i < respdatatra[0].length; i++) {	
 				fhivepushtransaction(
 					respdatatra[0][i].fbaId,
 					respdatatra[0][i].product,
@@ -109,24 +110,41 @@ var FirstHivePushTransaction = function(req, res, next) {
 					respdatatra[0][i].healthTenure,
 					respdatatra[0][i].sumAssured,
 					req, res, next);
-										
+			await wait(9000);
+    		// console.log("-------------nitin---------------");				
 			}
-			base.send_response("Success","Success",res);
+
+		}
+		send(respdatatra);
+			//base.send_response("Success","Success",res);
 		}else{
 
 			base.send_response("Failure",null,res);
 		}
+
 	});
+	
+// 	const groups = [1, 2, 3, 4, 5];
+
+
+
+// async function send(groups) {
+//   for (item of groups) {
+//     await wait(5000)
+//     console.log(item)
+//   }
+// }
+// send(groups);
 }
 
 function firsthivecreateuser(FBAID,FullName,Source_name,Pincode,City,state_name,zone,MobiNumb1,EmailID,Certification_Status,PaidDate,req, res, next){
 	console.log("----------------in function-----------------");
 		var options = { method: 'POST',
-  			url: 'http://labs.firsthive.com:7070/policy_boss/user/createuser',
+  			url: 'http://rewards.magicfinmart.com:8080/policy_boss/user/createuser',
   		headers: 
    		{ 'Postman-Token': 'a16227ea-1f55-45fb-bebe-78e60342e01f',
      	'cache-control': 'no-cache',
-     	accessKey: 'pJpGYuIfn4VkqusajZXmmPiLladXMBrIxIjLAUjtEnzhgLxIDIoVOddZhX2h7GTi',
+     	accessKey: 'vYDs0kJEGgVNPhwUnhy7as74eGVoR3JOgWiWQpYJPg@IZquP2TkcewkWEN5jqiNm',
      	'Content-Type': 'application/x-www-form-urlencoded' },
 		  form: 
 		   { fbaId:FBAID,
@@ -149,6 +167,7 @@ function firsthivecreateuser(FBAID,FullName,Source_name,Pincode,City,state_name,
 		  if (error) throw new Error(error);
 		  console.log(body);
 		  var respose = JSON.parse(body);
+		  console.log("---------------Success Responce-----------");
 		  console.log(respose.success);
 		  if(respose.success == true){
 		  	  	con.execute_proc('call update_status_first_hive_user(?)',FBAID,function(updatestatus) {
@@ -253,7 +272,7 @@ function pushfirsthiveusermapping(fba_id,rrmuid,fieldsalesuid,fieldmanageruid,cl
 }
 
 function fhivepushtransaction(fbaId, product, subProduct, businesslockat, entryNo, reportDate, region, state, inscompany, vehicleMake, model, fuelType, saleCount, transactionValue, noClaimBonus, nilDep, nextstageStatus, policyStatus, pospsource, entryType, pospMode, healthTenure, sumAssured){
-	//console.log("-------------2----------------");
+	// console.log("-------------2----------------");
 	var log = { fbaId:fbaId,
 	     product:product,
 	     subProduct:subProduct,
@@ -286,13 +305,13 @@ function fhivepushtransaction(fbaId, product, subProduct, businesslockat, entryN
 	     other4:'',
 	     other5:'' };
 
-	    // console.log(log);
+	     // console.log(log);
 	var options = { method: 'POST',
-	  url: 'http://labs.firsthive.com:7070/policy_boss/transaction/pushtransaction',
+	  url: 'http://rewards.magicfinmart.com:8080/policy_boss/transaction/pushtransaction',
 	  headers: 
 	   { 'Postman-Token': '88b19264-8ff1-4df2-9edf-763ae29a21ef',
 	     'cache-control': 'no-cache',
-	     accessKey: 'pJpGYuIfn4VkqusajZXmmPiLladXMBrIxIjLAUjtEnzhgLxIDIoVOddZhX2h7GTi',
+	     accessKey: 'vYDs0kJEGgVNPhwUnhy7as74eGVoR3JOgWiWQpYJPg@IZquP2TkcewkWEN5jqiNm',
 	     'Content-Type': 'application/x-www-form-urlencoded' },
 	  form: 
 	   { fbaId:fbaId,
@@ -328,7 +347,11 @@ function fhivepushtransaction(fbaId, product, subProduct, businesslockat, entryN
 	     other5:''} };
 
 	request(options, function (error, response, body) {
-		console.log("---------------Responce-----------");
+		// console.log("---------------error-----------");
+		// console.log(error);
+		// console.log("---------------Responce-----------");
+		// console.log(response);
+		console.log("---------------body-----------");
 		console.log(body);
 	  if (error) throw new Error(error);
 	 	var respose = JSON.parse(body);

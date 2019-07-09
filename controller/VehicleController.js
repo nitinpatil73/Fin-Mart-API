@@ -76,8 +76,19 @@ else
 vehicleparameter.push(req.body.motorRequestEntity.is_policy_exist);
 vehicleparameter.push(req.body.motorRequestEntity.is_breakin);
 
+if(req.body.LeadId){
+	vehicleparameter.push(req.body.LeadId);
+}else{
+	vehicleparameter.push(null);
+}
+
+if(req.body.CreatedByUserFbaId){
+	vehicleparameter.push(req.body.CreatedByUserFbaId);
+}else{
+	vehicleparameter.push(null);
+}
 //console.log(vehicleparameter);
-con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+con.execute_proc('call Managevehiclerequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
 	//console.log(data);
@@ -154,12 +165,15 @@ if(req.body.type == 0){
 	con.execute_proc('call GetVehicleRequest(?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 		var quoteresponse = [];
 		var applicationquote = [];
+		var myleadsection = [];	
 		for (var i = 0; i < data[0].length; i++) {
 			data[0][i].progress_image = "";
 			var response ={
 				"SRN" : data[0][i].srn,
 				"VehicleRequestID" : data[0][i].VehicleRequestID,
 				"fba_id" : data[0][i].fba_id,
+				"CreatedByUserFbaId" : data[0][i].CreatedByUserFbaId,
+				"CreatedByUserFbaName" : data[0][i].CreatedByUserFbaName,
 				"isActive" : data[0][i].isActive,
 				"selectedPrevInsID" : data[0][i].selectedPrevInsID,
 				"insImage":data[0][i].insImage,
@@ -175,6 +189,8 @@ if(req.body.type == 0){
 				"SRN" : data[1][i].srn,
 				"VehicleRequestID" : data[1][i].VehicleRequestID,
 				"fba_id" : data[1][i].fba_id,
+				"CreatedByUserFbaId" : data[1][i].CreatedByUserFbaId,
+				"CreatedByUserFbaName" : data[1][i].CreatedByUserFbaName,
 				"isActive" : data[1][i].isActive,
 				"selectedPrevInsID" : data[1][i].selectedPrevInsID,
 				"insImage":data[1][i].insImage,
@@ -183,7 +199,38 @@ if(req.body.type == 0){
 			};
 			applicationquote.push(response);
 		}
-		var responsedata = {"quote":quoteresponse,"application":applicationquote};
+		for (var i = 0; i < data[2].length; i++) {
+			var dateee = "";
+			if(data[2][i].RegistrationDate == 'NA')
+				{
+					dateee = "";
+				}
+				else{
+					dateee = formatDate2(data[2][i].RegistrationDate);
+				}			
+			
+			var leadsection ={
+				"Name" : data[2][i].ClientName,
+				"LeadId" : data[2][i].LeadId.toString(),
+				"FBAID" : data[2][i].FBAID,
+				"CRN" : data[2][i].CRN,
+				"ExpiryDate" : formatDate(data[2][i].ExpiryDate),
+				"Make":data[2][i].Make,
+				"Model" : data[2][i].Model,
+				"RegNo" : data[2][i].RegistrationNo,
+				"ss_id" : data[2][i].ss_id,
+				"VehicleRequestID" : data[2][i].VehicleRequestID,
+				"MobileNo" : data[2][i].MobileNo,
+				"hasDisposition" :  data[2][i].hasDisposition,
+				"vehicle_registration_date" : dateee
+			};
+			 myleadsection.push(leadsection);
+		}
+		
+			
+
+		
+		var responsedata = {"quote":quoteresponse,"application":applicationquote , "myleads" : myleadsection};
 		base.send_response("Success", responsedata,res);
 	});
 }
@@ -198,6 +245,8 @@ else if(req.body.type == 1)
 				"SRN" : data[0][i].srn,
 				"VehicleRequestID" : data[0][i].VehicleRequestID,
 				"fba_id" : data[0][i].fba_id,
+				"CreatedByUserFbaId" : data[0][i].CreatedByUserFbaId,
+				"CreatedByUserFbaName" : data[0][i].CreatedByUserFbaName,
 				"isActive" : data[0][i].isActive,
 				"selectedPrevInsID" : data[0][i].selectedPrevInsID,
 				"insImage":data[0][i].insImage,
@@ -206,7 +255,7 @@ else if(req.body.type == 1)
 			};
 			quoteresponse.push(response);
 		}
-		var responsedata = {"quote":quoteresponse,"application":[]};
+		var responsedata = {"quote":quoteresponse,"application":[], "myleads" : []};
 		base.send_response("Success", responsedata,res);
 	});
 	//base.send_response("Failure type not pass",null,res);
@@ -223,6 +272,8 @@ else if(req.body.type == 2)
 				"SRN" : data[0][i].srn,
 				"VehicleRequestID" : data[0][i].VehicleRequestID,
 				"fba_id" : data[0][i].fba_id,
+				"CreatedByUserFbaId" : data[0][i].CreatedByUserFbaId,
+				"CreatedByUserFbaName" : data[0][i].CreatedByUserFbaName,
 				"isActive" : data[0][i].isActive,
 				"selectedPrevInsID" : data[0][i].selectedPrevInsID,
 				"insImage":data[0][i].insImage,
@@ -230,7 +281,47 @@ else if(req.body.type == 2)
 			};
 			applicationquote.push(appresponse);
 		}
-		var responsedata = {"quote":[],"application":applicationquote};
+		var responsedata = {"quote":[],"application":applicationquote, "myleads" : []};
+		base.send_response("Success", responsedata,res);
+	});
+}
+else if(req.body.type == 3)
+{
+	con.execute_proc('call GetVehicleRequest(?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+		
+		var myleadsection = [];
+		for (var i = 0; i < data[0].length; i++) {
+		
+			var dateee = "";
+			if(data[0][i].RegistrationDate == 'NA')
+				{
+					dateee = "";
+				}
+				else{
+					dateee = formatDate2( data[0][i].RegistrationDate);
+				}			
+			
+			var leadsection ={
+				"Name" : data[0][i].ClientName,
+				"LeadId" : data[0][i].LeadId.toString(),
+				"FBAID" : data[0][i].FBAID,
+				"CRN" : data[0][i].CRN,
+				"ExpiryDate" : formatDate(data[0][i].ExpiryDate),
+				"Make":data[0][i].Make,
+				"Model" : data[0][i].Model,
+				"RegNo" : data[0][i].RegistrationNo,
+				"ss_id" : data[0][i].ss_id,
+				"VehicleRequestID" : data[0][i].VehicleRequestID,
+				"MobileNo" : data[0][i].MobileNo,
+				"hasDisposition" :  data[0][i].hasDisposition,
+				"vehicle_registration_date" : dateee
+			};
+			 myleadsection.push(leadsection);
+		}
+		
+		
+		
+		var responsedata = {"quote":[],"application":[], "myleads" : myleadsection};
 		base.send_response("Success", responsedata,res);
 	});
 }
@@ -334,5 +425,38 @@ var InsurerList=function(req,res,next){
 		}
 	})
 }
+
+function formatDate(date) {
+	//console.log(date);
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day  ].join('-');
+}
+
+function formatDate2(date) {
+	var dt = "";
+var parts =date.split('/');
+// Please pay attention to the month (parts[1]); JavaScript counts months from 0:
+// January - 0, February - 1, etc.
+//var mydate = new Date(parts[2], parts[1] , parts[0]); 
+//console.log(mydate);
+if(date == '')
+{
+    return "";
+}
+else
+{
+return [parts[2], parts[1] , parts[0]].join('-');
+}
+}
+
+
+
 
 module.exports = {"managevehicle" : managevehicle,"getvehiclerequest" : getvehiclerequest,"quotetoapplicationvehicle":quotetoapplicationvehicle,"deleteVehicleRequest":deleteVehicleRequest,"deactivateVehicleRequest":deactivateVehicleRequest,"premiumInitiateWrapper":premiumInitiateWrapper,"premiumListDbWrapper":premiumListDbWrapper,"InsurerList":InsurerList};

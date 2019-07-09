@@ -105,7 +105,8 @@ function SaveFBADetaPolicyBoss(Sources,req,res,next){
 			Presentation : presentation,
 			Nominee : nominee
 	  }, function(data) {
-	  	//console.log("............data..............");
+	  	console.log("............data..............");
+	  	console.log(data);
 	  	if(data!=null){	  		
 	  		if(data=="Email Id already exists"){
 	  			base.send_response("Email Id already exists", null,res);

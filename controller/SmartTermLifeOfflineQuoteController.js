@@ -61,7 +61,15 @@ var SmartTermLifeOfflineQuoteParameter = function(req, res, next) {
 		  		 	SmartTermLifeOfflineQuoteParameter.push(req.body.fba_id);
 		  		 	SmartTermLifeOfflineQuoteParameter.push(req.body.termRequestEntity.LumpsumPercentage);
 		  		 	SmartTermLifeOfflineQuoteParameter.push(req.body.termRequestEntity.comment);
-		  		 	con.execute_proc('call SmartTermLifeOfflineQuote(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeOfflineQuoteParameter,function(smartdata) {
+		  		 	if(req.body.CreatedByUserFbaId != null && req.body.CreatedByUserFbaId != '')
+					{
+						SmartTermLifeOfflineQuoteParameter.push(req.body.CreatedByUserFbaId);
+					}
+					else
+					{
+						SmartTermLifeOfflineQuoteParameter.push(null);
+					}
+		  		 	con.execute_proc('call SmartTermLifeOfflineQuote(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',SmartTermLifeOfflineQuoteParameter,function(smartdata) {
 					if(smartdata[0][0].SavedStatus == 0){
 					     base.send_response("Record saved successfully.",smartdata[0],res);
 				    }else{
@@ -187,11 +195,13 @@ var GetSmartTermLifeOfflineQuote = function(req, res, next) {
 			            "ApplNumb": getsmartdata[0][i].ApplNumb,
 			            "ApplDate": getsmartdata[0][i].ApplDate,
 			            "comment": getsmartdata[0][i].comment,
-			            "TransId": getsmartdata[0][i].TransId
+			            "TransId": getsmartdata[0][i].TransId,
+			            "CreatedByUserFbaId": getsmartdata[0][i].CreatedByUserFbaId,
+			            "CreatedByUserFbaName": getsmartdata[0][i].CreatedByUserFbaName
 			           
 
 	    			};
-	    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermofflinequoteid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id});
+	    			quoteresponse.push({"termRequestEntity":response_quote,"termRequestId": getsmartdata[0][i].lifetermofflinequoteid,"NetPremium": getsmartdata[0][i].NetPremium,"statusProgress": 0,"insImage":getsmartdata[0][i].insImage,"fba_id": getsmartdata[0][i].fba_id,"CreatedByUserFbaId": getsmartdata[0][i].CreatedByUserFbaId,"CreatedByUserFbaName": getsmartdata[0][i].CreatedByUserFbaName,"quote":quote});
 	    		}
 	    		var getsmart = {"quote":quoteresponse,"application":[]};
 				base.send_response("Success",getsmart,res);

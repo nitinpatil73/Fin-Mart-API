@@ -4,6 +4,7 @@ var con=require('../bin/dbconnection.js');
 var User = require('../model/user.js');
 
 var getVehicleInfo = require('../controller/vehicleinfo');
+var getmyleads = require('../controller/GetMyLeadsController');
 var smarthealth = require('../controller/smarthealth');
 
 var insertFBARegistration =require('../controller/fbaregistration');
@@ -327,7 +328,7 @@ router.post('/update-notification', function(req, res, next) {
 
 router.post('/whats-new', function(req, res, next) {
   var whatsnew = require('../controller/WhatsNewController');
-  whatsnew(req,res,next);
+  whatsnew.WhatsNew(req,res,next);
 });
 
 router.post('/credit-card-rbl', function(req, res, next) {
@@ -1049,5 +1050,39 @@ router.post('/sync-lead-data-send-sms', function(req, res, next) {
 router.post('/insurer-list',function(req,res,next){
   var insulist = require('../controller/VehicleController');
   insulist.InsurerList(req,res,next);
+});
+
+router.post('/get-my-leads', function(req, res, next) {
+    getmyleads.getmyleads(req,res,next);
+});
+
+router.post('/get-my-leads-view', function(req, res, next) {
+    getmyleads.getmyleadsview(req,res,next);
+});
+
+router.post('/upload-doc-ticket-comment', function (req, res, next) {
+    let Upload = require('../controller/UploadTicketCommentsController');
+    Upload.save(req,res);
+});
+
+router.post('/create-ticket-comments', function (req, res, next) { 
+  var ticket = require('../controller/RaiseATicketController');
+  ticket.createTicketComments(req,res,next);
+});
+
+router.post('/search-fba-onbehalf',function(req,res,next){
+  var searchonbehalf = require('../controller/SearchFBAOnBeHalfController');
+  searchonbehalf.SearchFbaOnBeHalf(req,res,next);
+});
+
+router.post('/bulk-fba-registration',function(req,res,next){
+  var bulkfba = require('../controller/BulkFbaRegistrationController');
+  bulkfba.BulkInsertFBARegistration(req,res,next);
+});
+
+
+router.post('/whats-new-ios', function(req, res, next) {
+  var whatsnewios = require('../controller/WhatsNewController');
+  whatsnewios.WhatsNewIos(req,res,next);
 });
 module.exports = router;

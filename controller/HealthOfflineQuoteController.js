@@ -46,9 +46,17 @@ for (var i = 0; i < req.body.HealthRequest.MemberList.length; i++) {
 // console.log(memberlist);
  parameter.push(memberlist);
  parameter.push(req.body.HealthRequest.pincode);
+ if(req.body.CreatedByUserFbaId != null && req.body.CreatedByUserFbaId != '')
+ {
+   parameter.push(req.body.CreatedByUserFbaId);
+ }
+ else
+ {
+   parameter.push(null);
+ }
 //console.log(parameter);
 //console.log("...............2435.............");
-  con.execute_proc('call ManageHealthRequestOfflineQuote(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
+  con.execute_proc('call ManageHealthRequestOfflineQuote(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',parameter,function(data) {
   //  console.log("............................");
   //  console.log(data[0][0]);
     if(data[0][0].SavedStatus=="0"){
@@ -83,9 +91,10 @@ else{
   parameter.push(0);
   req.body.count=0;
 }
+
 console.log("asff");
 con.execute_proc('call getHealthRequestOfflineQuote(?,?)',parameter,function(data) {
-console.log(data);
+  console.log(data);
     var quoteresponse = [];       
     for (var i = 0; i < data[0].length; i++) {
     
@@ -116,6 +125,8 @@ console.log(data);
               "agent_source" : data[0][i].agent_source,
               "crn" : data[0][i].crn,
               "selectedPrevInsID" : data[0][i].selectedPrevInsID,
+              "CreatedByUserFbaId" : data[0][i].CreatedByUserFbaId,
+              "CreatedByUserFbaName" : data[0][i].CreatedByUserFbaName,
               "HealthRequest" : healthrequest,
               "quote" : quote
             };

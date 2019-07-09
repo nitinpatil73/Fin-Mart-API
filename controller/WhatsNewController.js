@@ -17,4 +17,21 @@ var WhatsNew = function(req, res, next){
 		
    	});
 }
-module.exports = WhatsNew;
+
+var WhatsNewIos = function(req, res, next){
+		var WhatsNewIos = [];
+		WhatsNewIos.push(req.body.app_version);	//
+	//	console.log(WhatsNew);
+		con.execute_proc('call whatsnewios(?)',WhatsNewIos,function(data) {
+	//	console.log(data);
+		if(data!=null)
+		{
+			base.send_response("Success", data[0],res);		
+		}
+		else{
+			base.send_response("No data found",null,res);
+		}
+		
+   	});
+}
+module.exports = {"WhatsNew":WhatsNew,"WhatsNewIos":WhatsNewIos};

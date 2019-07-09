@@ -71,12 +71,25 @@ vehicleparameter.push(req.body.motorRequestEntity.seatingcapacity);
 vehicleparameter.push(req.body.motorRequestEntity.modeloffline);
 vehicleparameter.push(req.body.motorRequestEntity.fueloffline);
 vehicleparameter.push(req.body.motorRequestEntity.varientoffline);
-vehicleparameter.push(req.body.idvAmount);
+if(req.body.idvAmount != null && req.body.idvAmount != '')
+{
+	vehicleparameter.push(req.body.idvAmount);
+}
+else
+{
+	vehicleparameter.push(null);
+}
 
+if(req.body.CreatedByUserFbaId != null && req.body.CreatedByUserFbaId != '')
+{
+	vehicleparameter.push(req.body.CreatedByUserFbaId);
+}
+else
+{
+	vehicleparameter.push(null);
+}
 
-
-
-con.execute_proc('call Managevehiclerequestoffline(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
+con.execute_proc('call Managevehiclerequestoffline(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',vehicleparameter,function(data) {
 	//res.send(data[0][0]);
 	//base.send_response(data);
 	console.log(data);
@@ -137,18 +150,6 @@ var getvehiclerequestoffline = function(req, res, next) {
 				data[0][i].progress_image = "";
 				//data[0][i].quote = quote;
 				var response ={
-					// "SRN" : data[0][i].srn,
-					// "VehicleRequestID" : data[0][i].VehicleRequestID,
-					// "fba_id" : data[0][i].fba_id,
-					// "isActive" : data[0][i].isActive,
-					// "selectedPrevInsID" : data[0][i].selectedPrevInsID,
-					// "insImage":data[0][i].insImage,
-					// "comment":data[0][i].comment,
-					// "idvAmount":data[0][i].idvAmount,
-					// "quote" : [{"motorRequestEntity" : data[0][i]}]			
-					// //"motorRequestEntity" : data[0][i]
-
-
 					"SRN" : data[0][i].srn,
 					"VehicleRequestID" : data[0][i].VehicleRequestID,
 					"fba_id" : data[0][i].fba_id,
@@ -158,8 +159,11 @@ var getvehiclerequestoffline = function(req, res, next) {
 					"quote" : quote,
 					"comment":data[0][i].comment,
 					"idvAmount":data[0][i].idvAmount,
+					"CreatedByUserFbaId":data[0][i].CreatedByUserFbaId,
+					"CreatedByUserFbaName":data[0][i].CreatedByUserFbaName,
 					//"quote" : [{"motorRequestEntity" : data[0][i]}]
 					"motorRequestEntity" : data[0][i]
+					
 				};
 
 				

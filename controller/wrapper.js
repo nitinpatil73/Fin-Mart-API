@@ -68,14 +68,14 @@ else if(hosttype == 8) {
     hostname = "zohowebapi.magicsales.in";
   }
 else if(hosttype == 11) {
-// if(process.env.NODE_ENV == 'development'){
+ // if(process.env.NODE_ENV == 'development'){
 
-//          hostname = "qa.policyboss.com";      
-//     }
-//     else{
-        //hostname = "vehicleinfo.policyboss.com";
-       hostname = "qa.policyboss.com";   
-  //  }   
+ //          hostname = "qa.policyboss.com";      
+ //     }
+ //     else{
+         hostname = "vehicleinfo.policyboss.com";
+ //       //hostname = "qa.policyboss.com";   
+ //    }   
   }
   else if(hosttype == 12) {
     // port="80";
@@ -191,9 +191,12 @@ else if(hosttype == 11) {
     });
 
     res.on('end', function() {
+      // console.log('---------------------123----------------------------');
       // console.log(hostname);
-     //  console.log(responseString);
+      // console.log(responseString);
       var responseObject = JSON.parse(responseString);
+      //console.log('---------------------345----------------------------');
+      // console.log(responseObject);
       success(responseObject);
     });
   });
