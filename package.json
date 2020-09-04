@@ -17,7 +17,7 @@
     "jade": "~1.11.0",
     "laravel-blade-compiler": "^1.0.10",
     "less-middleware": "~2.2.1",
-    "mongodb": "^3.0.1",
+    "mongodb": "^3.1.13",
     "mongoose": "^5.0.0-rc1",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "~1.9.0",
